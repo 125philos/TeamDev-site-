@@ -1,0 +1,58 @@
+<!-- ***************** -->
+<!-- КАРТОЧКА ЖИВОТНОГО -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+	
+	<div class="row">
+		<div class="col-sm-5">
+			<div class="thumbnail">
+				<div class="caption">
+					<h1>КЛИЧКА ЖИВОТНОГО</h1>
+				</div>
+				<!-- Фото животное -->
+				<img src="/{{ performer.performer_photo }}" alt="">
+			</div>					
+			
+			<!-- Редактировать животное -->
+			<div class="col-sm-1 text-left">
+					<a href="/zver/{{ performer.id_performer }}/edit">
+						<button type="button" class="btn btn-default" aria-label="Edit">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						</button>
+					</a>
+			</div>
+			
+			<!-- Удалить животного -->
+			<div class="col-sm-3 text-right">						
+				<form method="POST" action="/employee/{{ performer.id_performer }}" class="form-inline">
+					<input type="hidden" name="_method" value="DELETE">
+					<button type="submit" class="btn btn-danger" aria-label="Delete">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</button>
+				</form>						
+			</div>
+		</div>
+
+		<div class="col-sm-7">
+			<div class="thumbnail">
+
+				<div class="caption">
+					<h4>Вид животного: </h4>
+					<h4>Порода животного: </h4>
+					<h4>Дата рождения: </h4>
+					<h4>Пол: </h4>
+					<h4>Расцветка: </h4>
+					<h4>Вес: </h4>
+					<h4>Отметка эффективности: </h4>
+					<p>Комментарий: </p>
+					<h4>Цена: </h4>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+		
+{% endblock %}
