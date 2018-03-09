@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+
+    <title>SoundCloud</title>
+  </head>
+
+<body>
+	
+	<!-- Панель навигации -->
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+			<div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.htm">Главная</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <form method="POST" action="/employee/">
+		
+			<!-- Поля ввод данных -->
+            <div class="form-group">
+                <label for="inputName">Фамилия, имя исполнителя</label>
+                <input input name = "performer_name" type="text" class="form-control" id="inputName" aria-describedby="FIOHelp" placeholder="Введите фамилию и имя...">				
+            </div>
+			
+			<div class = "form-group">
+				<label for="inputNickname">Сценический псевдоним</label>
+                <input input name = "performer_nickname" type="text" class="form-control" id="inputNickname" aria-describedby="PostHelp" placeholder="Введите псевдоним...">
+			</div>	
+			
+			<div class = "form-group">
+				<label for="inputBirthday">Дата рождения</label>
+				<input input name = "performer_birthday" id="date" google="true" type="date">
+			</div>	
+			
+            <div class="form-group">
+                <label for="inputBio">Об исполнителе</label>
+                <textarea input name = "performer_biography" type="text" class="form-control" id="inputBio" aria-describedby="BioHelp" rows="8" placeholder="Введите описание..."></textarea>
+            </div>
+            
+			<div class = "form-group">
+				<label for="inputNickname">Сайт</label>
+                <input input name = "performer_site" type="text" class="form-control" id="inputNickname" aria-describedby="PostHelp" placeholder="Введите сайт...">
+			</div>	
+			
+			<div class="form-group">
+                <label for="selectGenre">Музыкальный жанр</label>
+                <select required name="id_genre" class="form-control" id="selectGenre">
+					{% for cgenre in genre %}			
+						<option value="{{ cgenre.id_genre }}">
+							{{cgenre.genre_name}}			
+						</option>							
+					{% endfor %}
+                </select>
+            </div>
+
+			<div class="form-group">
+                <label for="selectCountry">Страна</label>
+                <select required name="id_country" class="form-control" id="selectCountry">
+					{% for ccountry in country %}			
+						<option value="{{ ccountry.id_country }}">
+							{{ccountry.counry_name}}			
+						</option>							
+					{% endfor %}
+                </select>
+            </div>
+			
+			<!-- Загрузка фото -->
+            <div class="form-group">
+                <label for="inputFile">Загрузить фото</label>
+                <input input name = "performer_photo"  type="file" class="form-control-file" id="inputFile" aria-describedby="fileHelp">
+                <small id="fileHelp" class="form-text text-muted">.jpg или .png файл</small>
+            </div>
+			
+			<!-- Кнопка добавления -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Создать</button>
+			<p></p>
+        
+		</form>
+    </div>
+	
+	<!-- Подвал -->
+	<footer class="container-fluid text-center">
+        <p>© SoundCloud 2018</p>
+    </footer>
+	
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+	
+</body>
+</html>

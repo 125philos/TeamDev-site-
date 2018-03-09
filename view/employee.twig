@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+
+    <title>SoundCloud</title>
+  </head>
+
+<body>
+
+	<!-- Панель навигации -->
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+		    <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.htm">Главная</a></li>
+					<li><a href="/employee/">Добавить исполнителя</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Войти</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+	
+    <div class="container">
+	{% block rows %}
+        <div class="row">
+            
+            <div class="col-sm-5">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <h1>{{ performer.performer_nickname }}</h1>
+                    </div>
+                    <img src="/{{ performer.performer_photo }}" alt="">
+                </div>					
+				
+				<!-- Редактировать исполнителя -->
+				<div class="col-sm-1 text-left">
+						<a href="/employee/{{ performer.id_performer }}/edit">
+							<button type="button" class="btn btn-default" aria-label="Edit">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</button>
+						</a>
+				</div>
+				
+				<!-- Удалить исполнителя -->
+				<div class="col-sm-3 text-right">						
+					<form method="POST" action="/employee/{{ performer.id_performer }}" class="form-inline">
+						<input type="hidden" name="_method" value="DELETE">
+						<button type="submit" class="btn btn-danger" aria-label="Delete">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+					</form>						
+				</div>
+            </div>
+
+            <div class="col-sm-7">
+                <div class="thumbnail">
+
+                    <div class="caption">
+						<h4>Настоящее имя: {{ performer.performer_name }}</h4>
+						
+						<!-- Поиск страны исполнителя -->
+						{% for ccountry in country %}
+							{% if ccountry.id_country == performer.id_country %}
+								<h4>Страна: {{ ccountry.counry_name }}</h4>
+							{% endif %}
+						{% endfor %}
+						
+							<p><a href="{{ performer.performer_site }}" target="_blanc">{{ performer.performer_site }}</a>
+							</p>
+						
+						<!-- Поиск муз. жанра исполнителя -->
+						{% for cgenre in genre %}
+							{% if cgenre.id_genre == performer.id_genre %}
+								<h4>Музыкальный жанр: {{ cgenre.genre_name }}</h4>
+							{% endif %}
+						{% endfor %}
+						
+                        <ul>
+                            <p>{{ performer.performer_biography }}</p>
+                        </ul> 
+                    </div>
+					
+					
+				<!-- Альбомы исполнителя -->
+                <div class="row recipes-container">
+				{% for key, calbum in album %}
+                    <div class="col-xs-4">
+    	                <div class="thumbnail">
+    	                    <img src="/{{ calbum.album_photo }}" alt="">
+    	                    <div class="caption">
+								<h4>{{ calbum.album_name }}</h4>
+								<h5>{{ calbum.album_year }}</h5>    	                        
+    	                        
+    	                    </div>
+    	                </div>
+    	            </div>
+				{% endfor %}
+                </div>
+					
+                </div>
+            </div>
+        </div>
+		{% endblock %}
+    </div>
+	
+	<!-- Подвал -->
+	<footer class="container-fluid text-center">
+        <p>© SoundCloud 2018</p>
+    </footer>
+	
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="js/bootstrap.min.js"></script>
+	
+</body>
+</html>
