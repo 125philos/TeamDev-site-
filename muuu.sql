@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 09 2018 г., 15:31
+-- Время создания: Мар 10 2018 г., 15:38
 -- Версия сервера: 10.1.30-MariaDB
 -- Версия PHP: 7.2.1
 
@@ -120,6 +120,15 @@ CREATE TABLE `rastenie` (
   `CenaRastenie` int(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `rastenie`
+--
+
+INSERT INTO `rastenie` (`id_Rastenie`, `id_SortRastenie`, `PhotoRastenie`, `DateVisadkaRastenie`, `ColorRastenie`, `KolvoRastenie`, `EffectiveProcentRastenie`, `CommentRastenie`, `CenaRastenie`) VALUES
+(1, 3, 'apple.jpg', '2018-03-01', 'Желто-зеленные ', 25, 50, 'Отличная всхожесть!!', 2370),
+(2, 2, 'tomat.jpg', '2018-02-27', 'Красный', 12, 78, 'Очень вкусный!!', 2340),
+(5, 3, 'cherry.jpg', '2018-02-27', 'Аллый', 10, 89, 'Отличная!!', 1200);
+
 -- --------------------------------------------------------
 
 --
@@ -164,6 +173,16 @@ CREATE TABLE `sortrastenie` (
   `SortRastenieName` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `sortrastenie`
+--
+
+INSERT INTO `sortrastenie` (`id_SortRastenie`, `id_TypeRastenie`, `SortRastenieName`) VALUES
+(1, 4, 'Летний'),
+(2, 2, 'Зимний'),
+(3, 3, 'Осенний'),
+(4, 1, 'Весенний');
+
 -- --------------------------------------------------------
 
 --
@@ -174,6 +193,16 @@ CREATE TABLE `typerastenie` (
   `id_TypeRastenie` int(12) NOT NULL,
   `TypeRastenieName` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `typerastenie`
+--
+
+INSERT INTO `typerastenie` (`id_TypeRastenie`, `TypeRastenieName`) VALUES
+(1, 'Яблоня'),
+(2, 'Помидор'),
+(3, 'Вишня'),
+(4, 'Огурец');
 
 -- --------------------------------------------------------
 
@@ -368,7 +397,7 @@ ALTER TABLE `rashodresurs`
 -- AUTO_INCREMENT для таблицы `rastenie`
 --
 ALTER TABLE `rastenie`
-  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `realization`
@@ -386,13 +415,13 @@ ALTER TABLE `resurs`
 -- AUTO_INCREMENT для таблицы `sortrastenie`
 --
 ALTER TABLE `sortrastenie`
-  MODIFY `id_SortRastenie` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_SortRastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `typerastenie`
 --
 ALTER TABLE `typerastenie`
-  MODIFY `id_TypeRastenie` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_TypeRastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `typezver`

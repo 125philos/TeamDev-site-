@@ -1,0 +1,90 @@
+<!-- ***************** -->
+<!-- РЕДАКТИРОВАНИЕ КАРТОЧКИ РАСТЕНИЯ -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+{% block rows %}
+
+    <div class="container">
+        <form method="POST" action="/rasteniespisokk/{{ rastenie.id_Rastenie }}">
+
+            <input type="hidden" id="_method" name="_method" value="PUT">
+
+            <!-- Поля ввод данных -->
+
+            <div class="form-group">
+                <label for="selectType">Вид растения</label>
+                <select required name="id_TypeRastenie" class="form-control" id="selectType">
+                    {% for val in typerastenie %}
+                        <option value="{{ val.id_TypeRastenie }}">
+                            {{ val.TypeRastenieName }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата высадки</label>
+                <input input name="DateVisadkaRastenie" id="date" google="true" type="date"
+                       value="{{ rastenie.DateVisadkaRastenie }}">
+            </div>
+
+            <div class="form-group">
+                <label for="selectSort">Сорт растения</label>
+                <select required name="id_SortRastenie" class="form-control" id="selectSort">
+                    {% for val in sortrastenie %}
+                        <option value="{{ val.id_SortRastenie }}">
+                            {{ val.SortRastenieName }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputColor">Окраска плодов</label>
+                <input input name="ColorRastenie" type="text" class="form-control" id="inputColor"
+                       aria-describedby="FIOHelp"
+                       placeholder="Аллый" value="{{ rastenie.ColorRastenie }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Цена</label>
+                <input input name="CenaRastenie" type="text" class="form-control" id="inputCena"
+                       aria-describedby="PostHelp" placeholder="2400 рублей" value="{{ rastenie.CenaRastenie }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Количество высаженных растений</label>
+                <input input name="KolvoRastenie" type="text" class="form-control" id="inputKol"
+                       aria-describedby="PostHelp" placeholder="24" value="{{ rastenie.KolvoRastenie }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Отметка эффективности</label>
+                <input input name="EffectiveProcentRastenie" type="text" class="form-control" id="inputEff"
+                       aria-describedby="PostHelp" placeholder="24%" value="{{ rastenie.EffectiveProcentRastenie }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBio">Комментарий</label>
+                <textarea input name="CommentRastenie" type="text" class="form-control" id="inputBio"
+                          aria-describedby="BioHelp" rows="8"
+                          placeholder="Комментарий">{{ rastenie.CommentRastenie }}</textarea>
+            </div>
+
+            <!-- Загрузка фото -->
+            <div class="form-group">
+                <label for="inputFile">Загрузить фотографию</label>
+                <input input name="PhotoRastenie" type="file" class="form-control-file" id="inputFile"
+                       aria-describedby="fileHelp" value="{{ rastenie.PhotoRastenie }}">
+                <small id="fileHelp" class="form-text text-muted">.jpg или .png файл</small>
+            </div>
+
+            <!-- Кнопка добавления -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Сохранить</button>
+            <p></p>
+
+        </form>
+    </div>
+
+{% endblock %}

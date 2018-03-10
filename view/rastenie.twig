@@ -5,52 +5,60 @@
 {% extends "base.twig" %}
 
 {% block rows %}
-	
-	<div class="row">
-		<div class="col-sm-5">
-			<div class="thumbnail">
-				<div class="caption">
-					<h1>НАЗВАНИЕ РАСТЕНИЯ</h1>
-				</div>
-				<!-- Фото растения -->
-				<img src="/{{ performer.performer_photo }}" alt="">
-			</div>					
-			
-			<!-- Редактировать растение -->
-			<div class="col-sm-1 text-left">
-					<a href="/zver/{{ performer.id_performer }}/edit">
-						<button type="button" class="btn btn-default" aria-label="Edit">
-							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-						</button>
-					</a>
-			</div>
-			
-			<!-- Удалить растение -->
-			<div class="col-sm-3 text-right">						
-				<form method="POST" action="/employee/{{ performer.id_performer }}" class="form-inline">
-					<input type="hidden" name="_method" value="DELETE">
-					<button type="submit" class="btn btn-danger" aria-label="Delete">
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</button>
-				</form>						
-			</div>
-		</div>
 
-		<div class="col-sm-7">
-			<div class="thumbnail">
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="thumbnail">
+                <div class="caption">
+                    {% for val in typerastenie %}
+                        {% if val.id_TypeRastenie == rastenie.id_Rastenie %}
+                            <h1>{{ val.TypeRastenieName }}</h1>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <!-- Фото растения -->
+                <img src="/image/{{ rastenie.PhotoRastenie }}" alt="picture.jpg">
+            </div>
 
-				<div class="caption">
-					<h4>Вид растения: </h4>
-					<h4>Дата высадки: </h4>
-					<h4>Окраска плодов: </h4>
-					<h4>Количество высаженных растений: </h4>
-					<h4>Отметка эффективности: </h4>
-					<p>Комментарий: </p>
-					<h4>Цена: </h4>
-				</div>
-				
-			</div>
-		</div>
-	</div>
-		
+            <!-- Редактировать растение -->
+            <div class="col-sm-1 text-left">
+                <a href="/rasteniespisok/{{ rastenie.id_Rastenie }}/edit">
+                    <button type="button" class="btn btn-default" aria-label="Edit">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </button>
+                </a>
+            </div>
+
+            <!-- Удалить растение -->
+            <div class="col-sm-3 text-right">
+                <form method="POST" action="/rasteniespisok/{{ rastenie.id_Rastenie }}" class="form-inline">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger" aria-label="Delete">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="thumbnail">
+
+                <div class="caption">
+                    {% for val in sortrastenie %}
+                        {% if val.id_SortRastenie == rastenie.id_SortRastenie %}
+                            <h4>Сорт растения: {{ val.SortRastenieName }}</h4>
+                        {% endif %}
+                    {% endfor %}
+                    <h4>Дата высадки: {{ rastenie.DateVisadkaRastenie }}</h4>
+                    <h4>Окраска плодов: {{ rastenie.ColorRastenie }}</h4>
+                    <h4>Количество высаженных растений: {{ rastenie.KolvoRastenie }} штук</h4>
+                    <h4>Отметка эффективности: {{ rastenie.EffectiveProcentRastenie }} %</h4>
+                    <h4>Цена: {{ rastenie.CenaRastenie }} рублей</h4>
+                    <p>Комментарий: {{ rastenie.CommentRastenie }}</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
