@@ -19,7 +19,7 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : '',
-  database: 'soundcloud',
+  database: 'mubd'
 });
 
 //Главная программа
@@ -37,146 +37,165 @@ connection.connect(function(err) {
 	app.use(bodyParser.json());
 	
 	//Теперь создаем маршруты
-	//Вывод карточек исполнителей на главной странице
+	//Вывод разные карточки на главной странице
 	app.get('/', function(req, res) {
-		connection.query('SELECT * FROM performer', function(err, performer) {
+		connection.query('SELECT * FROM rastenie', function(err, rastenie) {
 		
 	        if (err) throw err
-	        connection.query('SELECT * FROM genre', function(err, genre) {
+	        connection.query('SELECT * FROM typerastenie', function(err, typerastenie) {
 			
 					if (err) throw err
-					connection.query('SELECT * FROM country', function(err, country) {
+					connection.query('SELECT * FROM sortrastenie', function(err, sortrastenie) {
 					
 						if (err) throw err
 						res.render('index.twig', {
 							// устанавливаем в представлении необходимые переменные
-							performer: performer,
-							genre: genre,
-							country: country
+                            rastenie: rastenie,
+                            typerastenie: typerastenie,
+                            sortrastenie: sortrastenie
 					});
 				})
 			})
       	})
 	});
 
-	//Страница просмотра конкретного исполнителя
-	app.get('/employee/:id_performer', function(req, res) {
-		connection.query('SELECT * FROM performer where id_performer = ?', [req.params.id_performer], function(err, performer) {
 
-	        if (err) throw err
-			connection.query('SELECT * FROM genre', function(err, genre) {
-			
-				if (err) throw err
-				connection.query('SELECT * FROM country', function(err, country) {
-			
-					if (err) throw err
-						connection.query('SELECT * FROM album where id_performer = ?', [req.params.id_performer], function(err, album) {
-						
-							if (err) throw err
-							res.render('employee.twig', {
-								// устанавливаем в представлении необходимые переменные
-								performer: performer[0],
-								genre: genre,
-								album: album,
-								country: country
-						});
-					});
-				})
-			});	
-      	})
-	});
-	
-	//Удаление конкретного исполнителя
-	app.post('/employee/:id_performer', function(req, res) {
-		connection.query('DELETE FROM performer WHERE id_performer = ?', req.params.id_performer, function(err, result) {
-		
-			//Открываем главную страницу после удаления
-			res.redirect('/');
-		});
-	});
+	//Вывод списка растений
+    app.get('/rasteniespisok/', function(req, res) {
+        connection.query('SELECT * FROM rastenie', function(err, rastenie) {
 
-	//Добавление нового исполнителя - подготовка страницы добавления
-	app.get('/employee/', function(req, res) {
-		connection.query('SELECT * FROM genre', function(err, genre) {
-			
-			if (err) throw err
-			connection.query('SELECT * FROM country', function(err, country) {
-			
-				if (err) throw err
-				res.render('add_employee.twig', {
-					// устанавливаем в представлении необходимые переменные
-					genre: genre,
-					country: country
-				});
-			})
-		})
-	});
-	
-	//Добавление нового исполнителя
-	app.post('/employee/', function(req, res) {
-		//Cчитали значения, записали в пост
-		var post = {
-			performer_name: req.body.performer_name,
-			performer_nickname: req.body.performer_nickname,
-			performer_birthday: req.body.performer_birthday,
-			performer_biography: req.body.performer_biography,
-			performer_site: req.body.performer_site,
-			performer_photo: req.body.performer_photo,
-			id_genre: req.body.id_genre,
-			id_country: req.body.id_country,
-		}
-			
-		//Вставка поста
-		connection.query('INSERT INTO performer SET ?', post, function(err, result) {
-				//Открываем главную страницу после добавления
-				res.redirect('/');
-		});		
-	});
-	
-	//Страница редактирования конкретного исполнителя (передача данных для редактирования)
-	app.get('/employee/:id_performer/edit', function(req, res) {
-		connection.query('SELECT * FROM genre', function(err, genre) {
-		
-			if (err) throw err
-			connection.query('SELECT * FROM country', function(err, country) {
-			
-				if (err) throw err
-				connection.query('SELECT * FROM performer WHERE id_performer = ?', [req.params.id_performer], function(err, performer) {
-					if (err) throw err
+            if (err) throw err
+            connection.query('SELECT * FROM typerastenie', function(err, typerastenie) {
 
-					res.render('edit_employee.twig', {
-						// устанавливаем в представлении необходимые переменные
-						genre: genre,
-						country: country,
-						performer: performer[0],
-					});			      	
-				})	
-			})
-		})
-	});
-	
-	//Собственно редактирование конкретного исполнителя
-	app.post('/employeee/:id_performer', function(req, res) {
-		var post = {
-			performer_name: req.body.performer_name,
-			performer_nickname: req.body.performer_nickname,
-			performer_birthday: req.body.performer_birthday,
-			performer_biography: req.body.performer_biography,
-			performer_site: req.body.performer_site,
-			performer_photo: req.body.performer_photo,
-			id_genre: req.body.id_genre,
-			id_country: req.body.id_country,
-		}
+                if (err) throw err
+                connection.query('SELECT * FROM sortrastenie', function(err, sortrastenie) {
 
-		//Обновили значения
-		connection.query('UPDATE performer SET ? WHERE id_performer = ?', [post, req.params.id_performer], function(err, result) {
-			
-				//Открываем главную страницу после добавления
-				res.redirect('/');
-		});
-	});
-	
+                    if (err) throw err
+                    res.render('rasteniespisok.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        rastenie: rastenie,
+                        typerastenie: typerastenie,
+                        sortrastenie: sortrastenie
+                    });
+                })
+            })
+        })
+    });
+
+    //Страница просмотра конкретного растения
+    app.get('/rasteniespisok/:id_Rastenie', function(req, res) {
+        connection.query('SELECT * FROM rastenie where id_Rastenie = ?', [req.params.id_Rastenie], function(err, rastenie) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM typerastenie', function(err, typerastenie) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM sortrastenie', function(err, sortrastenie) {
+
+                        if (err) throw err
+                        res.render('rastenie.twig', {
+                            // устанавливаем в представлении необходимые переменные
+                            rastenie: rastenie[0],
+                            typerastenie: typerastenie,
+                            sortrastenie: sortrastenie
+                        });
+
+                })
+            });
+        })
+    });
+
+    //Страница редактирования конкретного растения (передача данных для редактирования)
+    app.get('/rasteniespisok/:id_Rastenie/edit', function(req, res) {
+        connection.query('SELECT * FROM typerastenie', function(err, typerastenie) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM sortrastenie', function(err, sortrastenie) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM rastenie WHERE id_Rastenie = ?', [req.params.id_Rastenie], function(err, rastenie) {
+                    if (err) throw err
+
+                    res.render('edit_rastenie.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        typerastenie: typerastenie,
+                        sortrastenie: sortrastenie,
+                        rastenie: rastenie[0]
+                    });
+                })
+            })
+        })
+    });
+
+    //Собственно редактирование конкретного растения
+    app.post('/rasteniespisokk/:id_Rastenie', function(req, res) {
+        var post = ({
+            id_SortRastenie: req.body.id_SortRastenie,
+            PhotoRastenie: req.body.PhotoRastenie,
+            DateVisadkaRastenie: req.body.DateVisadkaRastenie,
+            ColorRastenie: req.body.ColorRastenie,
+            KolvoRastenie: req.body.KolvoRastenie,
+            EffectiveProcentRastenie: req.body.EffectiveProcentRastenie,
+            CommentRastenie: req.body.CommentRastenie,
+            CenaRastenie: req.body.CenaRastenie
+        });
+
+        //Обновили значения
+        connection.query('UPDATE rastenie SET ? WHERE id_Rastenie = ?', [post, req.params.id_Rastenie], function(err, result) {
+
+            //Открываем главную страницу после добавления
+            res.redirect('/rasteniespisok/');
+        });
+    });
+
+    //Удаление конкретного растения
+    app.post('/rasteniespisok/:id_Rastenie', function(req, res) {
+        connection.query('DELETE FROM rastenie WHERE id_Rastenie = ?', req.params.id_Rastenie, function(err, result) {
+
+            //Открываем главную страницу после удаления
+            res.redirect('/rasteniespisok/');
+        });
+    });
+
+    //Добавление нового растения - подготовка страницы добавления
+    app.get('/rasteniespisokk/', function(req, res) {
+        connection.query('SELECT * FROM typerastenie', function(err, typerastenie) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM sortrastenie', function(err, sortrastenie) {
+
+                if (err) throw err
+                res.render('add_rastenie.twig', {
+                    // устанавливаем в представлении необходимые переменные
+                    typerastenie: typerastenie,
+                    sortrastenie: sortrastenie
+                });
+            })
+        })
+    });
+
+    //Добавление нового растения
+    app.post('/rasteniespisok/', function(req, res) {
+        //Cчитали значения, записали в пост
+        var post = ({
+            id_SortRastenie: req.body.id_SortRastenie,
+            PhotoRastenie: req.body.PhotoRastenie,
+            DateVisadkaRastenie: req.body.DateVisadkaRastenie,
+            ColorRastenie: req.body.ColorRastenie,
+            KolvoRastenie: req.body.KolvoRastenie,
+            EffectiveProcentRastenie: req.body.EffectiveProcentRastenie,
+            CommentRastenie: req.body.CommentRastenie,
+            CenaRastenie: req.body.CenaRastenie
+        });
+
+        //Вставка поста
+        connection.query('INSERT INTO rastenie SET ?', post, function(err, result) {
+            //Открываем главную страницу после добавления
+            res.redirect('/rasteniespisok/');
+        });
+    });
+
     //Вешаем сервер на порт 
-	app.listen(8082);
-	console.log('Express server listening on port 8082');
+	app.listen(8075);
+	console.log('Express server listening on port 8075');
 })
