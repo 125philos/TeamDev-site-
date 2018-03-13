@@ -59,7 +59,6 @@ connection.connect(function (err) {
         })
     });
 
-
     //Вывод списка растений
     app.get('/rasteniespisok/', function (req, res) {
         connection.query('SELECT * FROM rastenie', function (err, rastenie) {
@@ -104,7 +103,29 @@ connection.connect(function (err) {
             });
         })
     });
+/*
+    //Вывод списка конкретного растения
+    app.get('/resursspisok/:id_Rastenie', function (req, res) {
+        connection.query('SELECT * FROM typerastenie where id_TypeRastenie = ?', [req.params.id_TypeRastenie], function (err, typerastenie) {
 
+            if (err) throw err
+            connection.query('SELECT * FROM rastenie', function (err, rastenie) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
+
+                    if (err) throw err
+                    res.render('rasteniespisok.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        typerastenie: typerastenie[0],
+                        rastenie: rastenie,
+                        sortrastenie: sortrastenie
+                    });
+                })
+            })
+        })
+    });
+*/
     //Страница редактирования конкретного растения (передача данных для редактирования)
     app.get('/rasteniespisok/:id_Rastenie/edit', function (req, res) {
         connection.query('SELECT * FROM typerastenie', function (err, typerastenie) {
@@ -294,8 +315,6 @@ connection.connect(function (err) {
             res.redirect('back');
         });
     });
-
-
 
     //Страница редактирования конкретного ресурса (расход) (передача данных для редактирования)
     app.get('/resursspisok/:id_RashodResurs/edit', function (req, res) {

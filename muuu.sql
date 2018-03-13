@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 10 2018 г., 15:38
+-- Время создания: Мар 13 2018 г., 10:01
 -- Версия сервера: 10.1.30-MariaDB
 -- Версия PHP: 7.2.1
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `muuu`
+-- База данных: `mubd`
 --
 
 -- --------------------------------------------------------
@@ -49,6 +49,16 @@ CREATE TABLE `porodazver` (
   `PorodaZverName` varchar(200) CHARACTER SET utf32 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `porodazver`
+--
+
+INSERT INTO `porodazver` (`id_PorodaZver`, `id_TypeZver`, `PorodaZverName`) VALUES
+(1, 1, 'Шотландский'),
+(2, 1, 'Английский'),
+(3, 2, 'Кавказская'),
+(4, 2, 'Русская');
+
 -- --------------------------------------------------------
 
 --
@@ -62,6 +72,16 @@ CREATE TABLE `prihodresurs` (
   `KolvoResurs` int(12) NOT NULL,
   `DatePopolnResurs` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `prihodresurs`
+--
+
+INSERT INTO `prihodresurs` (`id_PrihodResurs`, `id_Resurs`, `CenaResurs`, `KolvoResurs`, `DatePopolnResurs`) VALUES
+(1, 2, 2000, 190, '2018-02-28'),
+(3, 4, 1200, 30, '2018-03-01'),
+(7, 2, 1575, 45, '2018-02-28'),
+(26, 2, 3200, 12, '2018-03-07');
 
 -- --------------------------------------------------------
 
@@ -102,6 +122,15 @@ CREATE TABLE `rashodresurs` (
   `DateIzyatResurs` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `rashodresurs`
+--
+
+INSERT INTO `rashodresurs` (`id_RashodResurs`, `id_Resurs`, `KolvoResurs`, `DateIzyatResurs`) VALUES
+(3, 4, 16, '2018-03-04'),
+(22, 2, 15, '2018-02-28'),
+(23, 2, 19, '2018-02-26');
+
 -- --------------------------------------------------------
 
 --
@@ -125,9 +154,9 @@ CREATE TABLE `rastenie` (
 --
 
 INSERT INTO `rastenie` (`id_Rastenie`, `id_SortRastenie`, `PhotoRastenie`, `DateVisadkaRastenie`, `ColorRastenie`, `KolvoRastenie`, `EffectiveProcentRastenie`, `CommentRastenie`, `CenaRastenie`) VALUES
-(1, 3, 'apple.jpg', '2018-03-01', 'Желто-зеленные ', 25, 50, 'Отличная всхожесть!!', 2370),
+(1, 1, 'apple.jpg', '2018-03-07', 'Желто-зеленные ', 25, 50, 'Отличная всхожесть!!', 2370),
 (2, 2, 'tomat.jpg', '2018-02-27', 'Красный', 12, 78, 'Очень вкусный!!', 2340),
-(5, 3, 'cherry.jpg', '2018-02-27', 'Аллый', 10, 89, 'Отличная!!', 1200);
+(6, 4, 'cherry.jpg', '2018-01-30', 'Аллый', 12, 25, 'Отличный сорт!!', 2340);
 
 -- --------------------------------------------------------
 
@@ -160,6 +189,14 @@ CREATE TABLE `resurs` (
   `NormaResurs` int(12) NOT NULL,
   `EdIzmResurs` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `resurs`
+--
+
+INSERT INTO `resurs` (`id_Resurs`, `id_PorodaZver`, `id_SortRastenie`, `NameResurs`, `NormaResurs`, `EdIzmResurs`) VALUES
+(2, 2, NULL, 'Корм', 200, 'кг'),
+(4, NULL, 2, 'Удобрение', 300, 'кг');
 
 -- --------------------------------------------------------
 
@@ -215,6 +252,14 @@ CREATE TABLE `typezver` (
   `TypeZverName` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `typezver`
+--
+
+INSERT INTO `typezver` (`id_TypeZver`, `TypeZverName`) VALUES
+(1, 'Кролик'),
+(2, 'Птица');
+
 -- --------------------------------------------------------
 
 --
@@ -249,6 +294,13 @@ CREATE TABLE `zver` (
   `CommentZver` varchar(1000) NOT NULL,
   `CenaZver` int(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `zver`
+--
+
+INSERT INTO `zver` (`id_Zver`, `id_PorodaZver`, `PhotoZver`, `NameZver`, `DateBirthday`, `SexZver`, `ColorZver`, `VesZver`, `EffectiveProcentZver`, `CommentZver`, `CenaZver`) VALUES
+(1, 2, 'rabbit.jpg', 'Белыш', '2018-03-05', 'Мужской', 'Белый', 5, 99, 'Много кушает и имеет большое потомство!', 15000);
 
 --
 -- Индексы сохранённых таблиц
@@ -367,13 +419,13 @@ ALTER TABLE `dezobsluzh`
 -- AUTO_INCREMENT для таблицы `porodazver`
 --
 ALTER TABLE `porodazver`
-  MODIFY `id_PorodaZver` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_PorodaZver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `prihodresurs`
 --
 ALTER TABLE `prihodresurs`
-  MODIFY `id_PrihodResurs` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_PrihodResurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT для таблицы `product`
@@ -391,13 +443,13 @@ ALTER TABLE `productname`
 -- AUTO_INCREMENT для таблицы `rashodresurs`
 --
 ALTER TABLE `rashodresurs`
-  MODIFY `id_RashodResurs` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_RashodResurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT для таблицы `rastenie`
 --
 ALTER TABLE `rastenie`
-  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `realization`
@@ -409,7 +461,7 @@ ALTER TABLE `realization`
 -- AUTO_INCREMENT для таблицы `resurs`
 --
 ALTER TABLE `resurs`
-  MODIFY `id_Resurs` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Resurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `sortrastenie`
@@ -427,7 +479,7 @@ ALTER TABLE `typerastenie`
 -- AUTO_INCREMENT для таблицы `typezver`
 --
 ALTER TABLE `typezver`
-  MODIFY `id_TypeZver` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_TypeZver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `vetobsluj`
@@ -439,7 +491,7 @@ ALTER TABLE `vetobsluj`
 -- AUTO_INCREMENT для таблицы `zver`
 --
 ALTER TABLE `zver`
-  MODIFY `id_Zver` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Zver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

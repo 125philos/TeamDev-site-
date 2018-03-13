@@ -44,7 +44,7 @@
                         {% if val.id_Resurs == resurs.id_Resurs %}
                             <td>{{ resurs.NormaResurs }}</td>
                             <td>{{ resurs.EdIzmResurs }}</td>
-                            <td>{{ val.DatePopolnResurs }}</td>
+                            <td>{{ val.DatePopolnResurs|date('d.m.Y', false) }}</td>
                             <td>{{ val.CenaResurs }} рублей</td>
 
                             <td>
@@ -105,7 +105,7 @@
                 {% for val in rashodresurs %}
                     <tr>
                         {% if val.id_Resurs == resurs.id_Resurs %}
-                            <td>{{ val.DateIzyatResurs }}</td>
+                            <td>{{ val.DateIzyatResurs|date('d.m.Y', false) }}</td>
                             <td>{{ val.KolvoResurs }}</td>
                             <td>{{ resurs.EdIzmResurs }}</td>
 
