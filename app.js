@@ -1,4 +1,4 @@
-//Подчключаем необходимые компоненты: фреймворк express
+﻿//Подчключаем необходимые компоненты: фреймворк express
 var express = require('express'),
     //Компонент парсера HTML и JSON для него, 
     // подробнее: в туториале на сайте expressjs.com
@@ -19,7 +19,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'mubd'
+    database: 'muuu'
 });
 
 //Главная программа
@@ -35,6 +35,11 @@ connection.connect(function (err) {
     //Используем body-parser для обработки запросов
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
+
+
+    /////////////////////////
+    ////////Растения/////////
+    /////////////////////////
 
     //Теперь создаем маршруты
     //Вывод разные карточки на главной странице
@@ -216,7 +221,179 @@ connection.connect(function (err) {
         });
     });
 
-    //РЕСУРЫ
+
+    /////////////////////////
+    ////////Животные/////////
+    /////////////////////////
+
+    //Теперь создаем маршруты
+    //Вывод разные карточки на главной странице
+    app.get('/', function(req, res) {
+        connection.query('SELECT * FROM zver', function(err, zver) {
+        
+            if (err) throw err
+            connection.query('SELECT * FROM typezver', function(err, typezver) {
+            
+                    if (err) throw err
+                    connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+                    
+                        if (err) throw err
+                        res.render('index.twig', {
+                            // устанавливаем в представлении необходимые переменные
+                            zver: zver,
+                            typezver: typezver,
+                            porodazver: porodazver
+                    });
+                })
+            })
+        })
+    });
+
+
+    //Вывод списка зверей
+    app.get('/zverspisok/', function(req, res) {
+        connection.query('SELECT * FROM zver', function(err, zver) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM typezver', function(err, typezver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+
+                    if (err) throw err
+                    res.render('zverspisok.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        zver: zver,
+                        typezver: typezver,
+                        porodazver: porodazver
+                    });
+                })
+            })
+        })
+    });
+
+    //Страница просмотра конкретного зверя
+    app.get('/zverspisok/:id_Zver', function(req, res) {
+        connection.query('SELECT * FROM zver where id_Zver = ?', [req.params.id_Zver], function(err, zver) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM typezver', function(err, typezver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+
+                        if (err) throw err
+                        res.render('zver.twig', {
+                            // устанавливаем в представлении необходимые переменные
+                            zver: zver[0],
+                            typezver: typezver,
+                            porodazver: porodazver
+                        });
+
+                })
+            });
+        })
+    });
+
+    //Страница редактирования конкретного зверя (передача данных для редактирования)
+    app.get('/zverspisok/:id_Zver/edit', function(req, res) {
+        connection.query('SELECT * FROM typezver', function(err, typezver) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM zver WHERE id_Zver = ?', [req.params.id_Zver], function(err, zver) {
+                    if (err) throw err
+
+                    res.render('edit_zver.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        typezver: typezver,
+                        porodazver: porodazver,
+                        zver: zver[0]
+                    });
+                })
+            })
+        })
+    });
+
+    //Собственно редактирование конкретного зверя
+    app.post('/zverspisok/:id_Zver', function(req, res) {
+        var post = ({
+            id_PorodaZver: req.body.id_PorodaZver,
+            PhotoZver: req.body.PhotoZver,
+            NameZver: req.body.NameZver,
+            DateBirthday: req.body.DateBirthday,
+            SexZver: req.body.SexZver,
+            ColorZver: req.body.ColorZver,
+            VesZver: req.body.VesZver,
+            EffectiveProcentZver: req.body.EffectiveProcentZver,
+            CommentZver: req.body.CommentZver,
+            CenaZver: req.body.CenaZver
+        });
+
+        //Обновили значения
+        connection.query('UPDATE zver SET ? WHERE id_Zver = ?', [post, req.params.id_Zver], function(err, result) {
+
+            //Открываем главную страницу после добавления
+            res.redirect('/zverspisok/');
+        });
+    });
+
+    //Удаление конкретного зверя
+    app.post('/zverspisok/:id_Zver', function(req, res) {
+        connection.query('DELETE FROM zver WHERE id_Zver = ?', req.params.id_Zver, function(err, result) {
+
+            //Открываем главную страницу после удаления
+            res.redirect('/zverspisok/');
+        });
+    });
+
+    //Добавление нового зверя - подготовка страницы добавления
+    app.get('/zverspisokcr', function(req, res) {
+        connection.query('SELECT * FROM typezver', function(err, typezver) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+
+                if (err) throw err
+                res.render('add_zver.twig', {
+                    // устанавливаем в представлении необходимые переменные
+                    typezver: typezver,
+                    porodazver: porodazver
+                });
+            })
+        })
+    });
+
+    //Добавление нового зверя
+    app.post('/zverspisok/', function(req, res) {
+        //Cчитали значения, записали в пост
+        var post = ({
+            id_PorodaZver: req.body.id_PorodaZver,
+            PhotoZver: req.body.PhotoZver,
+            NameZver: req.body.NameZver,
+            DateBirthday: req.body.DateBirthday,
+            SexZver: req.body.SexZver,
+            ColorZver: req.body.ColorZver,
+            VesZver: req.body.VesZver,
+            EffectiveProcentZver: req.body.EffectiveProcentZver,
+            CommentZver: req.body.CommentZver,
+            CenaZver: req.body.CenaZver
+        });
+
+        //Вставка поста
+        connection.query('INSERT INTO zver SET ?', post, function(err, result) {
+            //Открываем главную страницу после добавления
+            res.redirect('/zverspisok/');
+        });
+    });
+
+
+    /////////////////////////
+    ////////Ресурсы//////////
+    /////////////////////////
+
     //Вывод списка всех ресурсов
     app.get('/resursspisok/', function (req, res) {
         connection.query('SELECT * FROM resurs', function (err, resurs) {

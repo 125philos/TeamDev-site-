@@ -10,15 +10,19 @@
 		<div class="col-sm-5">
 			<div class="thumbnail">
 				<div class="caption">
-					<h1>КЛИЧКА ЖИВОТНОГО</h1>
+                    {% for val in typezver %}
+                        {% if val.id_TypeZver == zver.id_Zver %}
+                            <h1>{{ val.TypeZverName }}</h1>
+                        {% endif %}
+                    {% endfor %}
 				</div>
 				<!-- Фото животное -->
-				<img src="/{{ performer.performer_photo }}" alt="">
+				<img src="/image/animals/{{ zver.PhotoZver }}" alt="">
 			</div>					
 			
 			<!-- Редактировать животное -->
 			<div class="col-sm-1 text-left">
-					<a href="/zver/{{ performer.id_performer }}/edit">
+					<a href="/zverspisok/{{ zver.id_Zver }}/edit">
 						<button type="button" class="btn btn-default" aria-label="Edit">
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 						</button>
@@ -27,7 +31,7 @@
 			
 			<!-- Удалить животного -->
 			<div class="col-sm-3 text-right">						
-				<form method="POST" action="/employee/{{ performer.id_performer }}" class="form-inline">
+				<form method="POST" action="/zverspisok/{{ zver.id_Zver }}" class="form-inline">
 					<input type="hidden" name="_method" value="DELETE">
 					<button type="submit" class="btn btn-danger" aria-label="Delete">
 						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -40,15 +44,24 @@
 			<div class="thumbnail">
 
 				<div class="caption">
-					<h4>Вид животного: </h4>
-					<h4>Порода животного: </h4>
-					<h4>Дата рождения: </h4>
-					<h4>Пол: </h4>
-					<h4>Расцветка: </h4>
-					<h4>Вес: </h4>
-					<h4>Отметка эффективности: </h4>
-					<p>Комментарий: </p>
-					<h4>Цена: </h4>
+                    {% for val in porodazver %}
+                        {% if val.id_PorodaZver == zver.id_PorodaZver %}
+                            <h4>Порода животного: {{ val.PorodaZverName }}</h4>
+                        {% endif %}
+                    {% endfor %}
+                    {% for val in typezver %}
+                        {% if val.id_TypeZver == zver.id_Zver %}
+                            <h4>Вид животного: {{ val.TypeZverName }}</h1>
+                        {% endif %}
+                    {% endfor %}
+                    <h4>Кличка: {{ zver.NameZver }}</h4>
+					<h4>Дата рождения: {{ zver.DateBirthday|date('d.m.Y', false) }}</h4>
+					<h4>Пол: {{ zver.SexZver }}</h4>
+					<h4>Расцветка: {{ zver.ColorZver }}</h4>
+					<h4>Вес: {{ zver.VesZver }}</h4>
+					<h4>Отметка эффективности: {{ zver.EffectiveProcentZver }}</h4>
+					<p>Комментарий: {{ zver.CommentZver }}</p>
+					<h4>Цена: {{ zver.CenaZver }}</h4>
 				</div>
 				
 			</div>

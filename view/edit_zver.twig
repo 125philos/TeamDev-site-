@@ -1,0 +1,100 @@
+<!-- ***************** -->
+<!-- РЕДАКТИРОВАНИЕ КАРТОЧКИ ЖИВОТНОГО -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+{% block rows %}
+
+    <div class="container">
+        <form method="POST" action="/zverspisok/{{ zver.id_Zver }}">
+
+        <input type="hidden" id="_method" name="_method" value="PUT">
+
+            <!-- Поля ввод данных -->
+            <div class="form-group">
+                <label for="selectType">Вид животного</label>
+                <select required name="id_TypeZver" class="form-control" id="selectType">
+                    {% for val in typezver %}
+                        <option value="{{ val.id_TypeZver }}">
+                            {{ val.TypeZverName }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="selectSort">Порода животного</label>
+                <select required name="id_PorodaZver" class="form-control" id="selectPoroda">
+                    {% for val in porodazver %}
+                        <option value="{{ val.id_PorodaZver }}">
+                            {{ val.PorodaZverName }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Имя</label>
+                <input input name="NameZver" type="text" class="form-control" id="inputName"
+                       aria-describedby="PostHelp" placeholder="Вася" value="{{ zver.NameZver }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Пол</label>
+                <input input name="SexZver" type="text" class="form-control" id="inputName"
+                       aria-describedby="PostHelp" placeholder="муж" value="{{ zver.SexZver }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата рождения</label>
+                <input input name="DateBirthday" id="date" google="true" type="date"
+                       value="{{ zver.DateBirthday }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputColor">Расцветка</label>
+                <input input name="ColorZver" type="text" class="form-control" id="inputColor"
+                       aria-describedby="FIOHelp"
+                       placeholder="Аллый" value="{{ zver.ColorZver }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Цена</label>
+                <input input name="CenaZver" type="text" class="form-control" id="inputCena"
+                       aria-describedby="PostHelp" placeholder="24000 рублей" value="{{ zver.CenaZver }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Вес</label>
+                <input input name="VesZver" type="text" class="form-control" id="inputVes"
+                       aria-describedby="PostHelp" placeholder="75" value="{{ zver.VesZver }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Отметка эффективности</label>
+                <input input name="EffectiveProcentZver" type="text" class="form-control" id="inputEff"
+                       aria-describedby="PostHelp" placeholder="24%" value="{{ zver.EffectiveProcentZver }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBio">Комментарий</label>
+                <textarea input name="CommentZver" type="text" class="form-control" id="inputBio"
+                          aria-describedby="BioHelp" rows="8"
+                          placeholder="Комментарий">{{ zver.CommentZver }}</textarea>
+            </div>
+
+            <!-- Загрузка фото -->
+            <div class="form-group">
+                <label for="inputFile">Загрузить фотографию</label>
+                <input input name="PhotoZver" type="file" class="form-control-file" id="inputFile"
+                       aria-describedby="fileHelp" value="{{ zver.PhotoZver }}">
+                <small id="fileHelp" class="form-text text-muted">.jpg или .png файл</small>
+            </div>
+
+            <!-- Кнопка сохранения -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Сохранить</button>
+            <p></p>
+
+        </form>
+    </div>
+{% endblock %}

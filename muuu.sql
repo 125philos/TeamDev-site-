@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 13 2018 г., 10:01
+-- Время создания: Мар 13 2018 г., 17:47
 -- Версия сервера: 10.1.30-MariaDB
 -- Версия PHP: 7.2.1
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `mubd`
+-- База данных: `muuu`
 --
 
 -- --------------------------------------------------------
@@ -300,7 +300,8 @@ CREATE TABLE `zver` (
 --
 
 INSERT INTO `zver` (`id_Zver`, `id_PorodaZver`, `PhotoZver`, `NameZver`, `DateBirthday`, `SexZver`, `ColorZver`, `VesZver`, `EffectiveProcentZver`, `CommentZver`, `CenaZver`) VALUES
-(1, 2, 'rabbit.jpg', 'Белыш', '2018-03-05', 'Мужской', 'Белый', 5, 99, 'Много кушает и имеет большое потомство!', 15000);
+(1, 1, 'scotland_rabbit.jpg', 'Белыш', '2017-12-03', 'Мужской', 'Серый', 5, 99, 'Много кушает и имеет большое потомство!', 15000),
+(2, 2, 'eng_rabbit.jpg', 'Вася', '2018-01-01', 'муж', 'Чорный', 5, 65, 'Оч лохматый', 1050);
 
 --
 -- Индексы сохранённых таблиц
@@ -491,7 +492,7 @@ ALTER TABLE `vetobsluj`
 -- AUTO_INCREMENT для таблицы `zver`
 --
 ALTER TABLE `zver`
-  MODIFY `id_Zver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_Zver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
