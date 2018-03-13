@@ -1,0 +1,51 @@
+<!-- ***************** -->
+<!-- РЕДАКТИРОВАНИЕ КАРТОЧКИ РЕСУРСА (ПРИХОД) -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+{% block rows %}
+
+    <div class="container">
+        <form method="POST" action="/resursspisookk/{{ prihodresurs.id_PrihodResurs }}">
+
+            <input type="hidden" id="_method" name="_method" value="PUT">
+
+            <!-- Поля ввод данных -->
+
+            <div class="form-group">
+                <label for="selectType">Норма</label>
+                <select required name="id_Resurs" class="form-control" id="selectType">
+                    {% for val in resurs %}
+                        <option value="{{ val.id_Resurs }}">
+                            {{ val.NormaResurs }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Стоимость</label>
+                <input input name="CenaResurs" type="text" class="form-control" id="inputCena"
+                       aria-describedby="PostHelp" placeholder="2400" value="{{ prihodresurs.CenaResurs }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Количество</label>
+                <input input name="KolvoResurs" type="text" class="form-control" id="inputKol"
+                       aria-describedby="PostHelp" placeholder="24" value="{{ prihodresurs.KolvoResurs }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата пополнения</label>
+                <input input name="DatePopolnResurs" id="date" google="true" type="date"
+                       value="{{ prihodresurs.DatePopolnResurs }}">
+            </div>
+
+            <!-- Кнопка добавления -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Сохранить</button>
+            <p></p>
+
+        </form>
+    </div>
+
+{% endblock %}

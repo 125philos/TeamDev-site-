@@ -1,0 +1,45 @@
+<!-- ***************** -->
+<!-- РЕДАКТИРОВАНИЕ КАРТОЧКИ РЕСУРСА (ПРИХОД) -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+{% block rows %}
+
+    <div class="container">
+        <form method="POST" action="/resursspisook/{{ rashodresurs.id_RashodResurs }}">
+
+            <input type="hidden" id="_method" name="_method" value="PUT">
+
+            <!-- Поля ввод данных -->
+
+            <div class="form-group">
+                <label for="selectType">Норма</label>
+                <select required name="id_Resurs" class="form-control" id="selectType">
+                    {% for val in resurs %}
+                        <option value="{{ val.id_Resurs }}">
+                            {{ val.NormaResurs }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputKol">Количество</label>
+                <input input name="KolvoResurs" type="text" class="form-control" id="inputKol"
+                       aria-describedby="PostHelp" placeholder="24" value="{{ rashodresurs.KolvoResurs }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата изъятия</label>
+                <input input name="DateIzyatResurs" id="date" google="true" type="date"
+                       value="{{ rashodresurs.DateIzyatResurs }}">
+            </div>
+
+            <!-- Кнопка добавления -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Сохранить</button>
+            <p></p>
+
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+<!-- ***************** -->
+<!-- КАРТОЧКИ КОНКРЕТНОГО РЕСУРСА -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+
+    <div class="col-sm-5">
+        <h5>РЕСУРСЫ ФЕРМЫ</h5>
+    </div>
+    <div class="col-sm-5">
+        <div class="dropdown">
+            <button class="dropbtn">{{ resurs.NameResurs }}</button>
+            <div class="dropdown-content">
+                <a href="/resursspisok/">Вернуться</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+    <!-- Навигация по видам ресурсов -->
+
+    <!-- Таблица ресурсов -->
+    <div class="col-sm-12 text-left">
+
+        <!-- Ряды таблиц -->
+        <!--Таблица пополнения ресурсов-->
+        <div class="col-sm-7">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Норма</th>
+                    <th scope="col">Единица измерения</th>
+                    <th scope="col">Дата пополнения</th>
+                    <th scope="col">Стоимость</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for index, val in prihodresurs %}
+                    <tr>
+
+                        {% if val.id_Resurs == resurs.id_Resurs %}
+                            <td>{{ resurs.NormaResurs }}</td>
+                            <td>{{ resurs.EdIzmResurs }}</td>
+                            <td>{{ val.DatePopolnResurs }}</td>
+                            <td>{{ val.CenaResurs }} рублей</td>
+
+                            <td>
+                            <th>
+                                <!--Удалить информацию о ресурсе-->
+                                <form method="POST" action="/resursspisokk/{{ val.id_PrihodResurs }}">
+                                    <button type="submit" class="btn btn-danger" aria-label="Delete">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </form>
+                            </th>
+                            <th>
+                                <!--Редактирование информации о ресурсе-->
+                                <a href="/resursspisokk/{{ val.id_PrihodResurs }}/edit">
+                                    <button type="button" class="btn btn-default" aria-label="Edit">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </button>
+                                </a>
+                            </th>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <!--Добавление нового приход-->
+            <form method="POST" action="/resursspisokk/" class="form-inline">
+                <fieldset>
+                    <div class="form-group">
+                        <input name="CenaResurs" placeholder="Стоимость" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input name="KolvoResurs" placeholder="Количество" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input input name="DatePopolnResurs" id="date" google="true" type="date">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" name="id_Resurs" value="{{ resurs.id_Resurs }}">
+                        Добавить
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+
+        <!--Таблица расходов ресурсов-->
+        <div class="col-sm-5">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Дата изъятия</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Единица измерения</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for val in rashodresurs %}
+                    <tr>
+                        {% if val.id_Resurs == resurs.id_Resurs %}
+                            <td>{{ val.DateIzyatResurs }}</td>
+                            <td>{{ val.KolvoResurs }}</td>
+                            <td>{{ resurs.EdIzmResurs }}</td>
+
+                            <td>
+                            <th>
+                                <!--Удалить информацию о ресурсе-->
+                                <form method="POST" action="/resursspisok/{{ val.id_RashodResurs }}">
+                                    <button type="submit" class="btn btn-danger" aria-label="Delete">
+                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    </button>
+                                </form>
+                            </th>
+                            <th>
+                                <!--Редактирование информации о ресурсе-->
+                                <a href="/resursspisok/{{ val.id_RashodResurs }}/edit">
+                                    <button type="button" class="btn btn-default" aria-label="Edit">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </button>
+                                </a>
+                            </th>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!--Добавление нового расхода-->
+            <form method="POST" action="/resursspisok/" class="form-inline">
+                <fieldset>
+                    <div class="form-group">
+                        <input name="KolvoResurs" placeholder="Количество" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input input name="DateIzyatResurs" id="date" google="true" type="date">
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="id_Resurs" value="{{ resurs.id_Resurs }}">
+                        Добавить
+                    </button>
+                </fieldset>
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}

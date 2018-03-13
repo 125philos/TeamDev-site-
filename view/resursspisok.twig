@@ -1,0 +1,88 @@
+<!-- ***************** -->
+<!-- КАРТОЧКИ РЕСУРСА -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+
+    <div class="col-sm-5">
+        <h5>РЕСУРСЫ ФЕРМЫ</h5>
+    </div>
+    <div class="col-sm-5">
+        <div class="dropdown">
+            <button class="dropbtn">РЕСУРСЫ</button>
+            <div class="dropdown-content">
+                {% for cresurs in resurs %}
+                    <a href="/resursspisok/{{ cresurs.id_Resurs }}"
+                       id="cresurs-{{ cresurs.id_Resurs }}">{{ cresurs.NameResurs }}</a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+    <!-- Навигация по видам ресурсов -->
+
+    <!-- Таблица ресурсов -->
+    <div class="col-sm-12 text-left">
+        <!-- Ряды таблиц -->
+        <!--Таблица пополнения ресурсов-->
+        <div class="col-sm-7">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Норма</th>
+                    <th scope="col">Единица измерения</th>
+                    <th scope="col">Дата пополнения</th>
+                    <th scope="col">Стоимость</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cresurs in resurs %}
+                    {% for val in prihodresurs %}
+                        <tr>
+                            {% if val.id_Resurs == cresurs.id_Resurs %}
+                                <th scope="row"></th>
+                                <td>{{ cresurs.NormaResurs }}</td>
+                                <td>{{ cresurs.EdIzmResurs }}</td>
+                                <td>{{ val.DatePopolnResurs }}</td>
+                                <td>{{ val.CenaResurs }} рублей</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!--Таблица расходов ресурсов-->
+        <div class="col-sm-5">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Дата изъятия</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Единица измерения</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cresurs in resurs %}
+                    {% for val in rashodresurs %}
+                        <tr>
+                            {% if val.id_Resurs == cresurs.id_Resurs %}
+                                <td>{{ val.DateIzyatResurs }}</td>
+                                <td>{{ val.KolvoResurs }}</td>
+                                <td>{{ cresurs.EdIzmResurs }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

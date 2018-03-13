@@ -1,5 +1,5 @@
 <!-- ***************** -->
-<!-- КАРТОЧКА РАСТЕНИЯ -->
+<!-- КАРТОЧКА КОНКРЕТНОГО РАСТЕНИЯ -->
 <!-- ***************** -->
 
 {% extends "base.twig" %}
@@ -17,7 +17,7 @@
                     {% endfor %}
                 </div>
                 <!-- Фото растения -->
-                <img src="/image/{{ rastenie.PhotoRastenie }}" alt="picture.jpg">
+                <img src="/image/plants/{{ rastenie.PhotoRastenie }}" alt="picture.jpg">
             </div>
 
             <!-- Редактировать растение -->
