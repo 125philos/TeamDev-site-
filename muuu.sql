@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 13 2018 г., 17:47
+-- Время создания: Мар 14 2018 г., 04:49
 -- Версия сервера: 10.1.30-MariaDB
 -- Версия PHP: 7.2.1
 
@@ -81,7 +81,7 @@ INSERT INTO `prihodresurs` (`id_PrihodResurs`, `id_Resurs`, `CenaResurs`, `Kolvo
 (1, 2, 2000, 190, '2018-02-28'),
 (3, 4, 1200, 30, '2018-03-01'),
 (7, 2, 1575, 45, '2018-02-28'),
-(26, 2, 3200, 12, '2018-03-07');
+(26, 2, 3000, 12, '2018-03-01');
 
 -- --------------------------------------------------------
 
@@ -128,7 +128,7 @@ CREATE TABLE `rashodresurs` (
 
 INSERT INTO `rashodresurs` (`id_RashodResurs`, `id_Resurs`, `KolvoResurs`, `DateIzyatResurs`) VALUES
 (3, 4, 16, '2018-03-04'),
-(22, 2, 15, '2018-02-28'),
+(22, 2, 14, '2018-03-01'),
 (23, 2, 19, '2018-02-26');
 
 -- --------------------------------------------------------
@@ -154,9 +154,10 @@ CREATE TABLE `rastenie` (
 --
 
 INSERT INTO `rastenie` (`id_Rastenie`, `id_SortRastenie`, `PhotoRastenie`, `DateVisadkaRastenie`, `ColorRastenie`, `KolvoRastenie`, `EffectiveProcentRastenie`, `CommentRastenie`, `CenaRastenie`) VALUES
-(1, 1, 'apple.jpg', '2018-03-07', 'Желто-зеленные ', 25, 50, 'Отличная всхожесть!!', 2370),
+(1, 4, 'apple.jpg', '2018-03-01', 'Желто-зеленные ', 25, 50, 'Отличная всхожесть!!', 2370),
 (2, 2, 'tomat.jpg', '2018-02-27', 'Красный', 12, 78, 'Очень вкусный!!', 2340),
-(6, 4, 'cherry.jpg', '2018-01-30', 'Аллый', 12, 25, 'Отличный сорт!!', 2340);
+(6, 3, 'cherry.jpg', '2018-03-07', 'Аллый', 12, 25, 'Отличный сорт!!', 2340),
+(9, 1, 'cucumber.jpg', '2018-01-03', 'Зеленые', 45, 89, 'Без семян!!', 1300);
 
 -- --------------------------------------------------------
 
@@ -450,7 +451,7 @@ ALTER TABLE `rashodresurs`
 -- AUTO_INCREMENT для таблицы `rastenie`
 --
 ALTER TABLE `rastenie`
-  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT для таблицы `realization`

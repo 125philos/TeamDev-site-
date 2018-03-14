@@ -33,8 +33,9 @@
                 <tr>
                     <th scope="col">Норма</th>
                     <th scope="col">Единица измерения</th>
+                    <th scope="col">Количество</th>
                     <th scope="col">Дата пополнения</th>
-                    <th scope="col">Стоимость</th>
+                    <th scope="col">Цена (руб.)</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -44,8 +45,9 @@
                         {% if val.id_Resurs == resurs.id_Resurs %}
                             <td>{{ resurs.NormaResurs }}</td>
                             <td>{{ resurs.EdIzmResurs }}</td>
+                            <td>{{ val.KolvoResurs }}</td>
                             <td>{{ val.DatePopolnResurs|date('d.m.Y', false) }}</td>
-                            <td>{{ val.CenaResurs }} рублей</td>
+                            <td>{{ val.CenaResurs }}</td>
 
                             <td>
                             <th>

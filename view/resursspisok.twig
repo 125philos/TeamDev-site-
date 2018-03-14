@@ -33,11 +33,11 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Норма</th>
                     <th scope="col">Единица измерения</th>
+                    <th scope="col">Количество</th>
                     <th scope="col">Дата пополнения</th>
-                    <th scope="col">Стоимость</th>
+                    <th scope="col">Цена (руб.)</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,11 +45,11 @@
                     {% for val in prihodresurs %}
                         <tr>
                             {% if val.id_Resurs == cresurs.id_Resurs %}
-                                <th scope="row"></th>
                                 <td>{{ cresurs.NormaResurs }}</td>
                                 <td>{{ cresurs.EdIzmResurs }}</td>
+                                <td>{{ val.KolvoResurs }}</td>
                                 <td>{{ val.DatePopolnResurs|date('d.m.Y', false) }}</td>
-                                <td>{{ val.CenaResurs }} рублей</td>
+                                <td>{{ val.CenaResurs }}</td>
                             {% endif %}
                         </tr>
                     {% endfor %}

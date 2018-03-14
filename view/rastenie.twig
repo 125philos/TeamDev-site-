@@ -10,9 +10,13 @@
         <div class="col-sm-5">
             <div class="thumbnail">
                 <div class="caption">
-                    {% for val in typerastenie %}
-                        {% if val.id_TypeRastenie == rastenie.id_Rastenie %}
-                            <h1>{{ val.TypeRastenieName }}</h1>
+                    {% for key in sortrastenie %}
+                        {% if key.id_SortRastenie == rastenie.id_SortRastenie %}
+                        {% for val in typerastenie %}
+                            {% if val.id_TypeRastenie == key.id_TypeRastenie %}
+                                <h1><a href="/rasteniespisok/">{{ val.TypeRastenieName }}</a></h1>
+                            {% endif %}
+                        {% endfor %}
                         {% endif %}
                     {% endfor %}
                 </div>
