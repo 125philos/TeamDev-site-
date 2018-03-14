@@ -37,32 +37,20 @@ connection.connect(function (err) {
     app.use(bodyParser.json());
 
 
+    ///////////////////////////////////////
+    ////////Главная страница сайта/////////
+    ///////////////////////////////////////
+
+    //Получить главную страницу сайта
+    app.get('/', function (req, res) {
+		//Возвращает твиг главной страницы
+		res.render('index.twig', {
+		});
+    });
+
     /////////////////////////
     ////////Растения/////////
     /////////////////////////
-
-    //Теперь создаем маршруты
-    //Вывод разные карточки на главной странице
-    app.get('/', function (req, res) {
-        connection.query('SELECT * FROM rastenie', function (err, rastenie) {
-
-            if (err) throw err
-            connection.query('SELECT * FROM typerastenie', function (err, typerastenie) {
-
-                if (err) throw err
-                connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
-
-                    if (err) throw err
-                    res.render('index.twig', {
-                        // устанавливаем в представлении необходимые переменные
-                        rastenie: rastenie,
-                        typerastenie: typerastenie,
-                        sortrastenie: sortrastenie
-                    });
-                })
-            })
-        })
-    });
 
     //Вывод списка растений
     app.get('/rasteniespisok/', function (req, res) {
