@@ -10,11 +10,7 @@
 		<div class="col-sm-5">
 			<div class="thumbnail">
 				<div class="caption">
-                    {% for val in typezver %}
-                        {% if val.id_TypeZver == zver.id_Zver %}
-                            <h1>{{ val.TypeZverName }}</h1>
-                        {% endif %}
-                    {% endfor %}
+                    <h1>{{ zver.NameZver }}</h1>
 				</div>
 				<!-- Фото животное -->
 				<img src="/image/animals/{{ zver.PhotoZver }}" alt="">
@@ -31,7 +27,7 @@
 			
 			<!-- Удалить животного -->
 			<div class="col-sm-3 text-right">						
-				<form method="POST" action="/zverspisok/{{ zver.id_Zver }}" class="form-inline">
+				<form method="POST" action="/zver/{{ zver.id_Zver }}" class="form-inline">
 					<input type="hidden" name="_method" value="DELETE">
 					<button type="submit" class="btn btn-danger" aria-label="Delete">
 						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -46,22 +42,21 @@
 				<div class="caption">
                     {% for val in porodazver %}
                         {% if val.id_PorodaZver == zver.id_PorodaZver %}
-                            <h4>Порода животного: {{ val.PorodaZverName }}</h4>
+                            <h4><strong>Порода животного:</strong> {{ val.PorodaZverName }}</h4>
                         {% endif %}
                     {% endfor %}
                     {% for val in typezver %}
                         {% if val.id_TypeZver == zver.id_Zver %}
-                            <h4>Вид животного: {{ val.TypeZverName }}</h1>
+                            <h4><strong>Вид животного:</strong> {{ val.TypeZverName }}</h1>
                         {% endif %}
                     {% endfor %}
-                    <h4>Кличка: {{ zver.NameZver }}</h4>
-					<h4>Дата рождения: {{ zver.DateBirthday|date('d.m.Y', false) }}</h4>
-					<h4>Пол: {{ zver.SexZver }}</h4>
-					<h4>Расцветка: {{ zver.ColorZver }}</h4>
-					<h4>Вес: {{ zver.VesZver }}</h4>
-					<h4>Отметка эффективности: {{ zver.EffectiveProcentZver }}</h4>
-					<p>Комментарий: {{ zver.CommentZver }}</p>
-					<h4>Цена: {{ zver.CenaZver }}</h4>
+					<h4><strong>Дата рождения:</strong> {{ zver.DateBirthday|date('d.m.Y', false) }}</h4>
+					<h4><strong>Пол:</strong> {{ zver.SexZver }}</h4>
+					<h4><strong>Расцветка:</strong> {{ zver.ColorZver }}</h4>
+					<h4><strong>Вес:</strong> {{ zver.VesZver }}</h4>
+					<h4><strong>Отметка эффективности (%):</strong> {{ zver.EffectiveProcentZver }}</h4>
+					<p><strong>Комментарий:</strong> {{ zver.CommentZver }}</p>
+					<h4><strong>Цена (руб.):</strong> {{ zver.CenaZver }}</h4>
 				</div>
 				
 			</div>

@@ -14,7 +14,7 @@
                         {% if key.id_SortRastenie == rastenie.id_SortRastenie %}
                         {% for val in typerastenie %}
                             {% if val.id_TypeRastenie == key.id_TypeRastenie %}
-                                <h1><a href="/rasteniespisok/">{{ val.TypeRastenieName }}</a></h1>
+                                <h1>{{ val.TypeRastenieName }}</h1>
                             {% endif %}
                         {% endfor %}
                         {% endif %}
@@ -50,15 +50,15 @@
                 <div class="caption">
                     {% for val in sortrastenie %}
                         {% if val.id_SortRastenie == rastenie.id_SortRastenie %}
-                            <h4>Сорт растения: {{ val.SortRastenieName }}</h4>
+                            <h4><strong>Сорт растения:</strong>  {{ val.SortRastenieName }}</h4>
                         {% endif %}
                     {% endfor %}
-                    <h4>Дата высадки: {{ rastenie.DateVisadkaRastenie|date('d.m.Y', false) }}</h4>
-                    <h4>Окраска плодов: {{ rastenie.ColorRastenie }}</h4>
-                    <h4>Количество высаженных растений: {{ rastenie.KolvoRastenie }} штук</h4>
-                    <h4>Отметка эффективности: {{ rastenie.EffectiveProcentRastenie }} %</h4>
-                    <h4>Цена: {{ rastenie.CenaRastenie }} рублей</h4>
-                    <p>Комментарий: {{ rastenie.CommentRastenie }}</p>
+                    <h4><strong>Дата высадки:</strong> {{ rastenie.DateVisadkaRastenie|date('d.m.Y', false) }}</h4>
+                    <h4><strong>Окраска плодов:</strong>  {{ rastenie.ColorRastenie }}</h4>
+                    <h4><strong>Количество высаженных растений:</strong> {{ rastenie.KolvoRastenie }}</h4>
+                    <h4><strong>Отметка эффективности (%):</strong> {{ rastenie.EffectiveProcentRastenie }}</h4>
+                    <h4><strong>Цена (руб.):</strong> {{ rastenie.CenaRastenie }}</h4>
+                    <p><strong>Комментарий:</strong> {{ rastenie.CommentRastenie }}</p>
                 </div>
 
             </div>

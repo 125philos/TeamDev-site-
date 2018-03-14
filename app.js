@@ -307,14 +307,14 @@ connection.connect(function (err) {
     });
 
     //Удаление конкретного зверя
-    app.post('/zverspisok/:id_Zver', function(req, res) {
+    app.post('/zver/:id_Zver', function(req, res) {
         connection.query('DELETE FROM zver WHERE id_Zver = ?', req.params.id_Zver, function(err, result) {
 
             //Открываем главную страницу после удаления
             res.redirect('/zverspisok/');
         });
     });
-
+	
     //Добавление нового зверя - подготовка страницы добавления
     app.get('/zverspisokcr', function(req, res) {
         connection.query('SELECT * FROM typezver', function(err, typezver) {
