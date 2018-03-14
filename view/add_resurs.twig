@@ -1,0 +1,57 @@
+<!-- *****************  -->
+<!-- ДОБАВЛЕНИЕ РЕСУРСА -->
+<!-- *****************  -->
+
+{% extends "base.twig" %}
+{% block rows %}
+    <div class="container">
+        <form method="POST" action="/addresurs/">
+
+            <!-- Поля ввод данных -->
+			<!-- TODO: Сделать пустую строку, Boostrap не позволяет ее выбрать -->
+            <div class="form-group">
+                <label for="selectPoroda">Порода животного</label>
+                <select required name="id_PorodaZver" class="form-control" id="selectPoroda">
+                    {% for val in porodazver %}
+                        <option value="{{ val.id_PorodaZver }}">{{ val.PorodaZverName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="selectSort">Вид растения</label>
+                <select required name="id_SortRastenie" class="form-control" id="selectSort">
+                    {% for val in sortrastenie %}
+                        <option value="{{ val.id_SortRastenie }}">
+                            {{ val.SortRastenieName }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputColor">Наименование ресурса</label>
+                <input input name="NameResurs" type="text" class="form-control" id="inputColor"
+                       aria-describedby="FIOHelp"
+                       placeholder="Силос" value="{{ resurs.NameResurs }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Норма ресурса</label>
+                <input input name="NormaResurs" type="text" class="form-control" id="inputCena"
+                       aria-describedby="PostHelp" placeholder="24" value="{{ resurs.NormaResurs }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Единица измерения</label>
+                <input input name="EdIzmResurs" type="text" class="form-control" id="inputKol"
+                       aria-describedby="PostHelp" placeholder="кг" value="{{ resurs.EdIzmResurs }}">
+            </div>
+
+            <!-- Кнопка добавления -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Добавить</button>
+            <p></p>
+
+        </form>
+    </div>
+{% endblock %}

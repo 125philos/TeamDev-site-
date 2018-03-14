@@ -7,7 +7,11 @@
 {% block rows %}
 
     <div class="col-sm-5">
-        <h5>РЕСУРСЫ ФЕРМЫ</h5>
+        <h5>РЕСУРСЫ ФЕРМЫ
+		
+		<a href="/addresurs/"> <button type="button" class="btn btn-primary">Добавить ресурс</button> </a>
+		</br></h5>
+		
     </div>
     <div class="col-sm-5">
         <div class="dropdown">
@@ -85,7 +89,7 @@
                     <div class="form-group">
                         <input input name="DatePopolnResurs" id="date" google="true" type="date">
                     </div>
-
+					</br></br>
                     <button type="submit" class="btn btn-primary" name="id_Resurs" value="{{ resurs.id_Resurs }}">
                         Добавить
                     </button>
@@ -134,6 +138,7 @@
                 {% endfor %}
                 </tbody>
             </table>
+			
             <!--Добавление нового расхода-->
             <form method="POST" action="/resursspisok/" class="form-inline">
                 <fieldset>
@@ -143,6 +148,7 @@
                     <div class="form-group">
                         <input input name="DateIzyatResurs" id="date" google="true" type="date">
                     </div>
+					</br></br>
                     <button type="submit" class="btn btn-primary" name="id_Resurs" value="{{ resurs.id_Resurs }}">
                         Добавить
                     </button>

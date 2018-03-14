@@ -529,6 +529,47 @@ connection.connect(function (err) {
             res.redirect('/resursspisok/');
         });
     });
+	
+	
+    /////////////////////////
+    ////////Ресурс///////////
+    /////////////////////////
+
+		
+    //Добавление нового ресурса - подготовка страницы добавления
+    app.get('/addresurs', function(req, res) {
+        connection.query('SELECT * FROM sortrastenie', function(err, sortrastenie) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+
+                if (err) throw err
+                res.render('add_resurs.twig', {
+                    sortrastenie: sortrastenie,
+                    porodazver: porodazver
+                });
+            })
+        })
+    });
+
+    //Добавление нового ресурса
+    app.post('/addresurs/', function(req, res) {
+        //Cчитали значения, записали в пост
+        var post = ({
+            id_PorodaZver: req.body.id_PorodaZver,
+            id_SortRastenie: req.body.id_SortRastenie,
+            NameResurs: req.body.NameResurs,
+            NormaResurs: req.body.NormaResurs,
+            EdIzmResurs: req.body.EdIzmResurs
+        });
+
+        //Вставка поста
+        connection.query('INSERT INTO resurs SET ?', post, function(err, result) {
+            //Открываем главную страницу после добавления
+            res.redirect('/resursspisok/');
+        });
+    });
+
 
     //Вешаем сервер на порт
     app.listen(8075);

@@ -7,11 +7,16 @@
 {% block rows %}
 
     <div class="col-sm-5">
-        <h5>РЕСУРСЫ ФЕРМЫ</h5>
+	
+        <h5>РЕСУРСЫ ФЕРМЫ
+		
+		<a href="/addresurs/"> <button type="button" class="btn btn-primary">Добавить ресурс</button> </a>
+		</br></h5>
+		
     </div>
     <div class="col-sm-5">
         <div class="dropdown">
-            <button class="dropbtn">РЕСУРСЫ</button>
+            <button class="dropbtn">ВЫБРАТЬ РЕСУРС</button>
             <div class="dropdown-content">
                 {% for cresurs in resurs %}
                     <a href="/resursspisok/{{ cresurs.id_Resurs }}"
