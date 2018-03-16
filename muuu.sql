@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 15 2018 г., 19:07
+-- Время создания: Мар 16 2018 г., 14:37
 -- Версия сервера: 10.1.30-MariaDB
 -- Версия PHP: 7.2.1
 
@@ -82,7 +82,8 @@ INSERT INTO `prihodresurs` (`id_PrihodResurs`, `id_Resurs`, `CenaResurs`, `Kolvo
 (3, 4, 1200, 30, '2018-03-01'),
 (7, 2, 1575, 45, '2018-02-28'),
 (26, 2, 3000, 12, '2018-03-01'),
-(28, 2, 1500, 175, '2018-03-14');
+(28, 2, 1500, 175, '2018-03-14'),
+(29, 14, 1500, 150, '2018-02-26');
 
 -- --------------------------------------------------------
 
@@ -131,7 +132,8 @@ INSERT INTO `rashodresurs` (`id_RashodResurs`, `id_Resurs`, `KolvoResurs`, `Date
 (3, 4, 16, '2018-03-04'),
 (22, 2, 14, '2018-03-01'),
 (23, 2, 19, '2018-02-26'),
-(24, 2, 150, '2018-02-27');
+(24, 2, 150, '2018-02-27'),
+(25, 14, 140, '2018-02-26');
 
 -- --------------------------------------------------------
 
@@ -160,7 +162,8 @@ INSERT INTO `rastenie` (`id_Rastenie`, `id_SortRastenie`, `PhotoRastenie`, `Date
 (2, 2, 'plants1.jpg', '2017-12-07', 'Красный', 12, 78, 'Очень вкусный!!', 2340),
 (6, 3, 'plants5.jpg', '2017-10-19', 'Аллый', 12, 25, 'Отличный сорт!!', 2340),
 (10, 1, 'plants6.jpg', '2017-07-19', 'Темно-синяя', 56, 87, 'Очень сладкая и полезная!!', 3000),
-(14, 5, 'plants9.jpg', '2017-09-25', 'Бежевые', 12, 30, 'Сладкая-сладкая!! Хлеб получится - самый вкусный!!', 1370);
+(14, 5, 'plants9.jpg', '2017-09-25', 'Бежевые', 12, 30, 'Сладкая-сладкая!! Хлеб получится - самый вкусный!!', 1370),
+(16, 2, 'tomat.jpg', '2018-02-26', 'Желтые', 10, 100, 'Сладкие!!', 40);
 
 -- --------------------------------------------------------
 
@@ -190,7 +193,7 @@ CREATE TABLE `resurs` (
   `id_PorodaZver` int(12) DEFAULT NULL,
   `id_SortRastenie` int(12) DEFAULT NULL,
   `NameResurs` varchar(200) NOT NULL,
-  `NormaResurs` int(12) NOT NULL,
+  `NormaResurs` int(12) DEFAULT NULL,
   `EdIzmResurs` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -199,8 +202,10 @@ CREATE TABLE `resurs` (
 --
 
 INSERT INTO `resurs` (`id_Resurs`, `id_PorodaZver`, `id_SortRastenie`, `NameResurs`, `NormaResurs`, `EdIzmResurs`) VALUES
-(2, 2, NULL, 'Корм', 200, 'кг'),
-(4, NULL, 2, 'Удобрение', 300, 'кг');
+(2, 3, NULL, 'Корм', 150, 'кг'),
+(4, NULL, 3, 'Удобрение', 140, 'кг'),
+(5, 4, NULL, 'Силос', 120, 'кг'),
+(14, 2, 1, 'Комбткорм', 233, 'кг');
 
 -- --------------------------------------------------------
 
@@ -307,9 +312,9 @@ CREATE TABLE `zver` (
 --
 
 INSERT INTO `zver` (`id_Zver`, `id_PorodaZver`, `PhotoZver`, `NameZver`, `DateBirthday`, `SexZver`, `ColorZver`, `VesZver`, `EffectiveProcentZver`, `CommentZver`, `CenaZver`) VALUES
-(1, 1, 'animals5.jpg', 'Белыш', '2017-11-06', 'Мужской', 'Белый', 5, 99, 'Много кушает и имеет большое потомство!', 15000),
 (2, 4, 'animals2.jpg', 'Франциска', '2018-02-27', 'Женский', 'Горького шоколада', 120, 58, 'Отличная продукция!!', 3500),
-(3, 2, 'animals.jpg', 'Крепыш', '2017-07-31', 'Мужской', 'Серый', 25, 99, 'Очень плодовитый!!', 2380);
+(3, 2, 'animals.jpg', 'Крепыш', '2017-07-31', 'Мужской', 'Серый', 25, 99, 'Очень плодовитый!!', 2380),
+(4, 2, 'animals5.jpg', 'Лариса', '2017-10-30', 'Женский', 'Белый', 1, 100, 'Очень пушистый!!', 1000);
 
 --
 -- Индексы сохранённых таблиц
@@ -434,7 +439,7 @@ ALTER TABLE `porodazver`
 -- AUTO_INCREMENT для таблицы `prihodresurs`
 --
 ALTER TABLE `prihodresurs`
-  MODIFY `id_PrihodResurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_PrihodResurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT для таблицы `product`
@@ -452,13 +457,13 @@ ALTER TABLE `productname`
 -- AUTO_INCREMENT для таблицы `rashodresurs`
 --
 ALTER TABLE `rashodresurs`
-  MODIFY `id_RashodResurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id_RashodResurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT для таблицы `rastenie`
 --
 ALTER TABLE `rastenie`
-  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `realization`
@@ -470,7 +475,7 @@ ALTER TABLE `realization`
 -- AUTO_INCREMENT для таблицы `resurs`
 --
 ALTER TABLE `resurs`
-  MODIFY `id_Resurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_Resurs` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT для таблицы `sortrastenie`
@@ -500,7 +505,7 @@ ALTER TABLE `vetobsluj`
 -- AUTO_INCREMENT для таблицы `zver`
 --
 ALTER TABLE `zver`
-  MODIFY `id_Zver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_Zver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -7,12 +7,22 @@
 {% block rows %}
 
     <div class="col-sm-5">
-        <h5>РЕСУРСЫ ФЕРМЫ
-		
-		<a href="/addresurs/"> <button type="button" class="btn btn-primary">Добавить ресурс</button> </a>
-		</br></h5>
-		
+        <h5>Ресурс для:</h5>
+
+        {% for val in sortrastenie %}
+                {% if val.id_SortRastenie == resurs.id_Resurs %}
+                    <p> {{ val.SortRastenieName }}</p>
+                {% endif %}
+        {% endfor %}
+
+        {% for val in porodazver %}
+            {% if val.id_PorodaZver == resurs.id_PorodaZver %}
+                <p> {{ val.PorodaZverName }}</p>
+            {% endif %}
+        {% endfor %}
+
     </div>
+
     <div class="col-sm-5">
         <div class="dropdown">
             <button class="dropbtn">{{ resurs.NameResurs }}</button>
@@ -29,12 +39,61 @@
     <!-- Таблица ресурсов -->
     <div class="col-sm-12 text-left">
 
+        <div class="col-sm-3">
+            <!--Добавление нового приход-->
+            <form method="POST" action="/resursspiisok/{{ resurs.id_Resurs }}" class="form-inline">
+                <fieldset>
+
+                    <div class="form-group">
+                        <label for="selectPoroda">Порода животного</label>
+                        <select required name="id_PorodaZver" class="form-control" id="selectPoroda">
+                            <option value=" ">
+                                -- Нет --
+                            </option>
+                            {% for val in porodazver %}
+                                <option value="{{ val.id_PorodaZver }}">{{ val.PorodaZverName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputCena">Норма ресурса (животного)</label>
+                        <input input name="NormaResurs" type="text" class="form-control" id="inputCena"
+                               aria-describedby="PostHelp" placeholder="24" value="{{ resurs.NormaResurs }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="selectSort">Вид растения</label>
+                        <select required name="id_SortRastenie" class="form-control" id="selectSort">
+                            <option value=" ">
+                                -- Нет --
+                            </option>
+                            {% for val in sortrastenie %}
+                                <option value="{{ val.id_SortRastenie }}">{{ val.SortRastenieName }}</option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+                    <!--div class="form-group">
+                        <label for="inputCena">Норма ресурса (растения)</label>
+                        <input input name="NormaResurs" type="text" class="form-control" id="inputCena"
+                               aria-describedby="PostHelp" placeholder="24" value="{{ resurs.NormaResurs }}">
+                    </div-->
+
+                    </br></br>
+                    <button type="submit" class="btn btn-primary" name="id_Resurs" value="{{ resurs.id_Resurs }}">
+                        Добавить
+                    </button>
+                </fieldset>
+            </form>
+
+        </div>
         <!-- Ряды таблиц -->
         <!--Таблица пополнения ресурсов-->
-        <div class="col-sm-7">
+        <div class="col-sm-6">
             <table class="table">
-                <thead >
-				<tr>
+                <thead>
+                <tr>
                     <th scope="col">ПРИХОД</th>
                 </tr>
                 <tr>
@@ -92,7 +151,7 @@
                     <div class="form-group">
                         <input input name="DatePopolnResurs" id="date" google="true" type="date">
                     </div>
-					</br></br>
+                    </br></br>
                     <button type="submit" class="btn btn-primary" name="id_Resurs" value="{{ resurs.id_Resurs }}">
                         Добавить
                     </button>
@@ -101,16 +160,15 @@
         </div>
 
         <!--Таблица расходов ресурсов-->
-        <div class="col-sm-5">
+        <div class="col-sm-3">
             <table class="table">
                 <thead>
-				<tr>
+                <tr>
                     <th scope="col">РАСХОД</th>
                 </tr>
                 <tr>
                     <th scope="col">Дата изъятия</th>
                     <th scope="col">Количество</th>
-                    <th scope="col">Ед. изм.</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -120,9 +178,6 @@
                         {% if val.id_Resurs == resurs.id_Resurs %}
                             <td>{{ val.DateIzyatResurs|date('d.m.Y', false) }}</td>
                             <td>{{ val.KolvoResurs }}</td>
-                            <td>{{ resurs.EdIzmResurs }}</td>
-
-                            <td>
                             <th>
                                 <!--Удалить информацию о ресурсе-->
                                 <form method="POST" action="/resursspisok/{{ val.id_RashodResurs }}">
@@ -145,7 +200,7 @@
                 {% endfor %}
                 </tbody>
             </table>
-			
+
             <!--Добавление нового расхода-->
             <form method="POST" action="/resursspisok/" class="form-inline">
                 <fieldset>
@@ -155,7 +210,7 @@
                     <div class="form-group">
                         <input input name="DateIzyatResurs" id="date" google="true" type="date">
                     </div>
-					</br></br>
+                    </br></br>
                     <button type="submit" class="btn btn-primary" name="id_Resurs" value="{{ resurs.id_Resurs }}">
                         Добавить
                     </button>
@@ -163,7 +218,7 @@
             </form>
 
         </div>
-
+    </div>
     </div>
 
 {% endblock %}
