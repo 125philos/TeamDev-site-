@@ -43,9 +43,8 @@ connection.connect(function (err) {
 
     //Получить главную страницу сайта
     app.get('/', function (req, res) {
-		//Возвращает твиг главной страницы
-		res.render('index.twig', {
-		});
+        //Возвращает твиг главной страницы
+        res.render('index.twig', {});
     });
 
     /////////////////////////
@@ -194,21 +193,21 @@ connection.connect(function (err) {
 
     //Теперь создаем маршруты
     //Вывод разные карточки на главной странице
-    app.get('/', function(req, res) {
-        connection.query('SELECT * FROM zver', function(err, zver) {
-        
+    app.get('/', function (req, res) {
+        connection.query('SELECT * FROM zver', function (err, zver) {
+
             if (err) throw err
-            connection.query('SELECT * FROM typezver', function(err, typezver) {
-            
+            connection.query('SELECT * FROM typezver', function (err, typezver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM porodazver', function (err, porodazver) {
+
                     if (err) throw err
-                    connection.query('SELECT * FROM porodazver', function(err, porodazver) {
-                    
-                        if (err) throw err
-                        res.render('index.twig', {
-                            // устанавливаем в представлении необходимые переменные
-                            zver: zver,
-                            typezver: typezver,
-                            porodazver: porodazver
+                    res.render('index.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        zver: zver,
+                        typezver: typezver,
+                        porodazver: porodazver
                     });
                 })
             })
@@ -217,14 +216,14 @@ connection.connect(function (err) {
 
 
     //Вывод списка зверей
-    app.get('/zverspisok/', function(req, res) {
-        connection.query('SELECT * FROM zver', function(err, zver) {
+    app.get('/zverspisok/', function (req, res) {
+        connection.query('SELECT * FROM zver', function (err, zver) {
 
             if (err) throw err
-            connection.query('SELECT * FROM typezver', function(err, typezver) {
+            connection.query('SELECT * FROM typezver', function (err, typezver) {
 
                 if (err) throw err
-                connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+                connection.query('SELECT * FROM porodazver', function (err, porodazver) {
 
                     if (err) throw err
                     res.render('zverspisok.twig', {
@@ -239,22 +238,22 @@ connection.connect(function (err) {
     });
 
     //Страница просмотра конкретного зверя
-    app.get('/zverspisok/:id_Zver', function(req, res) {
-        connection.query('SELECT * FROM zver where id_Zver = ?', [req.params.id_Zver], function(err, zver) {
+    app.get('/zverspisok/:id_Zver', function (req, res) {
+        connection.query('SELECT * FROM zver where id_Zver = ?', [req.params.id_Zver], function (err, zver) {
 
             if (err) throw err
-            connection.query('SELECT * FROM typezver', function(err, typezver) {
+            connection.query('SELECT * FROM typezver', function (err, typezver) {
 
                 if (err) throw err
-                connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+                connection.query('SELECT * FROM porodazver', function (err, porodazver) {
 
-                        if (err) throw err
-                        res.render('zver.twig', {
-                            // устанавливаем в представлении необходимые переменные
-                            zver: zver[0],
-                            typezver: typezver,
-                            porodazver: porodazver
-                        });
+                    if (err) throw err
+                    res.render('zver.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        zver: zver[0],
+                        typezver: typezver,
+                        porodazver: porodazver
+                    });
 
                 })
             });
@@ -262,14 +261,14 @@ connection.connect(function (err) {
     });
 
     //Страница редактирования конкретного зверя (передача данных для редактирования)
-    app.get('/zverspisok/:id_Zver/edit', function(req, res) {
-        connection.query('SELECT * FROM typezver', function(err, typezver) {
+    app.get('/zverspisok/:id_Zver/edit', function (req, res) {
+        connection.query('SELECT * FROM typezver', function (err, typezver) {
 
             if (err) throw err
-            connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+            connection.query('SELECT * FROM porodazver', function (err, porodazver) {
 
                 if (err) throw err
-                connection.query('SELECT * FROM zver WHERE id_Zver = ?', [req.params.id_Zver], function(err, zver) {
+                connection.query('SELECT * FROM zver WHERE id_Zver = ?', [req.params.id_Zver], function (err, zver) {
                     if (err) throw err
 
                     res.render('edit_zver.twig', {
@@ -284,7 +283,7 @@ connection.connect(function (err) {
     });
 
     //Собственно редактирование конкретного зверя
-    app.post('/zverspisok/:id_Zver', function(req, res) {
+    app.post('/zverspisok/:id_Zver', function (req, res) {
         var post = ({
             id_PorodaZver: req.body.id_PorodaZver,
             PhotoZver: req.body.PhotoZver,
@@ -299,7 +298,7 @@ connection.connect(function (err) {
         });
 
         //Обновили значения
-        connection.query('UPDATE zver SET ? WHERE id_Zver = ?', [post, req.params.id_Zver], function(err, result) {
+        connection.query('UPDATE zver SET ? WHERE id_Zver = ?', [post, req.params.id_Zver], function (err, result) {
 
             //Открываем главную страницу после добавления
             res.redirect('/zverspisok/');
@@ -307,20 +306,20 @@ connection.connect(function (err) {
     });
 
     //Удаление конкретного зверя
-    app.post('/zver/:id_Zver', function(req, res) {
-        connection.query('DELETE FROM zver WHERE id_Zver = ?', req.params.id_Zver, function(err, result) {
+    app.post('/zver/:id_Zver', function (req, res) {
+        connection.query('DELETE FROM zver WHERE id_Zver = ?', req.params.id_Zver, function (err, result) {
 
             //Открываем главную страницу после удаления
             res.redirect('/zverspisok/');
         });
     });
-	
+
     //Добавление нового зверя - подготовка страницы добавления
-    app.get('/zverspisokcr', function(req, res) {
-        connection.query('SELECT * FROM typezver', function(err, typezver) {
+    app.get('/zverspisokcr', function (req, res) {
+        connection.query('SELECT * FROM typezver', function (err, typezver) {
 
             if (err) throw err
-            connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+            connection.query('SELECT * FROM porodazver', function (err, porodazver) {
 
                 if (err) throw err
                 res.render('add_zver.twig', {
@@ -333,7 +332,7 @@ connection.connect(function (err) {
     });
 
     //Добавление нового зверя
-    app.post('/zverspisok/', function(req, res) {
+    app.post('/zverspisok/', function (req, res) {
         //Cчитали значения, записали в пост
         var post = ({
             id_PorodaZver: req.body.id_PorodaZver,
@@ -349,7 +348,7 @@ connection.connect(function (err) {
         });
 
         //Вставка поста
-        connection.query('INSERT INTO zver SET ?', post, function(err, result) {
+        connection.query('INSERT INTO zver SET ?', post, function (err, result) {
             //Открываем главную страницу после добавления
             res.redirect('/zverspisok/');
         });
@@ -393,12 +392,22 @@ connection.connect(function (err) {
                 connection.query('SELECT * FROM rashodresurs', function (err, rashodresurs) {
 
                     if (err) throw err
-                    res.render('resurs.twig', {
-                        // устанавливаем в представлении необходимые переменные
-                        resurs: resurs[0],
-                        prihodresurs: prihodresurs,
-                        rashodresurs: rashodresurs
-                    });
+                    connection.query('SELECT * FROM porodazver', function (err, porodazver) {
+
+                        if (err) throw err
+                        connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
+
+                            if (err) throw err
+                            res.render('resurs.twig', {
+                                // устанавливаем в представлении необходимые переменные
+                                resurs: resurs[0],
+                                prihodresurs: prihodresurs,
+                                rashodresurs: rashodresurs,
+                                porodazver: porodazver,
+                                sortrastenie: sortrastenie
+                            });
+                        })
+                    })
                 })
             })
         })
@@ -529,19 +538,19 @@ connection.connect(function (err) {
             res.redirect('/resursspisok/');
         });
     });
-	
-	
+
+
     /////////////////////////
     ////////Ресурс///////////
     /////////////////////////
 
-		
+
     //Добавление нового ресурса - подготовка страницы добавления
-    app.get('/addresurs', function(req, res) {
-        connection.query('SELECT * FROM sortrastenie', function(err, sortrastenie) {
+    app.get('/addresurs', function (req, res) {
+        connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
 
             if (err) throw err
-            connection.query('SELECT * FROM porodazver', function(err, porodazver) {
+            connection.query('SELECT * FROM porodazver', function (err, porodazver) {
 
                 if (err) throw err
                 res.render('add_resurs.twig', {
@@ -553,20 +562,74 @@ connection.connect(function (err) {
     });
 
     //Добавление нового ресурса
-    app.post('/addresurs/', function(req, res) {
+    app.post('/addresurs/', function (req, res) {
+
+        if (req.body.id_PorodaZver == " ")
+            id_PorodaZver: undefined;
+
+        if (req.body.id_SortRastenie == " ")
+            id_SortRastenie: undefined;
+
         //Cчитали значения, записали в пост
         var post = ({
-            id_PorodaZver: req.body.id_PorodaZver,
-            id_SortRastenie: req.body.id_SortRastenie,
+            //id_PorodaZver: req.body.id_PorodaZver,
+            //id_SortRastenie: req.body.id_SortRastenie,
             NameResurs: req.body.NameResurs,
             NormaResurs: req.body.NormaResurs,
             EdIzmResurs: req.body.EdIzmResurs
         });
 
         //Вставка поста
-        connection.query('INSERT INTO resurs SET ?', post, function(err, result) {
+        connection.query('INSERT INTO resurs SET ?', post, function (err, result) {
             //Открываем главную страницу после добавления
             res.redirect('/resursspisok/');
+        });
+    });
+
+    //Обновление таблицу ресурсы
+    app.post('/resursspiisok/:id_Resurs', function (req, res) {
+        //Cчитали значения, записали в пост
+
+        var post;
+
+        /*if (req.body.id_PorodaZver == " ")
+        {
+            post = ({
+                id_PorodaZver: undefined,
+                NormaResurs: req.body.NormaResurs
+            });
+
+        }
+        else {
+            post = ({
+                id_PorodaZver: req.body.id_PorodaZver,
+                NormaResurs: req.body.NormaResurs
+            });
+        }
+
+        if (req.body.id_SortRastenie == " "){
+
+            post = ({
+                id_SortRastenie: undefined,
+                NormaResurs1: req.body.NormaResurs1
+            });
+        }
+        else {
+
+            post = ({
+                id_SortRastenie: req.body.id_SortRastenie,
+                NormaResurs1: req.body.NormaResurs1
+            });
+        }*/
+        post = ({
+            id_SortRastenie: req.body.id_SortRastenie,
+            id_PorodaZver: req.body.id_PorodaZver,
+            NormaResurs: req.body.NormaResurs
+        });
+        //Вставка поста
+        connection.query('UPDATE resurs SET ? WHERE id_Resurs = ?', [post, req.params.id_Resurs], function (err, result) {
+            //Открываем главную страницу после добавления
+            res.redirect('back');
         });
     });
 

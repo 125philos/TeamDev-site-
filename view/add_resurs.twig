@@ -12,6 +12,9 @@
             <div class="form-group">
                 <label for="selectPoroda">Порода животного</label>
                 <select required name="id_PorodaZver" class="form-control" id="selectPoroda">
+                    <option value = " ">
+                        -- Нет --
+                    </option>
                     {% for val in porodazver %}
                         <option value="{{ val.id_PorodaZver }}">{{ val.PorodaZverName }}</option>
                     {% endfor %}
@@ -21,9 +24,14 @@
             <div class="form-group">
                 <label for="selectSort">Вид растения</label>
                 <select required name="id_SortRastenie" class="form-control" id="selectSort">
+                    <option value = " ">
+                        -- Нет --
+                    </option>
                     {% for val in sortrastenie %}
                         <option value="{{ val.id_SortRastenie }}">
+                        {% if val.id_SortRastenie != 0 %}
                             {{ val.SortRastenieName }}
+                            {% endif %}
                         </option>
                     {% endfor %}
                 </select>
