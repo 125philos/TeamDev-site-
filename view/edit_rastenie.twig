@@ -15,10 +15,16 @@
             <div class="form-group">
                 <label for="selectType">Вид растения</label>
                 <select required name="id_TypeRastenie" class="form-control" id="selectType">
-                    {% for val in typerastenie %}
-                        <option value="{{ val.id_TypeRastenie }}">
-                            {{ val.TypeRastenieName }}
-                        </option>
+                    {% for key in sortrastenie %}
+                        {% if key.id_SortRastenie == rastenie.id_SortRastenie %}
+                            {% for val in typerastenie %}
+                                {% if val.id_TypeRastenie == key.id_TypeRastenie %}
+                                    <option value="{{ val.id_TypeRastenie }}">
+                                        {{ val.TypeRastenieName }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
@@ -32,10 +38,16 @@
             <div class="form-group">
                 <label for="selectSort">Сорт растения</label>
                 <select required name="id_SortRastenie" class="form-control" id="selectSort">
-                    {% for val in sortrastenie %}
-                        <option value="{{ val.id_SortRastenie }}">
-                            {{ val.SortRastenieName }}
-                        </option>
+                    {% for key in sortrastenie %}
+                        {% if key.id_SortRastenie == rastenie.id_SortRastenie %}
+                            {% for val in typerastenie %}
+                                {% if val.id_TypeRastenie == key.id_TypeRastenie %}
+                                    <option value="{{ key.id_SortRastenie }}">
+                                        {{ key.SortRastenieName }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>

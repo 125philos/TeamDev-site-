@@ -44,3 +44,17 @@
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+
+/*Анализ*/
+.qtgreen {
+    background-color: #4CAF50;
+}
+
+.qtred {
+    background-color: #f1767cb0;
+}
+
+.qtyellow {
+    background-color: #fcff26;
+}
+

@@ -32,7 +32,7 @@
         <!-- Ряды таблиц -->
         <!--Таблица пополнения ресурсов-->
         <div class="col-sm-7">
-            <table class="table table-striped">
+            <table class="table">
                 <thead >
 				<tr>
                     <th scope="col">ПРИХОД</th>
@@ -102,7 +102,7 @@
 
         <!--Таблица расходов ресурсов-->
         <div class="col-sm-5">
-            <table class="table table-striped">
+            <table class="table">
                 <thead>
 				<tr>
                     <th scope="col">РАСХОД</th>
@@ -116,6 +116,7 @@
                 <tbody>
                 {% for val in rashodresurs %}
                     <tr>
+
                         {% if val.id_Resurs == resurs.id_Resurs %}
                             <td>{{ val.DateIzyatResurs|date('d.m.Y', false) }}</td>
                             <td>{{ val.KolvoResurs }}</td>

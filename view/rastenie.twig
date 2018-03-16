@@ -12,11 +12,11 @@
                 <div class="caption">
                     {% for key in sortrastenie %}
                         {% if key.id_SortRastenie == rastenie.id_SortRastenie %}
-                        {% for val in typerastenie %}
-                            {% if val.id_TypeRastenie == key.id_TypeRastenie %}
-                                <h1>{{ val.TypeRastenieName }}</h1>
-                            {% endif %}
-                        {% endfor %}
+                            {% for val in typerastenie %}
+                                {% if val.id_TypeRastenie == key.id_TypeRastenie %}
+                                    <h1>{{ val.TypeRastenieName }}</h1>
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -50,11 +50,11 @@
                 <div class="caption">
                     {% for val in sortrastenie %}
                         {% if val.id_SortRastenie == rastenie.id_SortRastenie %}
-                            <h4><strong>Сорт растения:</strong>  {{ val.SortRastenieName }}</h4>
+                            <h4><strong>Сорт растения:</strong> {{ val.SortRastenieName }}</h4>
                         {% endif %}
                     {% endfor %}
                     <h4><strong>Дата высадки:</strong> {{ rastenie.DateVisadkaRastenie|date('d.m.Y', false) }}</h4>
-                    <h4><strong>Окраска плодов:</strong>  {{ rastenie.ColorRastenie }}</h4>
+                    <h4><strong>Окраска плодов:</strong> {{ rastenie.ColorRastenie }}</h4>
                     <h4><strong>Количество высаженных растений:</strong> {{ rastenie.KolvoRastenie }}</h4>
                     <h4><strong>Отметка эффективности (%):</strong> {{ rastenie.EffectiveProcentRastenie }}</h4>
                     <h4><strong>Цена (руб.):</strong> {{ rastenie.CenaRastenie }}</h4>

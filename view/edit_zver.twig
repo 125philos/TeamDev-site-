@@ -8,16 +8,22 @@
     <div class="container">
         <form method="POST" action="/zverspisok/{{ zver.id_Zver }}">
 
-        <input type="hidden" id="_method" name="_method" value="PUT">
+            <input type="hidden" id="_method" name="_method" value="PUT">
 
             <!-- Поля ввод данных -->
             <div class="form-group">
                 <label for="selectType">Вид животного</label>
                 <select required name="id_TypeZver" class="form-control" id="selectType">
-                    {% for val in typezver %}
-                        <option value="{{ val.id_TypeZver }}">
-                            {{ val.TypeZverName }}
-                        </option>
+                    {% for key in porodazver %}
+                        {% if key.id_PorodaZver == zver.id_PorodaZver %}
+                            {% for val in typezver %}
+                                {% if val.id_TypeZver == key.id_TypeZver %}
+                                    <option value="{{ val.id_TypeZver }}">
+                                        {{ val.TypeZverName }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>
@@ -25,10 +31,17 @@
             <div class="form-group">
                 <label for="selectSort">Порода животного</label>
                 <select required name="id_PorodaZver" class="form-control" id="selectPoroda">
-                    {% for val in porodazver %}
-                        <option value="{{ val.id_PorodaZver }}">
-                            {{ val.PorodaZverName }}
-                        </option>
+
+                    {% for key in porodazver %}
+                        {% if key.id_PorodaZver == zver.id_PorodaZver %}
+                            {% for val in typezver %}
+                                {% if val.id_TypeZver == key.id_TypeZver %}
+                                    <option value="{{ key.id_PorodaZver }}">
+                                        {{ key.PorodaZverName }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>

@@ -8,22 +8,6 @@
         <form method="POST" action="/rasteniespisok/">
 
             <!-- Поля ввод данных -->
-            <div class="form-group">
-                <label for="selectType">Вид растения</label>
-                <select required name="id_TypeRastenie" class="form-control" id="selectType">
-                    {% for val in typerastenie %}
-                        <option value="{{ val.id_TypeRastenie }}">
-                            {{ val.TypeRastenieName }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="inputBirthday">Дата высадки</label>
-                <input input name="DateVisadkaRastenie" id="date" google="true" type="date"
-                       value="{{ rastenie.DateVisadkaRastenie }}">
-            </div>
 
             <div class="form-group">
                 <label for="selectSort">Сорт растения</label>
@@ -34,6 +18,12 @@
                         </option>
                     {% endfor %}
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата высадки</label>
+                <input input name="DateVisadkaRastenie" id="date" google="true" type="date"
+                       value="{{ rastenie.DateVisadkaRastenie }}">
             </div>
 
             <div class="form-group">

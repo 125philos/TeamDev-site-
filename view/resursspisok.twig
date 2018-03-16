@@ -35,7 +35,7 @@
         <!-- Ряды таблиц -->
         <!--Таблица пополнения ресурсов-->
         <div class="col-sm-7">
-            <table class="table table-striped">
+            <table class="table">
                 <thead>
 				<tr>
                     <th scope="col">ПРИХОД</th>
@@ -52,7 +52,7 @@
                 <tbody>
                 {% for cresurs in resurs %}
                     {% for val in prihodresurs %}
-                        <tr>
+                        <tr {% if cresurs.NormaResurs * 0.1 >  val.KolvoResurs %} class="qtred" {% endif %}>
                             {% if val.id_Resurs == cresurs.id_Resurs %}
 								<td>{{ cresurs.NameResurs }}</td>
                                 <td>{{ cresurs.NormaResurs }}</td>
@@ -70,7 +70,7 @@
 
         <!--Таблица расходов ресурсов-->
         <div class="col-sm-5">
-            <table class="table table-striped">
+            <table class="table">
                 <thead>
 				<tr>
                     <th scope="col">РАСХОД</th>
