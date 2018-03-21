@@ -73,7 +73,7 @@ connection.connect(function (err) {
         })
     });
 
-    //Страница просмотра конкретного растения
+    //Страница просмотра конкретного растения + результаты дезинфекции
     app.get('/rasteniespisok/:id_Rastenie', function (req, res) {
         connection.query('SELECT * FROM rastenie where id_Rastenie = ?', [req.params.id_Rastenie], function (err, rastenie) {
 
@@ -84,13 +84,17 @@ connection.connect(function (err) {
                 connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
 
                     if (err) throw err
-                    res.render('rastenie.twig', {
-                        // устанавливаем в представлении необходимые переменные
-                        rastenie: rastenie[0],
-                        typerastenie: typerastenie,
-                        sortrastenie: sortrastenie
-                    });
+                    connection.query('SELECT * FROM dezobsluzh', function (err, dezobsluzh) {
 
+                        if (err) throw err
+                        res.render('rastenie.twig', {
+                            // устанавливаем в представлении необходимые переменные
+                            rastenie: rastenie[0],
+                            typerastenie: typerastenie,
+                            sortrastenie: sortrastenie,
+                            dezobsluzh: dezobsluzh
+                        });
+                    })
                 })
             });
         })
@@ -214,7 +218,6 @@ connection.connect(function (err) {
         })
     });
 
-
     //Вывод списка зверей
     app.get('/zverspisok/', function (req, res) {
         connection.query('SELECT * FROM zver', function (err, zver) {
@@ -237,7 +240,7 @@ connection.connect(function (err) {
         })
     });
 
-    //Страница просмотра конкретного зверя
+    //Страница просмотра конкретного зверя + результаты ветеринарного обслуживания
     app.get('/zverspisok/:id_Zver', function (req, res) {
         connection.query('SELECT * FROM zver where id_Zver = ?', [req.params.id_Zver], function (err, zver) {
 
@@ -248,13 +251,18 @@ connection.connect(function (err) {
                 connection.query('SELECT * FROM porodazver', function (err, porodazver) {
 
                     if (err) throw err
-                    res.render('zver.twig', {
-                        // устанавливаем в представлении необходимые переменные
-                        zver: zver[0],
-                        typezver: typezver,
-                        porodazver: porodazver
-                    });
+                    connection.query('SELECT * FROM vetobsluj', function (err, vetobsluj) {
 
+                        if (err) throw err
+                        res.render('zver.twig', {
+                            // устанавливаем в представлении необходимые переменные
+                            zver: zver[0],
+                            typezver: typezver,
+                            porodazver: porodazver,
+                            vetobsluj: vetobsluj
+                        });
+
+                    })
                 })
             });
         })
@@ -452,7 +460,6 @@ connection.connect(function (err) {
     app.post('/resursspisokk/', function (req, res) {
         //Cчитали значения, записали в пост
 
-
         var post = ({
             id_PrihodResurs: req.body.id_PrihodResurs,
             id_Resurs: req.body.id_Resurs,
@@ -482,7 +489,6 @@ connection.connect(function (err) {
                     resurs: resurs
                 });
             })
-
         })
     });
 
@@ -564,10 +570,10 @@ connection.connect(function (err) {
     //Добавление нового ресурса
     app.post('/addresurs/', function (req, res) {
 
-        if (req.body.id_PorodaZver == " ")
+        if (req.body.id_PorodaZver === " ")
             id_PorodaZver: undefined;
 
-        if (req.body.id_SortRastenie == " ")
+        if (req.body.id_SortRastenie === " ")
             id_SortRastenie: undefined;
 
         //Cчитали значения, записали в пост
@@ -592,44 +598,43 @@ connection.connect(function (err) {
 
         var post;
 
-       /*if (req.body.id_PorodaZver == " ")
-        {
-            post = ({
-                id_PorodaZver: undefined,
-                NormaResurs: req.body.NormaResurs
-            });
+        /*if (req.body.id_PorodaZver == " ")
+         {
+         post = ({
+         id_PorodaZver: undefined,
+         NormaResurs: req.body.NormaResurs
+         });
 
-        }
-        else {
-            post = ({
-                id_PorodaZver: req.body.id_PorodaZver,
-                NormaResurs: req.body.NormaResurs
-            });
-        }
+         }
+         else {
+         post = ({
+         id_PorodaZver: req.body.id_PorodaZver,
+         NormaResurs: req.body.NormaResurs
+         });
+         }
 
-        if (req.body.id_SortRastenie == " "){
+         if (req.body.id_SortRastenie == " "){
 
-            post = ({
-                id_SortRastenie: undefined,
-                NormaResurs1: req.body.NormaResurs1
-            });
-        }
-        else {
+         post = ({
+         id_SortRastenie: undefined,
+         NormaResurs1: req.body.NormaResurs1
+         });
+         }
+         else {
 
-            post = ({
-                id_SortRastenie: req.body.id_SortRastenie,
-                NormaResurs1: req.body.NormaResurs1
-            });
-        }*
-        /*
-        post = ({
-            id_SortRastenie: req.body.id_SortRastenie,
-            id_PorodaZver: req.body.id_PorodaZver,
-            NormaResurs: req.body.NormaResurs
-        });*/
+         post = ({
+         id_SortRastenie: req.body.id_SortRastenie,
+         NormaResurs1: req.body.NormaResurs1
+         });
+         }*
+         /*
+         post = ({
+         id_SortRastenie: req.body.id_SortRastenie,
+         id_PorodaZver: req.body.id_PorodaZver,
+         NormaResurs: req.body.NormaResurs
+         });*/
         // Работа с породой
-        if (req.body.id_PorodaZver === " ")
-        {
+        if (req.body.id_PorodaZver === " ") {
             post = ({
                 id_PorodaZver: undefined,
                 id_SortRastenie: req.body.id_SortRastenie,
@@ -645,7 +650,7 @@ connection.connect(function (err) {
             });
         }
         // Работаем с растением
-        if (req.body.id_SortRastenie === " "){
+        if (req.body.id_SortRastenie === " ") {
 
             post = ({
                 id_SortRastenie: undefined,
@@ -661,12 +666,12 @@ connection.connect(function (err) {
             });
         }
 
-       /* post = ({
-            id_SortRastenie: req.body.id_SortRastenie,
-            id_PorodaZver: req.body.id_PorodaZver,
-            NormaResurs: req.body.NormaResurs
-        });
-        */
+        /* post = ({
+         id_SortRastenie: req.body.id_SortRastenie,
+         id_PorodaZver: req.body.id_PorodaZver,
+         NormaResurs: req.body.NormaResurs
+         });
+         */
         //Вставка поста
         connection.query('UPDATE resurs SET ? WHERE id_Resurs = ?', [post, req.params.id_Resurs], function (err, result) {
             //Открываем главную страницу после добавления
@@ -674,6 +679,346 @@ connection.connect(function (err) {
         });
     });
 
+
+    //Ветеринарное обслуживание
+    //Удаление конкретного ветеринарного обслуживания
+    app.post('/zververt/:id_VetObsluj', function (req, res) {
+        connection.query('DELETE FROM vetobsluj WHERE id_VetObsluj = ?', req.params.id_VetObsluj, function (err, result) {
+
+            //Открываем главную страницу после удаления
+            res.redirect('back');
+        });
+    });
+
+    //Редактиррование записи о ветеринарном обслуживание
+    app.get('/zververt/:id_VetObsluj/edit', function (req, res) {
+        connection.query('SELECT * FROM vetobsluj WHERE id_VetObsluj = ?', [req.params.id_VetObsluj], function (err, vetobsluj) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM zver', function (err, zver) {
+
+                if (err) throw err
+                res.render('edit_vetob.twig', {
+                    // устанавливаем в представлении необходимые переменные
+                    vetobsluj: vetobsluj[0],
+                    zver: zver
+                });
+            })
+        })
+    });
+
+    //Собственно редактирование конкретного ветеринарного обслуживания
+    app.post('/zververtt/:id_VetObsluj', function (req, res) {
+        var zver_par = req.body.id_Zver;
+        var post = ({
+            id_Zver: req.body.id_Zver,
+            UslugaVet: req.body.UslugaVet,
+            DateStartVet: req.body.DateStartVet,
+            DateEndVet: req.body.DateEndVet,
+            CenaVet: req.body.CenaVet
+        });
+
+        //Обновили значения
+        connection.query('UPDATE vetobsluj SET ? WHERE id_VetObsluj = ?', [post, req.params.id_VetObsluj], function (err, result) {
+
+            //Открываем страницу после добавления
+            res.redirect('/zverspisok/' + zver_par);
+        });
+    });
+
+    //Добавление новой ветеринарной услуги
+    app.post('/zzverspisok/', function (req, res) {
+        //Cчитали значения, записали в пост
+
+        var post = ({
+            id_VetObsluj: req.body.id_VetObsluj,
+            id_Zver: req.body.id_Zver,
+            UslugaVet: req.body.UslugaVet,
+            DateStartVet: req.body.DateStartVet,
+            DateEndVet: req.body.DateEndVet,
+            CenaVet: req.body.CenaVet
+        });
+
+        //Вставка поста
+        connection.query('INSERT INTO vetobsluj SET ?', post, function (err, result) {
+            //Открываем главную страницу после добавления
+            res.redirect('back');
+        });
+    });
+
+
+    //Дезинфекция
+    //Удаление конкретного дезинфекция
+    app.post('/rasteniedez/:id_DezObsluzh', function (req, res) {
+        connection.query('DELETE FROM dezobsluzh WHERE id_DezObsluzh = ?', req.params.id_DezObsluzh, function (err, result) {
+
+            //Открываем главную страницу после удаления
+            res.redirect('back');
+        });
+    });
+    //Редактиррование записи о дезинфекции
+    app.get('/rasteniedez/:id_DezObsluzh/edit', function (req, res) {
+        connection.query('SELECT * FROM dezobsluzh WHERE id_DezObsluzh = ?', [req.params.id_DezObsluzh], function (err, dezobsluzh) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM rastenie', function (err, rastenie) {
+                if (err) throw err
+
+                res.render('edit_dez.twig', {
+                    // устанавливаем в представлении необходимые переменные
+                    dezobsluzh: dezobsluzh[0],
+                    rastenie: rastenie
+                });
+            })
+        })
+    });
+
+    //Собственно редактирование конкретного дезинфекции
+    app.post('/rasteniedezz/:id_DezObsluzh', function (req, res) {
+        var rast_par = req.body.id_Rastenie;
+        var post = ({
+            id_Rastenie: req.body.id_Rastenie,
+            Dezinfekcia: req.body.Dezinfekcia,
+            DateStartDez: req.body.DateStartDez,
+            DateEndDez: req.body.DateEndDez,
+            CenaDez: req.body.CenaDez
+        });
+
+        //Обновили значения
+        connection.query('UPDATE dezobsluzh SET ? WHERE id_DezObsluzh = ?', [post, req.params.id_DezObsluzh], function (err, result) {
+
+            //Открываем страницу после добавления
+            res.redirect('/rasteniespisok/' + rast_par);
+        });
+    });
+
+    //Добавление новой дезинфекции
+    app.post('/rrasteniedez/', function (req, res) {
+        //Cчитали значения, записали в пост
+
+        var post = ({
+            id_DezObsluzh: req.body.id_DezObsluzh,
+            id_Rastenie: req.body.id_Rastenie,
+            Dezinfekcia: req.body.Dezinfekcia,
+            DateStartDez: req.body.DateStartDez,
+            DateEndDez: req.body.DateEndDez,
+            CenaDez: req.body.CenaDez
+        });
+
+        //Вставка поста
+        connection.query('INSERT INTO dezobsluzh SET ?', post, function (err, result) {
+            //Открываем главную страницу после добавления
+            res.redirect('back');
+        });
+    });
+
+
+    //Отчет
+    //Вывод списка необходимой продукции для отчета
+    app.get('/otchet/', function (req, res) {
+        connection.query('SELECT * FROM zver', function (err, zver) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM rastenie', function (err, rastenie) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM prihodresurs', function (err, prihodresurs) {
+
+                    if (err) throw err
+                    connection.query('SELECT * FROM resurs', function (err, resurs) {
+
+                        if (err) throw err
+                        res.render('otchet.twig', {
+                            // устанавливаем в представлении необходимые переменные
+                            zver: zver,
+                            rastenie: rastenie,
+                            prihodresurs: prihodresurs,
+                            resurs: resurs
+                        });
+                    })
+                })
+            })
+        })
+    });
+
+
+    //Реализация
+    //Вывод списка всех реализованных продуктов
+    app.get('/realization/', function (req, res) {
+        connection.query('SELECT * FROM realization', function (err, realization) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM zver', function (err, zver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM rastenie', function (err, rastenie) {
+
+                    if (err) throw err
+                    connection.query('SELECT * FROM product', function (err, product) {
+
+                        if (err) throw err
+                        res.render('realization.twig', {
+                            // устанавливаем в представлении необходимые переменные
+                            realization: realization,
+                            zver: zver,
+                            rastenie: rastenie,
+                            product: product
+                        });
+                    })
+                })
+            })
+        })
+    });
+
+    //Удаление конкретного реализованного товара
+    app.post('/realization/:id_Realization', function (req, res) {
+        connection.query('DELETE FROM realization WHERE id_Realization = ?', req.params.id_Realization, function (err, result) {
+
+            //Открываем главную страницу после удаления
+            res.redirect('back');
+        });
+    });
+
+    //Редактиррование записи о реализованном товаре
+    app.get('/realization/:id_Realization/edit', function (req, res) {
+        connection.query('SELECT * FROM realization WHERE id_Realization = ?', [req.params.id_Realization], function (err, realization) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM zver', function (err, zver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM rastenie', function (err, rastenie) {
+
+                    if (err) throw err
+                    connection.query('SELECT * FROM product', function (err, product) {
+
+                        if (err) throw err
+                        res.render('edit_realiz.twig', {
+                            // устанавливаем в представлении необходимые переменные
+                            realization: realization[0],
+                            zver: zver,
+                            rastenie: rastenie,
+                            product: product
+                        });
+                    })
+                })
+            })
+        })
+    });
+
+    //Собственно редактирование конкретного реализованного товара
+    app.post('/realizationn/:id_Realization', function (req, res) {
+        //Работаем с животным
+        if (!req.body.id_Zver) {
+            //Работаем с растением
+            if (!req.body.id_Rastenie) {
+                post = ({
+                    id_Zver: undefined,
+                    id_Rastenie: undefined,
+                    id_Product: req.body.id_Product,
+                    KolvoRealization: req.body.KolvoRealization,
+                    DateRealization: req.body.DateRealization,
+                    CenaRealization: req.body.CenaRealization,
+                    EdIzmRealization: req.body.EdIzmRealization
+                });
+            }
+            else {
+                post = ({
+                    id_Zver: undefined,
+                    id_Rastenie: req.body.id_Rastenie,
+                    id_Product: undefined,
+                    KolvoRealization: req.body.KolvoRealization,
+                    DateRealization: req.body.DateRealization,
+                    CenaRealization: req.body.CenaRealization,
+                    EdIzmRealization: req.body.EdIzmRealization
+                });
+            }
+        }
+        else {
+            post = ({
+                id_Zver: req.body.id_Zver,
+                id_Rastenie: undefined,
+                id_Product: undefined,
+                KolvoRealization: req.body.KolvoRealization,
+                DateRealization: req.body.DateRealization,
+                CenaRealization: req.body.CenaRealization,
+                EdIzmRealization: req.body.EdIzmRealization
+            });
+        }
+
+        /*var post = ({
+            id_Zver: undefined,
+            id_Rastenie: req.body.id_Rastenie,
+            id_Product: undefined,
+            //id_Zver: req.body.id_Zver,
+            //id_Rastenie: req.body.id_Rastenie,
+            //id_Product: req.body.id_Product,
+            KolvoRealization: req.body.KolvoRealization,
+            DateRealization: req.body.DateRealization,
+            CenaRealization: req.body.CenaRealization,
+            EdIzmRealization: req.body.EdIzmRealization
+        });*/
+
+        //Обновили значения
+        connection.query('UPDATE realization SET ? WHERE id_Realization = ?', [post, req.params.id_Realization], function (err, result) {
+
+            //Открываем страницу после добавления
+            res.redirect('/realization/');
+        });
+    });
+
+    //Добавление новой реализованного продукта
+    app.post('/rrealization/', function (req, res) {
+        //Cчитали значения, записали в пост
+
+        var post;
+        //Работаем с животным
+        if (!req.body.id_Zver) {
+            //Работаем с растением
+            if (!req.body.id_Rastenie) {
+                post = ({
+                    id_Realization: req.body.id_Realization,
+                    id_Zver: undefined,
+                    id_Rastenie: undefined,
+                    id_Product: req.body.id_Product,
+                    KolvoRealization: req.body.KolvoRealization,
+                    DateRealization: req.body.DateRealization,
+                    CenaRealization: req.body.CenaRealization,
+                    EdIzmRealization: req.body.EdIzmRealization
+                });
+            }
+            else {
+                post = ({
+                    id_Realization: req.body.id_Realization,
+                    id_Zver: undefined,
+                    id_Rastenie: req.body.id_Rastenie,
+                    id_Product: undefined,
+                    KolvoRealization: req.body.KolvoRealization,
+                    DateRealization: req.body.DateRealization,
+                    CenaRealization: req.body.CenaRealization,
+                    EdIzmRealization: req.body.EdIzmRealization
+                });
+            }
+        }
+        else {
+            post = ({
+                id_Realization: req.body.id_Realization,
+                id_Zver: req.body.id_Zver,
+                id_Rastenie: undefined,
+                id_Product: undefined,
+                KolvoRealization: req.body.KolvoRealization,
+                DateRealization: req.body.DateRealization,
+                CenaRealization: req.body.CenaRealization,
+                EdIzmRealization: req.body.EdIzmRealization
+            });
+        }
+
+        //Вставка поста
+        connection.query('INSERT INTO realization SET ?', post, function (err, result) {
+            //Открываем главную страницу после добавления
+            res.redirect('/realization/');
+        });
+    });
 
     //Вешаем сервер на порт
     app.listen(8075);

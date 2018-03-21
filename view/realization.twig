@@ -1,0 +1,117 @@
+<!-- ***************** -->
+<!-- КАРТОЧКИ КОНКРЕТНОГО РЕСУРСА -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+
+    <div class="row">
+
+        <!--Таблица, реализованных товаров-->
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ЖУРНАЛ ПРОДАЖ</th>
+                </tr>
+                <tr>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Дата продажи</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Цена (руб.)</th>
+                    <th scope="col">Ед. изм.</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for val in realization %}
+                    <!--Переменная для записи в поле "Наименование"-->
+                    {% set nameProduct = "" %}
+
+                    {% if val.id_Zver is not empty %}
+                        {% for key in zver %}
+                            {% if val.id_Zver == key.id_Zver %}
+                                {% set nameProduct = key.NameZver %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elseif val.id_Rastenie is not empty %}
+                        {% for key in rastenie %}
+                            {% if val.id_Rastenie == key.id_Rastenie %}
+
+                                        {% set nameProduct = key.ColorRastenie %}
+
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for key in product %}
+                            {% if val.id_Product == key.id_Product %}
+                                {% set nameProduct =  key.id_Product %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <tr>
+                        <td>{{ nameProduct }}</td>
+                        <td>{{ val.DateRealization|date('d.m.Y', false) }}</td>
+                        <td>{{ val.KolvoRealization }}</td>
+                        <td>{{ val.CenaRealization }}</td>
+                        <td>{{ val.EdIzmRealization }}</td>
+
+                        <td>
+                        <th>
+                            <!--Удалить информацию о ресурсе-->
+                            <form method="POST" action="/realization/{{ val.id_Realization }}">
+                                <button type="submit" class="btn btn-danger" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        </th>
+                        <th>
+                            <!--Редактирование информации о ресурсе-->
+                            <a href="/realization/{{ val.id_Realization }}/edit">
+                                <button type="button" class="btn btn-default" aria-label="Edit">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </button>
+                            </a>
+                        </th>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <!--Добавление нового приход-->
+            <form method="POST" action="/rrealization/" class="form-inline">
+                <fieldset>
+                    <div class="form-group">
+                        <input name="id_Zver" placeholder="Имя животного" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input name="id_Rastenie" placeholder="Сорт растения" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input name="id_Product" placeholder="Наименование продукта" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input name="KolvoRealization" placeholder="Количество" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input input name="DateRealization" id="date" google="true" type="date">
+                    </div>
+                    <div class="form-group">
+                        <input name="CenaRealization" placeholder="Цена" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input name="EdIzmRealization" placeholder="Ед. изм." class="form-control">
+                    </div>
+
+                    </br></br>
+                    <button type="submit" class="btn btn-primary" name="id_Realization"
+                            value="{{ realization.id_Realization }}">
+                        Добавить
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

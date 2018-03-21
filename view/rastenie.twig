@@ -65,4 +65,75 @@
         </div>
     </div>
 
+    </br></br>
+
+    <!--Таблица дезинфекция растения-->
+    <div class="col-sm-12">
+        <h3 style="text-align: center">ДЕЗИНФЕКЦИЯ РАСТЕНИЯ</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Дезинфекция</th>
+                <th scope="col">Дата начала</th>
+                <th scope="col">Дата окончания</th>
+                <th scope="col">Цена (руб.)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for val in dezobsluzh %}
+                <tr>
+
+                    {% if val.id_Rastenie == rastenie.id_Rastenie %}
+
+                        <td>{{ val.Dezinfekcia }}</td>
+                        <td>{{ val.DateStartDez|date('d.m.Y', false) }}</td>
+                        <td>{{ val.DateEndDez|date('d.m.Y', false) }}</td>
+                        <td>{{ val.CenaDez }}</td>
+
+                        <th>
+                            <!--Удалить информацию о дезинфекции растения-->
+                            <form method="POST" action="/rasteniedez/{{ val.id_DezObsluzh }}">
+                                <button type="submit" class="btn btn-danger" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        </th>
+                        <th>
+                            <!--Редактирование информации о дезинфекции растения-->
+                            <a href="/rasteniedez/{{ val.id_DezObsluzh }}/edit">
+                                <button type="button" class="btn btn-default" aria-label="Edit">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </button>
+                            </a>
+                        </th>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="col-sm-12">
+            <!--Добавление нового дезинфекция растения-->
+            <form method="POST" action="/rrasteniedez/" class="form-inline">
+                <fieldset>
+                    <div class="form-group">
+                        <input name="Dezinfekcia" placeholder="Дезинфекция" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input input name="DateStartDez" id="date" google="true" type="date">
+                    </div>
+                    <div class="form-group">
+                        <input input name="DateEndDez" id="date" google="true" type="date">
+                    </div>
+                    <div class="form-group">
+                        <input name="CenaDez" placeholder="2000 рублей" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="id_Rastenie" value="{{ rastenie.id_Rastenie }}">
+                        Добавить
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+
 {% endblock %}

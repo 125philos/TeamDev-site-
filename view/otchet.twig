@@ -1,0 +1,156 @@
+<!-- ***************** -->
+<!-- КАРТОЧКИ ОТЧЕТНОСТИ -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+
+    <div class="row">
+
+        <div class="col-sm-12 text-left">
+            <h1 style="text-align: center">ОТЧЁТЫ</h1>
+        </div>
+
+        {% set dateCalend = 2018-06-01 %}
+        <!-- Поиск по диапазону, заданной даты -->
+        <div class="col-sm-12 text-left" style="text-align: center">
+            <form>
+                <p>С <input type="date" name="calendar" value="{{ dateCalend }}"> ПО <input type="date" name="calendar1"
+                                                                                      value="2017-07-21">
+                    <!--input type="submit" value="Найти"-->
+                </p>
+            </form>
+
+            <h4>{{ value|date('d.m.Y', false) }}</h4>
+        </div>
+
+        <!-- Карточки для отчетов -->
+        <div class="col-sm-12 text-left" style="text-align: center">
+
+            <!-- Сортируем информацию, выводящуюся в карточки, по дате-->
+
+
+            <!--Переменная для подсчета количества купленных голов-->
+            {% set myVal = 0 %}
+            <!--Переменная для подсчета количества воспроизведено на ферме голов-->
+            {% set myValbr = 0 %}
+            <!--Переменная для подсчета общей суммы потраченной на весь скот-->
+            {% set sumZver = 0 %}
+
+            <!-- Расчетные данные для животного -->
+            {% for val in zver %}
+                {% if dateCalend <= val.DateBirthday %}
+
+                    {% set sumZver = sumZver + val.CenaZver %}
+                    {% if val.CenaZver != 0 %}
+                        {% set myVal = myVal + 1 %}
+                    {% endif %}
+                    {% if val.CenaZver == 0 %}
+                        {% set myValbr = myValbr + 1 %}
+                    {% endif %}
+
+                {% endif %}
+            {% endfor %}
+
+
+            <!-- Расчетные данные для растения -->
+            <!--Переменная для подсчета количества купленных голов-->
+            {% set myValRast = 0 %}
+            <!--Переменная для подсчета количества воспроизведено на ферме голов-->
+            {% set myValRastbr = 0 %}
+            <!--Переменная для подсчета общей суммы(+количество * цену) потраченной на все виды растений-->
+            {% set sumRastenie = 0 %}
+            {% for val in rastenie %}
+                {% set sumRastenie = sumRastenie + (val.KolvoRastenie * val.CenaRastenie) %}
+                {% if val.CenaRastenie != 0 %}
+                    {% set myValRast = myValRast + 1 %}
+                {% endif %}
+                {% if val.CenaRastenie == 0 %}
+                    {% set myValRastbr = myValRastbr + 1 %}
+                {% endif %}
+            {% endfor %}
+
+            <!-- Расчетные данные для ресурсов -->
+            <!--Переменная для подсчета общей суммы(+количество * цену) потраченной на ресурсы(приход)-->
+            {% set sumResurs = 0 %}
+            {% for val in prihodresurs %}
+                {% set sumResurs = sumResurs + (val.KolvoResurs * val.CenaResurs) %}
+            {% endfor %}
+
+            <!--Переменная для подсчета общей суммы(+количество * цену) для нормы-->
+            {% set sumResursNorm = 0 %}
+            {% for val in resurs %}
+                {% for key in prihodresurs %}
+                    {% if val.id_Resurs == key.id_Resurs %}
+                        {% set sumResursNorm = sumResursNorm + (val.NormaResurs * key.CenaResurs) %}
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+
+            <!-- Ряды карточек -->
+            <div class="row recipes-container">
+                <div class="col-xs-6">
+                    <div class="thumbnail">
+                        <!-- Наименование вида отчета -->
+                        <h1>ОБОРОТ ЖИВОТНЫХ</h1>
+                        <div class="caption">
+                            <!-- Вывод расчетных данных -->
+                            <h4>Куплено: {{ myVal }} </h4>
+                            <h4>Воспроизведено на ферме: {{ myValbr }} </h4>
+                            <h4>Всего поголовья скота: {{ myVal + myValbr }} </h4>
+                            <h4>Расход: {{ sumZver }} рублей</h4>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="thumbnail">
+                        <!-- Наименование вида отчета -->
+                        <h1>ОБОРОТ РАСТЕНИЙ</h1>
+                        <div class="caption">
+                            <!-- Расчетные данные -->
+                            <h4>Куплено: {{ myValRast }} </h4>
+                            <h4>Выращено на ферме: {{ myValRastbr }}</h4>
+                            <h4>Всего приобретено корней: {{ myValRast + myValRastbr }}</h4>
+                            <h4>Расход: {{ sumRastenie }} рублей</h4>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row recipes-container">
+                <div class="col-xs-6">
+                    <div class="thumbnail">
+                        <!-- Наименование вида отчета -->
+                        <h1>РЕАЛИЗОВАННАЯ ПРОДУКЦИЯ</h1>
+                        <div class="caption">
+                            <!-- Расчетные данные -->
+                            <h4>Продано на сумму:</h4>
+                            <h4>Растений: {{ }}</h4>
+                            <h4>Животных: {{ }}</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="thumbnail">
+                        <!-- Наименование вида отчета -->
+                        <h1>ОБОРОТ РЕСУРСОВ</h1>
+                        <div class="caption">
+                            <!-- Расчетные данные -->
+                            <h4>Закуплено на сумму: {{ sumResurs }} рублей</h4>
+                            <h4>По норме: {{ sumResursNorm }} рублей</h4>
+                            <h4>Перерасход: {{ sumResursNorm - sumResurs }} рублей</h4>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

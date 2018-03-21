@@ -1,0 +1,57 @@
+<!-- ***************** -->
+<!-- РЕДАКТИРОВАНИЕ ВЕТЕРИНАРНОГО ОБСЛУЖИВАНИЯ -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+{% block rows %}
+
+    <div class="container">
+        <form method="POST" action="/zververtt/{{ vetobsluj.id_VetObsluj }}">
+
+            <input type="hidden" id="_method" name="_method" value="PUT">
+
+            <!-- Поля ввод данных -->
+            <div class="form-group">
+                <label for="selectType">Имя животного</label>
+                <select required name="id_Zver" class="form-control" id="selectType">
+                    {% for val in zver %}
+                        {% if val.id_Zver == vetobsluj.id_Zver %}
+                            <option value="{{ val.id_Zver }}">
+                                {{ val.NameZver }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Ветеринарная услуга</label>
+                <input input name="UslugaVet" type="text" class="form-control" id="inputName"
+                       aria-describedby="PostHelp" placeholder="Вася" value="{{ vetobsluj.UslugaVet }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата начала лечения</label>
+                <input input name="DateStartVet" id="date" google="true" type="date"
+                       value="{{ vetobsluj.DateStartVet }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата окончания обслуживания</label>
+                <input input name="DateEndVet" id="date" google="true" type="date"
+                       value="{{ vetobsluj.DateEndVet }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Цена</label>
+                <input input name="CenaVet" type="text" class="form-control" id="inputCena"
+                       aria-describedby="PostHelp" placeholder="24000 рублей" value="{{ vetobsluj.CenaVet }}">
+            </div>
+
+            <!-- Кнопка сохранения -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Сохранить</button>
+            <p></p>
+
+        </form>
+    </div>
+{% endblock %}
