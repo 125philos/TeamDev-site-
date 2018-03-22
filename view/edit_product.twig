@@ -1,0 +1,76 @@
+<!-- ***************** -->
+<!-- РЕДАКТИРОВАНИЕ КАРТОЧКИ РЕСУРСА (ПРИХОД) -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+{% block rows %}
+
+    <div class="container">
+        <form method="POST" action="/allproductt/{{ product.id_Product }}">
+
+            <input type="hidden" id="_method" name="_method" value="PUT">
+
+            <!-- Поля ввод данных -->
+            <div class="form-group">
+                <label for="selectType">Вид животного</label>
+                <select name="id_Zver" class="form-control" id="selectType">
+                    <!--option value=" ">
+                        -- Нет --
+                    </option-->
+                    {% for key in zver %}
+                        {% if realization.id_Zver == key.id_Zver %}
+                            <option value="{{ realization.id_Zver }}">
+                                {{ key.NameZver }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="selectSort">Наименование продукта</label>
+                <select name="id_ProductName" class="form-control" id="selectSort">
+                    <!--option value=" ">
+                        -- Нет --
+                    </option-->
+                            {% for prod in productname %}
+                                {% if prod.id_ProductName == product.id_ProductName %}
+                                    <option value="{{ product.id_Product }}">
+                                        {{ prod.PriductName }}
+                                    </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!--div class="form-group">
+                <label for="inputNameProd">Наименование продукта</label>
+                <input input name="id_Product" type="text" class="form-control" id="inputIdProd"
+                       aria-describedby="PostHelp" placeholder="Яйцо" value="{{ realization.id_Product }}">
+            </div-->
+
+            <div class="form-group">
+                <label for="inputKol">Количество</label>
+                <input input name="KolvoProduct" type="text" class="form-control" id="inputKol"
+                       aria-describedby="PostHelp" placeholder="24" value="{{ product.KolvoProduct }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата поступления</label>
+                <input input name="DateProduct" id="date" google="true" type="date"
+                       value="2018-07-11">
+            </div>
+
+            <div class="form-group">
+                <label for="inputEdIz">Ед. изм.</label>
+                <input input name="EdIzmProduct" type="text" class="form-control" id="inputEdIz"
+                       aria-describedby="PostHelp" placeholder="кг" value="{{ product.EdIzmProduct }}">
+            </div>
+
+            <!-- Кнопка добавления -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Сохранить</button>
+            <p></p>
+
+        </form>
+    </div>
+
+{% endblock %}

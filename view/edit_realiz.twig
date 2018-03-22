@@ -1,0 +1,117 @@
+<!-- ***************** -->
+<!-- РЕДАКТИРОВАНИЕ КАРТОЧКИ РЕСУРСА (ПРИХОД) -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+{% block rows %}
+
+    <div class="container">
+        <form method="POST" action="/realizationn/{{ realization.id_Realization }}">
+
+            <input type="hidden" id="_method" name="_method" value="PUT">
+
+            <!-- Поля ввод данных -->
+            <div class="form-group">
+                <label for="selectType">Вид животного</label>
+                <select name="id_Zver" class="form-control" id="selectType">
+                    <!--option value=" ">
+                        -- Нет --
+                    </option-->
+                    {% for key in zver %}
+                        {% if realization.id_Zver == key.id_Zver %}
+                            <option value="{{ realization.id_Zver }}">
+                                {{ key.NameZver }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!--div class="form-group">
+                <label for="inputNameZver">Имя животного</label>
+                <input input name="id_Zver" type="text" class="form-control" id="inputIdZver"
+                       aria-describedby="PostHelp" placeholder="Фрэнсис" value="{{ realization.id_Zver }}">
+            </div-->
+
+            <div class="form-group">
+                <label for="selectSort">Сорт растения</label>
+                <select name="id_Rastenie" class="form-control" id="selectSort">
+                    <!--option value=" ">
+                        -- Нет --
+                    </option-->
+                    {% for key in rastenie %}
+                        {% if realization.id_Rastenie == key.id_Rastenie %}
+                            {% for sortrast in sortrastenie %}
+                                {% if sortrast.id_SortRastenie == key.id_SortRastenie %}
+                                    <option value="{{ realization.id_Rastenie }}">
+                                        {{ sortrast.SortRastenieName }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!--div class="form-group">
+                <label for="inputNameRast">Сорт растения</label>
+                <input input name="id_Rastenie" type="text" class="form-control" id="inputIdRast"
+                       aria-describedby="PostHelp" placeholder="Помидор бычье сердце" value="{{ realization.id_Rastenie }}">
+            </div-->
+
+            <div class="form-group">
+                <label for="selectSort">Наименование продукта</label>
+                <select name="id_Product" class="form-control" id="selectSort">
+                    <!--option value=" ">
+                        -- Нет --
+                    </option-->
+                    {% for key in product %}
+                        {% if realization.id_Product == key.id_Product %}
+                            {% for prod in productname %}
+                                {% if prod.id_ProductName == key.id_ProductName %}
+                                    <option value="{{ realization.id_Product }}">
+                                        {{ prod.PriductName }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <!--div class="form-group">
+                <label for="inputNameProd">Наименование продукта</label>
+                <input input name="id_Product" type="text" class="form-control" id="inputIdProd"
+                       aria-describedby="PostHelp" placeholder="Яйцо" value="{{ realization.id_Product }}">
+            </div-->
+
+            <div class="form-group">
+                <label for="inputKol">Количество</label>
+                <input input name="KolvoRealization" type="text" class="form-control" id="inputKol"
+                       aria-describedby="PostHelp" placeholder="24" value="{{ realization.KolvoRealization }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата продажи</label>
+                <input input name="DateRealization" id="date" google="true" type="date"
+                       value="2018-07-11">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Цена (руб.)</label>
+                <input input name="CenaRealization" type="text" class="form-control" id="inputCena"
+                       aria-describedby="PostHelp" placeholder="3000 рублей" value="{{ realization.CenaRealization }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputEdIz">Ед. изм.</label>
+                <input input name="EdIzmRealization" type="text" class="form-control" id="inputEdIz"
+                       aria-describedby="PostHelp" placeholder="кг" value="{{ realization.EdIzmRealization }}">
+            </div>
+
+            <!-- Кнопка добавления -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Сохранить</button>
+            <p></p>
+
+        </form>
+    </div>
+
+{% endblock %}

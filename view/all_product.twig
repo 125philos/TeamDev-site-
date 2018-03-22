@@ -1,0 +1,82 @@
+<!-- ***************** -->
+<!-- КАРТОЧКИ КОНКРЕТНОГО РЕСУРСА -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+
+    <div class="row">
+
+        <div class="col-sm-12 text-left">
+            <h1 style="text-align: center">ЖУРНАЛ ПРОДУКТОВ</h1>
+        </div>
+
+        <!--Таблица, реализованных товаров-->
+        <div class="col-sm-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Вид продукта</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Дата поступления</th>
+                    <th scope="col">Ед. изм.</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for val in product %}
+                    <!--Переменная для записи в поле "Наименование"-->
+                    {% set nameProduct = "" %}
+                    <!--Работаем с полем животное-->
+                    {% if val.id_Zver is not empty %}
+                        {% for key in zver %}
+                            {% if val.id_Zver == key.id_Zver %}
+                                {% set nameProduct = key.NameZver %}
+                            {% endif %}
+                        {% endfor %}
+                    {% elseif val.id_ProductName is not empty %}
+                        <!--Работаем с полем продукт-->
+                        {% for key in product %}
+                            {% if val.id_Product == key.id_Product %}
+                                {% for prod in productname %}
+                                    {% if prod.id_ProductName == key.id_ProductName %}
+                                        {% set nameProduct = prod.PriductName %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+
+                    {% endif %}
+                    <tr>
+                        <td>{{ nameProduct }}</td>
+                        <td>{{ val.KolvoProduct }}</td>
+                        <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                        <td>{{ val.EdIzmProduct }}</td>
+
+                        <td>
+                        <th>
+                            <!--Удалить информацию о ресурсе-->
+                            <form method="POST" action="/allproduct/{{ val.id_Product }}">
+                                <button type="submit" class="btn btn-danger" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        </th>
+                        <th>
+                            <!--Редактирование информации о ресурсе-->
+                            <a href="/allproduct/{{ val.id_Product }}/edit">
+                                <button type="button" class="btn btn-default" aria-label="Edit">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </button>
+                            </a>
+                        </th>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

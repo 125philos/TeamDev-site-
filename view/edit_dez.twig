@@ -1,0 +1,57 @@
+<!-- ***************** -->
+<!-- РЕДАКТИРОВАНИЕ ДЕЗИНФЕКЦИИ -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+{% block rows %}
+
+    <div class="container">
+        <form method="POST" action="/rasteniedezz/{{ dezobsluzh.id_DezObsluzh }}">
+
+            <input type="hidden" id="_method" name="_method" value="PUT">
+
+            <!-- Поля ввод данных -->
+            <div class="form-group">
+                <label for="selectType">Наименование растения</label>
+                <select required name="id_Rastenie" class="form-control" id="selectType">
+                    {% for val in rastenie %}
+                        {% if val.id_Rastenie == dezobsluzh.id_Rastenie %}
+                            <option value="{{ val.id_Rastenie }}">
+                                {{ val.ColorRastenie }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Дезинфекция</label>
+                <input input name="Dezinfekcia" type="text" class="form-control" id="inputName"
+                       aria-describedby="PostHelp" placeholder="Вася" value="{{ dezobsluzh.Dezinfekcia }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата начала обслуживания</label>
+                <input input name="DateStartDez" id="date" google="true" type="date"
+                       value="2018-02-17">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата окончания обслуживания</label>
+                <input input name="DateEndDez" id="date" google="true" type="date"
+                       value="2018-09-21">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Цена</label>
+                <input input name="CenaDez" type="text" class="form-control" id="inputCena"
+                       aria-describedby="PostHelp" placeholder="24000 рублей" value="{{ dezobsluzh.CenaDez }}">
+            </div>
+
+            <!-- Кнопка сохранения -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Сохранить</button>
+            <p></p>
+
+        </form>
+    </div>
+{% endblock %}

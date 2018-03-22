@@ -1,0 +1,56 @@
+<!-- *****************  -->
+<!-- ДОБАВЛЕНИЕ ПРОДУКТА -->
+<!-- *****************  -->
+
+{% extends "base.twig" %}
+{% block rows %}
+    <div class="container">
+        <form method="POST" action="/addproduct/">
+
+            <!-- Поля ввод данных -->
+            <div class="form-group">
+                <label for="selectPoroda">Порода животного</label>
+                <select name="id_Zver" class="form-control" id="selectPoroda">
+                    <option value = " "></option>
+                    {% for val in porodazver %}
+                        <option value="{{ val.id_PorodaZver }}">{{ val.PorodaZverName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="selectPoroda">Вид продукта</label>
+                <select name="id_ProductName" class="form-control" id="selectPoroda">
+                    <option value = " "></option>
+                    {% for val in productname %}
+                        <option value="{{ val.id_ProductName }}">{{ val.PriductName }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="inputColor">Количество</label>
+                <input input name="KolvoProduct" type="text" class="form-control" id="inputColor"
+                       aria-describedby="FIOHelp"
+                       placeholder="25" value="{{ product.KolvoProduct }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputBirthday">Дата продукта</label>
+                <input input name="DateProduct" id="date" google="true" type="date"
+                       value="{{ product.DateProduct }}">
+            </div>
+
+            <div class="form-group">
+                <label for="inputCena">Единица измерения</label>
+                <input input name="EdIzmProduct" type="text" class="form-control" id="inputKol"
+                       aria-describedby="PostHelp" placeholder="кг" value="{{ product.EdIzmProduct }}">
+            </div>
+
+            <!-- Кнопка добавления -->
+            <button type="submit" class="btn btn-secondary btn-lg btn-block">Добавить</button>
+            <p></p>
+
+        </form>
+    </div>
+{% endblock %}

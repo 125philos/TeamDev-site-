@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 16 2018 г., 14:37
+-- Время создания: Мар 22 2018 г., 13:51
 -- Версия сервера: 10.1.30-MariaDB
 -- Версия PHP: 7.2.1
 
@@ -37,6 +37,15 @@ CREATE TABLE `dezobsluzh` (
   `CenaDez` int(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `dezobsluzh`
+--
+
+INSERT INTO `dezobsluzh` (`id_DezObsluzh`, `id_Rastenie`, `Dezinfekcia`, `DateStartDez`, `DateEndDez`, `CenaDez`) VALUES
+(1, 2, 'Комплексная защита', '2018-02-17', '2018-11-17', 1400),
+(3, 6, 'Мучнистая роса', '2018-02-26', '2018-03-06', 3500),
+(4, 14, 'Ликвидация тли', '2018-03-07', '2018-03-28', 3500);
+
 -- --------------------------------------------------------
 
 --
@@ -56,7 +65,7 @@ CREATE TABLE `porodazver` (
 INSERT INTO `porodazver` (`id_PorodaZver`, `id_TypeZver`, `PorodaZverName`) VALUES
 (1, 1, 'Шотландский кролик'),
 (2, 1, 'Английский кролик'),
-(3, 2, 'Кавказская птица'),
+(3, 2, 'Шведский конь'),
 (4, 3, 'Русская корова');
 
 -- --------------------------------------------------------
@@ -100,6 +109,15 @@ CREATE TABLE `product` (
   `EdIzmProduct` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `product`
+--
+
+INSERT INTO `product` (`id_Product`, `id_Zver`, `id_ProductName`, `KolvoProduct`, `DateProduct`, `EdIzmProduct`) VALUES
+(1, NULL, 2, 200, '2018-03-04', 'л'),
+(2, NULL, 6, 300, '2018-03-01', 'л'),
+(3, NULL, 4, 55, '2018-03-13', 'кг');
+
 -- --------------------------------------------------------
 
 --
@@ -110,6 +128,18 @@ CREATE TABLE `productname` (
   `id_ProductName` int(12) NOT NULL,
   `PriductName` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `productname`
+--
+
+INSERT INTO `productname` (`id_ProductName`, `PriductName`) VALUES
+(1, 'Яйцо'),
+(2, 'Молоко'),
+(3, 'Кефир'),
+(4, 'Сметанка'),
+(5, 'Мясо'),
+(6, 'Сальцо!');
 
 -- --------------------------------------------------------
 
@@ -158,12 +188,12 @@ CREATE TABLE `rastenie` (
 --
 
 INSERT INTO `rastenie` (`id_Rastenie`, `id_SortRastenie`, `PhotoRastenie`, `DateVisadkaRastenie`, `ColorRastenie`, `KolvoRastenie`, `EffectiveProcentRastenie`, `CommentRastenie`, `CenaRastenie`) VALUES
-(1, 4, 'plants8.jpg', '2018-01-02', 'Желто-зеленные ', 25, 50, 'Отличная всхожесть!!', 2370),
-(2, 2, 'plants1.jpg', '2017-12-07', 'Красный', 12, 78, 'Очень вкусный!!', 2340),
-(6, 3, 'plants5.jpg', '2017-10-19', 'Аллый', 12, 25, 'Отличный сорт!!', 2340),
-(10, 1, 'plants6.jpg', '2017-07-19', 'Темно-синяя', 56, 87, 'Очень сладкая и полезная!!', 3000),
-(14, 5, 'plants9.jpg', '2017-09-25', 'Бежевые', 12, 30, 'Сладкая-сладкая!! Хлеб получится - самый вкусный!!', 1370),
-(16, 2, 'tomat.jpg', '2018-02-26', 'Желтые', 10, 100, 'Сладкие!!', 40);
+(1, 4, 'plants8.jpg', '2018-01-02', 'Желто-зеленные ', 250, 50, 'Отличная всхожесть!!', 7000),
+(2, 2, 'plants1.jpg', '2017-12-07', 'Красный', 120, 78, 'Очень вкусный!!', 7340),
+(6, 3, 'plants5.jpg', '2017-10-19', 'Аллый', 140, 25, 'Отличный сорт!!', 2340),
+(10, 1, 'plants6.jpg', '2017-07-19', 'Темно-синяя', 560, 87, 'Очень сладкая и полезная!!', 3500),
+(14, 5, 'plants9.jpg', '2017-09-25', 'Бежевые', 190, 30, 'Сладкая-сладкая!! Хлеб получится - самый вкусный!!', 2380),
+(16, 4, 'plants7.jpg', '2018-03-31', 'Цвет бычьей крови ', 100, 100, 'Божественно!', 4370);
 
 -- --------------------------------------------------------
 
@@ -181,6 +211,19 @@ CREATE TABLE `realization` (
   `CenaRealization` int(12) NOT NULL,
   `EdIzmRealization` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `realization`
+--
+
+INSERT INTO `realization` (`id_Realization`, `id_Zver`, `id_Rastenie`, `id_Product`, `KolvoRealization`, `DateRealization`, `CenaRealization`, `EdIzmRealization`) VALUES
+(2, NULL, NULL, 1, 150, '2018-07-24', 3000, 'л'),
+(3, NULL, 2, NULL, 10, '2018-02-26', 7000, 'шт'),
+(4, 3, NULL, NULL, 1, '2018-03-21', 35000, 'шт'),
+(47, NULL, 1, NULL, 50, '2018-03-13', 3000, 'кг'),
+(49, 4, NULL, NULL, 1, '2018-02-26', 45000, 'шт'),
+(54, 6, NULL, NULL, 1, '2018-03-28', 70000, 'шт'),
+(55, NULL, NULL, 2, 55, '2018-03-14', 15000, 'кг');
 
 -- --------------------------------------------------------
 
@@ -287,6 +330,20 @@ CREATE TABLE `vetobsluj` (
   `CenaVet` int(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `vetobsluj`
+--
+
+INSERT INTO `vetobsluj` (`id_VetObsluj`, `id_Zver`, `UslugaVet`, `DateStartVet`, `DateEndVet`, `CenaVet`) VALUES
+(6, 2, 'Комплексное лечение', '2018-02-27', '2018-03-06', 2500),
+(7, 3, 'Прививка от язвы', '2018-03-05', '2018-06-07', 2600),
+(8, 3, 'Прививка от ящура', '2018-03-05', '2018-03-07', 3900),
+(9, 2, 'Прививка от ящура', '2018-03-05', '2018-03-13', 1350),
+(10, 5, 'Прививка от ящура', '2018-03-14', '2018-03-20', 1700),
+(11, 4, 'Комплексный осмотр', '2018-02-26', '2018-03-07', 500),
+(12, 4, 'Сибирская язва', '2018-03-31', '2018-04-11', 1000),
+(13, 2, 'Профилактический осмотр', '2018-03-22', '2018-03-30', 5000);
+
 -- --------------------------------------------------------
 
 --
@@ -314,7 +371,10 @@ CREATE TABLE `zver` (
 INSERT INTO `zver` (`id_Zver`, `id_PorodaZver`, `PhotoZver`, `NameZver`, `DateBirthday`, `SexZver`, `ColorZver`, `VesZver`, `EffectiveProcentZver`, `CommentZver`, `CenaZver`) VALUES
 (2, 4, 'animals2.jpg', 'Франциска', '2018-02-27', 'Женский', 'Горького шоколада', 120, 58, 'Отличная продукция!!', 3500),
 (3, 2, 'animals.jpg', 'Крепыш', '2017-07-31', 'Мужской', 'Серый', 25, 99, 'Очень плодовитый!!', 2380),
-(4, 2, 'animals5.jpg', 'Лариса', '2017-10-30', 'Женский', 'Белый', 1, 100, 'Очень пушистый!!', 1000);
+(4, 1, 'animals5.jpg', 'Лариса', '2017-10-30', 'Женский', 'Белый', 1, 100, 'Очень пушистый!!', 1000),
+(5, 4, 'animals1.jpg', 'Лорд', '2017-03-05', 'Мужской', 'Коричневый', 100, 90, 'Очень красивый!!', 0),
+(6, 3, 'animals6.jpg', 'Мустанг', '2018-03-06', 'Мужской', 'Коричневый', 120, 70, 'Отличный бегун!!', 24000),
+(7, 4, 'animals3.jpg', 'Фрэнс', '2017-12-21', 'Мужской', 'Черно-серый', 90, 90, 'Очень умный и плодовитый!!', 30000);
 
 --
 -- Индексы сохранённых таблиц
@@ -427,7 +487,7 @@ ALTER TABLE `zver`
 -- AUTO_INCREMENT для таблицы `dezobsluzh`
 --
 ALTER TABLE `dezobsluzh`
-  MODIFY `id_DezObsluzh` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_DezObsluzh` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `porodazver`
@@ -445,13 +505,13 @@ ALTER TABLE `prihodresurs`
 -- AUTO_INCREMENT для таблицы `product`
 --
 ALTER TABLE `product`
-  MODIFY `id_Product` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Product` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `productname`
 --
 ALTER TABLE `productname`
-  MODIFY `id_ProductName` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ProductName` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `rashodresurs`
@@ -469,7 +529,7 @@ ALTER TABLE `rastenie`
 -- AUTO_INCREMENT для таблицы `realization`
 --
 ALTER TABLE `realization`
-  MODIFY `id_Realization` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_Realization` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT для таблицы `resurs`
@@ -499,13 +559,13 @@ ALTER TABLE `typezver`
 -- AUTO_INCREMENT для таблицы `vetobsluj`
 --
 ALTER TABLE `vetobsluj`
-  MODIFY `id_VetObsluj` int(12) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_VetObsluj` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `zver`
 --
 ALTER TABLE `zver`
-  MODIFY `id_Zver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_Zver` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

@@ -68,5 +68,75 @@
             </div>
         </div>
     </div>
+    </br></br>
+
+    <!--Таблица ветеринарного обслуживания животного-->
+    <div class="col-sm-12">
+        <h3 style="text-align: center">ВЕТЕРИНАРНОГО ОБСЛУЖИВАНИЕ ЖИВОТНОГО</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Ветеринарная услуга</th>
+                <th scope="col">Дата начала</th>
+                <th scope="col">Дата окончания</th>
+                <th scope="col">Цена (руб.)</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for val in vetobsluj %}
+                <tr>
+
+                    {% if val.id_Zver == zver.id_Zver %}
+
+                        <td>{{ val.UslugaVet }}</td>
+                        <td>{{ val.DateStartVet|date('d.m.Y', false) }}</td>
+                        <td>{{ val.DateEndVet|date('d.m.Y', false) }}</td>
+                        <td>{{ val.CenaVet }}</td>
+
+                        <th>
+                            <!--Удалить информацию о ветеринарном обслуживании животного-->
+                            <form method="POST" action="/zververt/{{ val.id_VetObsluj }}">
+                                <button type="submit" class="btn btn-danger" aria-label="Delete">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </button>
+                            </form>
+                        </th>
+                        <th>
+                            <!--Редактирование информации о ветеринарном обслуживании животного-->
+                            <a href="/zververt/{{ val.id_VetObsluj }}/edit">
+                                <button type="button" class="btn btn-default" aria-label="Edit">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </button>
+                            </a>
+                        </th>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="col-sm-12">
+            <!--Добавление нового ветеринарной услуги-->
+            <form method="POST" action="/zzverspisok/" class="form-inline">
+                <fieldset>
+                    <div class="form-group">
+                        <input name="UslugaVet" placeholder="Ветеринарная услуга" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input input name="DateStartVet" id="date" google="true" type="date">
+                    </div>
+                    <div class="form-group">
+                        <input input name="DateEndVet" id="date" google="true" type="date">
+                    </div>
+                    <div class="form-group">
+                        <input name="CenaVet" placeholder="2000 рублей" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary" name="id_Zver" value="{{ zver.id_Zver }}">
+                        Добавить
+                    </button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 
 {% endblock %}
