@@ -14,16 +14,16 @@
 
         {% set dateCalend = 2018-06-01 %}
         <!-- Поиск по диапазону, заданной даты -->
-        <div class="col-sm-12 text-left" style="text-align: center">
+        <!--div class="col-sm-12 text-left" style="text-align: center">
             <form>
                 <p>С <input type="date" name="calendar" value="{{ dateCalend }}"> ПО <input type="date" name="calendar1"
                                                                                       value="2017-07-21">
-                    <!--input type="submit" value="Найти"-->
+                    <input type="submit" value="Найти">
                 </p>
             </form>
 
             <h4>{{ value|date('d.m.Y', false) }}</h4>
-        </div>
+        </div-->
 
         <!-- Карточки для отчетов -->
         <div class="col-sm-12 text-left" style="text-align: center">
@@ -94,13 +94,13 @@
                 <div class="col-xs-6">
                     <div class="thumbnail">
                         <!-- Наименование вида отчета -->
-                        <h1>ОБОРОТ ЖИВОТНЫХ</h1>
+                        <a href="/graphZver/"><h1>ОБОРОТ ЖИВОТНЫХ</h1></a>
                         <div class="caption">
                             <!-- Вывод расчетных данных -->
                             <h4>Куплено: {{ myVal }} </h4>
                             <h4>Воспроизведено на ферме: {{ myValbr }} </h4>
-                            <h4>Всего поголовья скота: {{ myVal + myValbr }} </h4>
-                            <h4>Расход: {{ sumZver }} рублей</h4>
+                            <h4>Всего голов домашних животных: {{ myVal + myValbr }} </h4>
+                            <h4>Куплено голов на сумму: {{ sumZver }} рублей</h4>
                         </div>
                     </div>
 
@@ -109,47 +109,19 @@
                 <div class="col-xs-6">
                     <div class="thumbnail">
                         <!-- Наименование вида отчета -->
-                        <h1>ОБОРОТ РАСТЕНИЙ</h1>
+                        <a href="/graphRastenie/"><h1>ОБОРОТ РАСТЕНИЙ</h1></a>
                         <div class="caption">
                             <!-- Расчетные данные -->
                             <h4>Куплено: {{ myValRast }} </h4>
                             <h4>Выращено на ферме: {{ myValRastbr }}</h4>
                             <h4>Всего приобретено корней: {{ myValRast + myValRastbr }}</h4>
-                            <h4>Расход: {{ sumRastenie }} рублей</h4>
+                            <h4>Куплено растений на сумму: {{ sumRastenie }} рублей</h4>
                         </div>
                     </div>
                 </div>
 
             </div>
 
-            <div class="row recipes-container">
-                <div class="col-xs-6">
-                    <div class="thumbnail">
-                        <!-- Наименование вида отчета -->
-                        <h1>РЕАЛИЗОВАННАЯ ПРОДУКЦИЯ</h1>
-                        <div class="caption">
-                            <!-- Расчетные данные -->
-                            <h4>Продано на сумму:</h4>
-                            <h4>Растений: {{ }}</h4>
-                            <h4>Животных: {{ }}</h4>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-6">
-                    <div class="thumbnail">
-                        <!-- Наименование вида отчета -->
-                        <h1>ОБОРОТ РЕСУРСОВ</h1>
-                        <div class="caption">
-                            <!-- Расчетные данные -->
-                            <h4>Закуплено на сумму: {{ sumResurs }} рублей</h4>
-                            <h4>По норме: {{ sumResursNorm }} рублей</h4>
-                            <h4>Перерасход: {{ sumResursNorm - sumResurs }} рублей</h4>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
 
         </div>
     </div>

@@ -854,16 +854,26 @@ connection.connect(function (err) {
                 connection.query('SELECT * FROM rastenie', function (err, rastenie) {
 
                     if (err) throw err
-                    connection.query('SELECT * FROM product', function (err, product) {
+                    connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
 
                         if (err) throw err
-                        res.render('realization.twig', {
-                            // устанавливаем в представлении необходимые переменные
-                            realization: realization,
-                            zver: zver,
-                            rastenie: rastenie,
-                            product: product
-                        });
+                        connection.query('SELECT * FROM product', function (err, product) {
+
+                            if (err) throw err
+                            connection.query('SELECT * FROM productname', function (err, productname) {
+
+                                if (err) throw err
+                                res.render('realization.twig', {
+                                    // устанавливаем в представлении необходимые переменные
+                                    realization: realization,
+                                    zver: zver,
+                                    rastenie: rastenie,
+                                    sortrastenie: sortrastenie,
+                                    product: product,
+                                    productname: productname
+                                });
+                            })
+                        })
                     })
                 })
             })
@@ -890,16 +900,27 @@ connection.connect(function (err) {
                 connection.query('SELECT * FROM rastenie', function (err, rastenie) {
 
                     if (err) throw err
-                    connection.query('SELECT * FROM product', function (err, product) {
+                    connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
 
                         if (err) throw err
-                        res.render('edit_realiz.twig', {
-                            // устанавливаем в представлении необходимые переменные
-                            realization: realization[0],
-                            zver: zver,
-                            rastenie: rastenie,
-                            product: product
-                        });
+                        connection.query('SELECT * FROM product', function (err, product) {
+
+                            if (err) throw err
+                            connection.query('SELECT * FROM productname', function (err, productname) {
+
+
+                                if (err) throw err
+                                res.render('edit_realiz.twig', {
+                                    // устанавливаем в представлении необходимые переменные
+                                    realization: realization[0],
+                                    zver: zver,
+                                    rastenie: rastenie,
+                                    sortrastenie: sortrastenie,
+                                    product: product,
+                                    productname: productname
+                                });
+                            })
+                        })
                     })
                 })
             })
@@ -947,17 +968,17 @@ connection.connect(function (err) {
         }
 
         /*var post = ({
-            id_Zver: undefined,
-            id_Rastenie: req.body.id_Rastenie,
-            id_Product: undefined,
-            //id_Zver: req.body.id_Zver,
-            //id_Rastenie: req.body.id_Rastenie,
-            //id_Product: req.body.id_Product,
-            KolvoRealization: req.body.KolvoRealization,
-            DateRealization: req.body.DateRealization,
-            CenaRealization: req.body.CenaRealization,
-            EdIzmRealization: req.body.EdIzmRealization
-        });*/
+         id_Zver: undefined,
+         id_Rastenie: req.body.id_Rastenie,
+         id_Product: undefined,
+         //id_Zver: req.body.id_Zver,
+         //id_Rastenie: req.body.id_Rastenie,
+         //id_Product: req.body.id_Product,
+         KolvoRealization: req.body.KolvoRealization,
+         DateRealization: req.body.DateRealization,
+         CenaRealization: req.body.CenaRealization,
+         EdIzmRealization: req.body.EdIzmRealization
+         });*/
 
         //Обновили значения
         connection.query('UPDATE realization SET ? WHERE id_Realization = ?', [post, req.params.id_Realization], function (err, result) {
@@ -973,9 +994,9 @@ connection.connect(function (err) {
 
         var post;
         //Работаем с животным
-        if (!req.body.id_Zver) {
+        if (req.body.id_Zver === " ") {
             //Работаем с растением
-            if (!req.body.id_Rastenie) {
+            if (req.body.id_Rastenie === " ") {
                 post = ({
                     id_Realization: req.body.id_Realization,
                     id_Zver: undefined,
@@ -1017,6 +1038,180 @@ connection.connect(function (err) {
         connection.query('INSERT INTO realization SET ?', post, function (err, result) {
             //Открываем главную страницу после добавления
             res.redirect('/realization/');
+        });
+    });
+
+    //Продукт
+    //Добавление нового ресурса - подготовка страницы добавления
+    app.get('/addproductt/', function (req, res) {
+        connection.query('SELECT * FROM product', function (err, product) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM productname', function (err, productname) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM zver', function (err, zver) {
+
+                    if (err) throw err
+                    connection.query('SELECT * FROM porodazver', function (err, porodazver) {
+
+                        if (err) throw err
+                        res.render('add_product.twig', {
+                            product: product,
+                            productname: productname,
+                            zver: zver,
+                            porodazver: porodazver
+                        });
+                    })
+                })
+            })
+        })
+    });
+
+    //Добавление нового ресурса
+    app.post('/addproduct/', function (req, res) {
+
+        var post;
+        //Работаем с животным
+        if (req.body.id_Zver === " ") {
+            post = ({
+                id_Product: req.body.id_Product,
+                id_Zver: undefined,
+                id_ProductName: req.body.id_ProductName,
+                KolvoProduct: req.body.KolvoProduct,
+                DateProduct: req.body.DateProduct,
+                EdIzmProduct: req.body.EdIzmProduct
+            });
+        }
+        else {
+            post = ({
+                id_Product: req.body.id_Product,
+                id_Zver: req.body.id_Zver,
+                id_ProductName: undefined,
+                KolvoProduct: req.body.KolvoProduct,
+                DateProduct: req.body.DateProduct,
+                EdIzmProduct: req.body.EdIzmProduct
+            });
+        }
+
+
+        //Вставка поста
+        connection.query('INSERT INTO product SET ?', post, function (err, result) {
+            //Открываем главную страницу после добавления
+            res.redirect('/realization/');
+        });
+    });
+
+
+    //Получить страницу по отчеты на оборот животных
+    app.get('/graphZver/', function (req, res) {
+        //Возвращает твиг главной страницы
+        res.render('graphzver.twig', {});
+    });
+
+    //Получить страницу по отчеты на растения
+    app.get('/graphRastenie/', function (req, res) {
+        //Возвращает твиг главной страницы
+        res.render('graphrast.twig', {});
+    });
+
+    //Продукты
+    //Вывод списка всех продуктов
+    app.get('/allproduct/', function (req, res) {
+        connection.query('SELECT * FROM product', function (err, product) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM zver', function (err, zver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM productname', function (err, productname) {
+
+                    if (err) throw err
+                    res.render('all_product.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        product: product,
+                        zver: zver,
+                        productname: productname
+                    });
+                })
+            })
+        })
+    });
+
+    //Удаление конкретного продукта
+    app.post('/allproduct/:id_Product', function (req, res) {
+        connection.query('DELETE FROM product WHERE id_Product = ?', req.params.id_Product, function (err, result) {
+
+            //Открываем главную страницу после удаления
+            res.redirect('back');
+        });
+    });
+
+    //Редактиррование записи о реализованном товаре
+    app.get('/allproduct/:id_Product/edit', function (req, res) {
+        connection.query('SELECT * FROM product WHERE id_Product = ?', [req.params.id_Product], function (err, product) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM zver', function (err, zver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM productname', function (err, productname) {
+
+
+                    if (err) throw err
+                    res.render('edit_product.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        product: product[0],
+                        zver: zver,
+                        productname: productname
+                    });
+                })
+
+            })
+        })
+    });
+
+    //Собственно редактирование конкретного реализованного товара
+    app.post('/allproductt/:id_Product', function (req, res) {
+        //Работаем с животным
+        if (!req.body.id_Zver) {
+
+            post = ({
+                id_Zver: undefined,
+                id_ProductName: req.body.id_ProductName,
+                KolvoProduct: req.body.KolvoProduct,
+                DateProduct: req.body.DateProduct,
+                EdIzmProduct: req.body.EdIzmProduct
+            });
+        }
+        else {
+            post = ({
+                id_Zver: req.body.id_Zver,
+                id_ProductName: undefined,
+                KolvoProduct: req.body.KolvoProduct,
+                DateProduct: req.body.DateProduct,
+                EdIzmProduct: req.body.EdIzmProduct
+            });
+        }
+
+        /*var post = ({
+         id_Zver: undefined,
+         id_Rastenie: req.body.id_Rastenie,
+         id_Product: undefined,
+         //id_Zver: req.body.id_Zver,
+         //id_Rastenie: req.body.id_Rastenie,
+         //id_Product: req.body.id_Product,
+         KolvoRealization: req.body.KolvoRealization,
+         DateRealization: req.body.DateRealization,
+         CenaRealization: req.body.CenaRealization,
+         EdIzmRealization: req.body.EdIzmRealization
+         });*/
+
+        //Обновили значения
+        connection.query('UPDATE product SET ? WHERE id_Product = ?', [post, req.params.id_Product], function (err, result) {
+
+            //Открываем страницу после добавления
+            res.redirect('/allproduct/');
         });
     });
 

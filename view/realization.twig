@@ -8,51 +8,72 @@
 
     <div class="row">
 
+        <div class="col-sm-12 text-left">
+            <h1 style="text-align: center">ЖУРНАЛ ПРОДАЖ</h1>
+            <a href="/addproductt/">
+                <button type="button" class="btn btn-primary">Добаить продукт</button>
+            </a>
+            <a href="/allproduct/">
+                <button type="button" class="btn btn-primary">Посмотреть продукты</button>
+            </a>
+        </div>
+
         <!--Таблица, реализованных товаров-->
         <div class="col-sm-12">
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">ЖУРНАЛ ПРОДАЖ</th>
-                </tr>
-                <tr>
                     <th scope="col">Наименование</th>
                     <th scope="col">Дата продажи</th>
-                    <th scope="col">Количество</th>
+                    <th scope="col">Количество / остаток</th>
                     <th scope="col">Цена (руб.)</th>
                     <th scope="col">Ед. изм.</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for val in realization %}
+
                     <!--Переменная для записи в поле "Наименование"-->
                     {% set nameProduct = "" %}
-
+                    <!--Переменная для записи в поле "Наименование"-->
+                    {% set kolProduct = 0 %}
+                    <!--Работаем с полем животное-->
                     {% if val.id_Zver is not empty %}
                         {% for key in zver %}
                             {% if val.id_Zver == key.id_Zver %}
                                 {% set nameProduct = key.NameZver %}
+                                {% set kolProduct = val.KolvoRealization %}
                             {% endif %}
                         {% endfor %}
+                        <!--Работаем с полем растение-->
                     {% elseif val.id_Rastenie is not empty %}
                         {% for key in rastenie %}
+                            {% set kolProduct = key.KolvoRastenie %}
                             {% if val.id_Rastenie == key.id_Rastenie %}
-
-                                        {% set nameProduct = key.ColorRastenie %}
-
+                                {% for sortrast in sortrastenie %}
+                                    {% if sortrast.id_SortRastenie == key.id_SortRastenie %}
+                                        {% set nameProduct = sortrast.SortRastenieName %}
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
                         {% endfor %}
                     {% else %}
+                        <!--Работаем с полем продукт-->
                         {% for key in product %}
                             {% if val.id_Product == key.id_Product %}
-                                {% set nameProduct =  key.id_Product %}
+                                {% set kolProduct = key.KolvoProduct %}
+                                {% for prod in productname %}
+                                    {% if prod.id_ProductName == key.id_ProductName %}
+                                        {% set nameProduct = prod.PriductName %}
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
                         {% endfor %}
                     {% endif %}
                     <tr>
                         <td>{{ nameProduct }}</td>
                         <td>{{ val.DateRealization|date('d.m.Y', false) }}</td>
-                        <td>{{ val.KolvoRealization }}</td>
+                        <td>{{ val.KolvoRealization }} / {{ kolProduct - val.KolvoRealization }}</td>
                         <td>{{ val.CenaRealization }}</td>
                         <td>{{ val.EdIzmRealization }}</td>
 
@@ -75,6 +96,7 @@
                         </th>
                         </td>
                     </tr>
+
                 {% endfor %}
                 </tbody>
             </table>
@@ -83,13 +105,45 @@
             <form method="POST" action="/rrealization/" class="form-inline">
                 <fieldset>
                     <div class="form-group">
-                        <input name="id_Zver" placeholder="Имя животного" class="form-control">
+                        <select name="id_Zver" class="form-control" id="selectType">
+                            <option value=" ">Имя животного</option>
+                            {% for key in zver %}
+                                <option value="{{ key.id_Zver }}">
+                                    {{ key.NameZver }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <!--input name="id_Zver" placeholder="Имя животного" class="form-control"-->
                     </div>
                     <div class="form-group">
-                        <input name="id_Rastenie" placeholder="Сорт растения" class="form-control">
+                        <select name="id_Rastenie" class="form-control" id="selectSort">
+                            <option value=" ">Сорт растения</option>
+                            {% for key in rastenie %}
+                                {% for sortrast in sortrastenie %}
+                                    {% if sortrast.id_SortRastenie == key.id_SortRastenie %}
+                                        <option value="{{ key.id_Rastenie }}">
+                                            {{ sortrast.SortRastenieName }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                        <!--input name="id_Rastenie" placeholder="Сорт растения" class="form-control"-->
                     </div>
                     <div class="form-group">
-                        <input name="id_Product" placeholder="Наименование продукта" class="form-control">
+                        <select name="id_Product" class="form-control" id="selectSort">
+                            <option value=" ">Наименование продукта</option>
+                            {% for val in product %}
+                                {% for prod in productname %}
+                                    {% if prod.id_ProductName == val.id_ProductName %}
+                                        <option value="{{ val.id_Product }}">
+                                            {{ prod.PriductName }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                        </select>
+                        <!--input name="id_Product" placeholder="Наименование продукта" class="form-control"-->
                     </div>
                     <div class="form-group">
                         <input name="KolvoRealization" placeholder="Количество" class="form-control">
