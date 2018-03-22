@@ -19,7 +19,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'mubd'
+    database: 'muuu'
 });
 
 //Главная программа
@@ -190,31 +190,7 @@ connection.connect(function (err) {
     /////////////////////////
     ////////Животные/////////
     /////////////////////////
-
-    //Теперь создаем маршруты
-    //Вывод разные карточки на главной странице
-    app.get('/', function (req, res) {
-        connection.query('SELECT * FROM zver', function (err, zver) {
-
-            if (err) throw err
-            connection.query('SELECT * FROM typezver', function (err, typezver) {
-
-                if (err) throw err
-                connection.query('SELECT * FROM porodazver', function (err, porodazver) {
-
-                    if (err) throw err
-                    res.render('index.twig', {
-                        // устанавливаем в представлении необходимые переменные
-                        zver: zver,
-                        typezver: typezver,
-                        porodazver: porodazver
-                    });
-                })
-            })
-        })
-    });
-
-
+	
     //Вывод списка зверей
     app.get('/zverspisok/', function (req, res) {
         connection.query('SELECT * FROM zver', function (err, zver) {
