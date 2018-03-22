@@ -194,7 +194,6 @@ connection.connect(function (err) {
     /////////////////////////
     ////////Животные/////////
     /////////////////////////
-<<<<<<< HEAD
 	
 =======
 
@@ -221,7 +220,6 @@ connection.connect(function (err) {
         })
     });
 
->>>>>>> refs/remotes/origin/master
     //Вывод списка зверей
     app.get('/zverspisok/', function (req, res) {
         connection.query('SELECT * FROM zver', function (err, zver) {
