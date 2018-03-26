@@ -61,3 +61,9 @@
 .option-good {
 
 }
+
+span.highlight {
+    background-color: #C6D9DB; cursor: pointer; }
+
+span.splink {
+    color: #0A5794; cursor: pointer; }

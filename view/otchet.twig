@@ -12,24 +12,8 @@
             <h1 style="text-align: center">ОТЧЁТЫ</h1>
         </div>
 
-        {% set dateCalend = 2018-06-01 %}
-        <!-- Поиск по диапазону, заданной даты -->
-        <!--div class="col-sm-12 text-left" style="text-align: center">
-            <form>
-                <p>С <input type="date" name="calendar" value="{{ dateCalend }}"> ПО <input type="date" name="calendar1"
-                                                                                      value="2017-07-21">
-                    <input type="submit" value="Найти">
-                </p>
-            </form>
-
-            <h4>{{ value|date('d.m.Y', false) }}</h4>
-        </div-->
-
         <!-- Карточки для отчетов -->
         <div class="col-sm-12 text-left" style="text-align: center">
-
-            <!-- Сортируем информацию, выводящуюся в карточки, по дате-->
-
 
             <!--Переменная для подсчета количества купленных голов-->
             {% set myVal = 0 %}
@@ -40,8 +24,6 @@
 
             <!-- Расчетные данные для животного -->
             {% for val in zver %}
-                {% if dateCalend <= val.DateBirthday %}
-
                     {% set sumZver = sumZver + val.CenaZver %}
                     {% if val.CenaZver != 0 %}
                         {% set myVal = myVal + 1 %}
@@ -49,8 +31,6 @@
                     {% if val.CenaZver == 0 %}
                         {% set myValbr = myValbr + 1 %}
                     {% endif %}
-
-                {% endif %}
             {% endfor %}
 
 
@@ -90,11 +70,25 @@
 
 
             <!-- Ряды карточек -->
+
             <div class="row recipes-container">
                 <div class="col-xs-6">
                     <div class="thumbnail">
                         <!-- Наименование вида отчета -->
-                        <a href="/graphZver/"><h1>ОБОРОТ ЖИВОТНЫХ</h1></a>
+                        <a href="/otchetStado/"><h1>ГОДОВАЯ ПРОДУКТИВНОСТЬ СТАДА</h1></a>
+                        <div class="caption">
+                            <!-- Расчетные данные -->
+                            <h4>Информация по продуктивности стада</h4>
+                            <h4>за определенный период</h4>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="thumbnail">
+                        <!-- Наименование вида отчета -->
+                        <a href="/otchetPogol/"><h1>ОБОРОТ ПОГОЛОВЬЯ</h1></a>
                         <div class="caption">
                             <!-- Вывод расчетных данных -->
                             <h4>Куплено: {{ myVal }} </h4>
@@ -103,13 +97,15 @@
                             <h4>Куплено голов на сумму: {{ sumZver }} рублей</h4>
                         </div>
                     </div>
-
                 </div>
 
+            </div>
+
+            <div class="row recipes-container">
                 <div class="col-xs-6">
                     <div class="thumbnail">
                         <!-- Наименование вида отчета -->
-                        <a href="/graphRastenie/"><h1>ОБОРОТ РАСТЕНИЙ</h1></a>
+                        <a href="/otchetGreen/"><h1>ОБОРОТ РАСТЕНИЙ</h1></a>
                         <div class="caption">
                             <!-- Расчетные данные -->
                             <h4>Куплено: {{ myValRast }} </h4>
@@ -120,8 +116,39 @@
                     </div>
                 </div>
 
+                <div class="col-xs-6">
+                    <div class="thumbnail">
+                        <!-- Наименование вида отчета -->
+                        <a href="/otchetResurs/"><h1>ОБОРОТ РЕСУРСОВ</h1></a>
+                        <div class="caption">
+                            <!-- Расчетные данные -->
+                            <h4>Закуплено на сумму: {{ sumResurs }} рублей</h4>
+                            <h4>По норме: {{ sumResursNorm }} рублей</h4>
+                            <h4>Перерасход: {{ sumResursNorm - sumResurs }} рублей</h4>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
+            <div class="row recipes-container">
+                <div class="col-xs-6">
+                    <div class="thumbnail">
+                        <!-- Наименование вида отчета -->
+                        <a href="/graphZver/"><h1>ИНФОРМАЦИОННЫЙ ГРАФИК О ЖИВОТНЫХ</h1></a>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-6">
+                    <div class="thumbnail">
+                        <!-- Наименование вида отчета -->
+                        <a href="/graphRastenie/"><h1>ИНФОРМАЦИОННЫЙ ГРАФИК О РАСТЕНИЯХ</h1></a>
+                    </div>
+                </div>
+
+
+            </div>
 
         </div>
     </div>

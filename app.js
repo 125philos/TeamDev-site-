@@ -19,7 +19,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'muuu'
+    database: 'mubd'
 });
 
 //Главная программа
@@ -194,8 +194,6 @@ connection.connect(function (err) {
     /////////////////////////
     ////////Животные/////////
     /////////////////////////
-	
-=======
 
     //Теперь создаем маршруты
     //Вывод разные карточки на главной странице
@@ -1104,9 +1102,9 @@ connection.connect(function (err) {
         });
     });
 
-
     //Получить страницу по отчеты на оборот животных
     app.get('/graphZver/', function (req, res) {
+
         //Возвращает твиг главной страницы
         res.render('graphzver.twig', {});
     });
@@ -1215,6 +1213,112 @@ connection.connect(function (err) {
             //Открываем страницу после добавления
             res.redirect('/allproduct/');
         });
+    });
+
+
+    //Обработка данных из базы для отчетов
+    //Годовая продуктивность стада
+    app.get('/otchetStado/', function (req, res) {
+        connection.query('SELECT * FROM product ORDER BY DateProduct', function (err, product) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM zver', function (err, zver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM productname', function (err, productname) {
+
+                    if (err) throw err
+                    res.render('otchetStado.twig', {
+                        // устанавливаем в представлении необходимые переменные
+                        product: product,
+                        zver: zver,
+                        productname: productname
+                    });
+                })
+            })
+        })
+    });
+
+
+    //Оборот поголовья
+    app.get('/otchetPogol/', function (req, res) {
+        connection.query('SELECT * FROM zver ORDER BY EffectiveProcentZver', function (err, zver) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM porodazver', function (err, porodazver) {
+
+                if (err) throw err
+                res.render('otchetPogol.twig', {
+                    // устанавливаем в представлении необходимые переменные
+                    zver: zver,
+                    porodazver: porodazver
+                });
+            })
+        })
+    });
+
+    //Оборот растений
+    app.get('/otchetGreen/', function (req, res) {
+        connection.query('SELECT * FROM rastenie ORDER BY EffectiveProcentRastenie', function (err, rastenie) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
+
+                if (err) throw err
+                res.render('otchetGreen.twig', {
+                    // устанавливаем в представлении необходимые переменные
+                    rastenie: rastenie,
+                    sortrastenie: sortrastenie
+                });
+            })
+        })
+    });
+
+    //Оборот ресурсов
+    app.get('/otchetResurs/', function (req, res) {
+        connection.query('SELECT * FROM realization ORDER BY DateRealization', function (err, realization) {
+
+            if (err) throw err
+            connection.query('SELECT * FROM zver', function (err, zver) {
+
+                if (err) throw err
+                connection.query('SELECT * FROM rastenie', function (err, rastenie) {
+
+                    if (err) throw err
+                    connection.query('SELECT * FROM sortrastenie', function (err, sortrastenie) {
+
+                        if (err) throw err
+                        connection.query('SELECT * FROM product', function (err, product) {
+
+                            if (err) throw err
+                            connection.query('SELECT * FROM productname', function (err, productname) {
+
+                                if (err) throw err
+                                connection.query('SELECT * FROM prihodresurs', function (err, prihodresurs) {
+
+                                    if (err) throw err
+                                    connection.query('SELECT * FROM resurs', function (err, resurs) {
+
+                                    if (err) throw err
+                                res.render('otchetResurs.twig', {
+                                    // устанавливаем в представлении необходимые переменные
+                                    realization: realization,
+                                    zver: zver,
+                                    rastenie: rastenie,
+                                    sortrastenie: sortrastenie,
+                                    product: product,
+                                    productname: productname,
+                                    prihodresurs: prihodresurs,
+                                    resurs: resurs
+                                });
+                            })
+                        })
+                        })
+                        })
+                    })
+                })
+            })
+        })
     });
 
     //Вешаем сервер на порт

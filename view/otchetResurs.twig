@@ -1,0 +1,117 @@
+<!-- ***************** -->
+<!-- КАРТОЧКИ КОНКРЕТНОГО РЕСУРСА -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+
+    <!-- Расчетные данные для ресурсов -->
+    <!--Переменная для подсчета общей суммы(+количество * цену) потраченной на ресурсы(приход)-->
+    {% set sumResurs = 0 %}
+    {% for val in prihodresurs %}
+        {% set sumResurs = sumResurs + (val.KolvoResurs * val.CenaResurs) %}
+    {% endfor %}
+
+    <!--Переменная для подсчета общей суммы(+количество * цену) для нормы-->
+    {% set sumResursNorm = 0 %}
+    {% for val in resurs %}
+        {% for key in prihodresurs %}
+            {% if val.id_Resurs == key.id_Resurs %}
+                {% set sumResursNorm = sumResursNorm + (val.NormaResurs * key.CenaResurs) %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+
+    <div class="row">
+        <h1 style="text-align: center">ОБОРОТ РЕАЛИЗОВАННЫХ РЕСУРСОВ</h1>
+        <!--Таблица, реализованных товаров-->
+        <div class="col-sm-12">
+            <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+            {% set sumProduct = 0 %}
+            {% set sumKol = 0 %}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Наименование</th>
+                    <th scope="col">Дата продажи</th>
+                    <th scope="col">Количество</th>
+                    <th scope="col">Цена (руб.)</th>
+                    <th scope="col">Прибыль (руб.)</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for val in realization %}
+
+                    <!--Переменная для записи в поле "Наименование"-->
+                    {% set nameProduct = "" %}
+                    <!--Переменная для записи в поле "Наименование"-->
+                    {% set kolProduct = 0 %}
+                    <!--Работаем с полем животное-->
+                    {% if val.id_Zver is not empty %}
+                        {% for key in zver %}
+                            {% if val.id_Zver == key.id_Zver %}
+                                {% set nameProduct = key.NameZver %}
+                                {% set kolProduct = val.KolvoRealization %}
+                            {% endif %}
+                        {% endfor %}
+                        <!--Работаем с полем растение-->
+                    {% elseif val.id_Rastenie is not empty %}
+                        {% for key in rastenie %}
+                            {% set kolProduct = key.KolvoRastenie %}
+                            {% if val.id_Rastenie == key.id_Rastenie %}
+                                {% for sortrast in sortrastenie %}
+                                    {% if sortrast.id_SortRastenie == key.id_SortRastenie %}
+                                        {% set nameProduct = sortrast.SortRastenieName %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <!--Работаем с полем продукт-->
+                        {% for key in product %}
+                            {% if val.id_Product == key.id_Product %}
+                                {% set kolProduct = key.KolvoProduct %}
+                                {% for prod in productname %}
+                                    {% if prod.id_ProductName == key.id_ProductName %}
+                                        {% set nameProduct = prod.PriductName %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <!--Переменная для подсчета количества-->
+                    {% set kolRealiz = val.KolvoRealization - (kolProduct - val.KolvoRealization) %}
+
+                    <tr>
+                        <td>{{ nameProduct }}</td>
+                        <td>{{ val.DateRealization|date('d.m.Y', false) }}</td>
+                        <td>{{ val.KolvoRealization - (kolProduct - val.KolvoRealization) }}</td>
+                        <td>{{ val.CenaRealization|number_format(2, '.', ',') }}</td>
+                        <td>{{ (kolRealiz * val.CenaRealization)|number_format(2, '.', ',') }}</td>
+                    </tr>
+
+                    {% set sumKol = sumKol + kolRealiz %}
+                    {% set sumProduct = sumProduct + (kolRealiz * val.CenaRealization) %}
+                {% endfor %}
+                <tr style="font-weight: 900; background-color: #3dbd9ec9;">
+                    <td> ИТОГО:</td>
+                    <td></td>
+                    <td>{{ sumKol }}</td>
+                    <td>{{ }}</td>
+                    <td>{{ sumProduct|number_format(2, '.', ',') }}</td>
+                </tr>
+                <tr style="font-weight: 900; background-color: rgba(44,100,189,0.79);">
+                    <td> САЛЬДО:</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{ (sumProduct - sumResurs)|number_format(2, '.', ',') }} </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,879 @@
+<!-- ***************** -->
+<!-- КАРТОЧКИ ОТЧЕТНОСТИ ПО СТАДУ -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+
+    <div class="row">
+
+        <div class="col-sm-12 text-left">
+            <h1 style="text-align: center">ПРОДУКТИВНОСТЬ СТАДА</h1>
+        </div>
+
+        <!--Высчитываем норму для каждого произведенного продукта-->
+        <!--Переменная в виде массива для всего комплекса данных-->
+        {% set allProdYear = [] %}
+        <!--Временная переменная для подсчета количества произведенной единицы-->
+        {% set sumProd = 0 %}
+        <!--Временная переменная для подсчета количества повторяющей продукции за годовой период-->
+        {% set kolProd = 0 %}
+
+        {% for key in productname %}
+            {% set sumProd = 0 %}
+            {% set kolProd = 0 %}
+
+            {% for prod in product %}
+                {% if prod.id_ProductName == key.id_ProductName %}
+                    {% set sumProd = sumProd + prod.KolvoProduct %}
+                    {% set kolProd = kolProd + 1 %}
+                {% endif %}
+            {% endfor %}
+            {% if sumProd == 0 %}
+                {% set sumProd = sumProd %}
+            {% else %}
+                {% set sumProd = sumProd / kolProd %}
+            {% endif %}
+            {% set allProdYear = allProdYear|merge([sumProd|round(1, 'floor')]) %}
+
+        {% endfor %}
+
+
+        <!--Переменные промежутков дат-->
+        {% set dateJ = "01-31" %}
+        {% set dateJan = "01-01" %}
+
+        {% set dateF = "02-28" %}
+        {% set dateFeb = "02-01" %}
+
+        {% set dateMar = "03-31" %}
+        {% set dateMart = "03-01" %}
+
+        {% set dateA = "04-30" %}
+        {% set dateApr = "04-01" %}
+
+        {% set dateM = "05-31" %}
+        {% set dateMay = "05-01" %}
+
+        {% set dateJu = "06-30" %}
+        {% set dateJun = "06-01" %}
+
+        {% set dateJul = "07-31" %}
+        {% set dateJuly = "07-01" %}
+
+        {% set dateAu = "08-31" %}
+        {% set dateAug = "08-01" %}
+
+        {% set dateS = "09-30" %}
+        {% set dateSep = "09-01" %}
+
+        {% set dateO = "10-31" %}
+        {% set dateOct = "10-01" %}
+
+        {% set dateN = "11-30" %}
+        {% set dateNov = "11-01" %}
+
+        {% set dateD = "12-31" %}
+        {% set dateDec = "12-01" %}
+
+        <div class="col-sm-12 text-left" style="text-align: center">
+            <h4>ЯНВАРЬ ФЕВРАЛЬ МАРТ</h4>
+        </div>
+
+        <!--Период с 01.01 до 31.03-->
+        <div class="row recipes-container">
+
+            <!--Таблица для демонстрации отчета-->
+            <!--Январь-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumProductJan = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateJan|date('m-d') and val.DateProduct|date('m-d') <= dateJ|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }} </td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumProductJan = sumProductJan + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumProductJan }}</ul>
+                </div>
+            </div>
+
+
+            <!--Февраль-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumProductFeb = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateFeb|date('m-d') and val.DateProduct|date('m-d') <= dateF|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }}</td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumProductFeb = sumProductFeb + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumProductFeb }}</ul>
+                </div>
+            </div>
+
+
+            <!--Март-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumProductMar = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateMart|date('m-d') and val.DateProduct|date('m-d') <= dateMar|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }}</td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumProductMar = sumProductMar + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumProductMar }}</ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-12 text-left" style="text-align: center">
+            <h4>АПРЕЛЬ МАЙ ИЮНЬ</h4>
+        </div>
+
+        <!--Период с 01.04 до 30.06-->
+        <div class="row recipes-container">
+
+            <!--Таблица для демонстрации отчета-->
+            <!---->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateApr|date('m-d') and val.DateProduct|date('m-d') <= dateA|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }} </td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+
+
+            <!--Май-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateMay|date('m-d') and val.DateProduct|date('m-d') <= dateM|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }}</td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+
+
+            <!--Июнь-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateJun|date('m-d') and val.DateProduct|date('m-d') <= dateJu|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }}</td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-left" style="text-align: center">
+            <h4>ИЮЛЬ АВГУСТ СЕНТЯБРЬ</h4>
+        </div>
+
+        <!--Период с 01.07 до 30.09-->
+        <div class="row recipes-container">
+
+            <!--Таблица для демонстрации отчета-->
+            <!--Июль-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateJuly|date('m-d') and val.DateProduct|date('m-d') <= dateJul|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }} </td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+
+
+            <!--Август-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateAug|date('m-d') and val.DateProduct|date('m-d') <= dateAu|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }}</td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+
+
+            <!--Сентябрь-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateSep|date('m-d') and val.DateProduct|date('m-d') <= dateS|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }}</td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 text-left" style="text-align: center">
+            <h4>ОКТЯБРЬ НОЯБРЬ ДЕКАБРЬ</h4>
+        </div>
+
+        <!--Период с 01.10 до 31.12-->
+        <div class="row recipes-container">
+
+            <!--Таблица для демонстрации отчета-->
+            <!--Октябрь-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateOct|date('m-d') and val.DateProduct|date('m-d') <= dateO|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }} </td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+
+
+            <!--Ноябрь-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateNov|date('m-d') and val.DateProduct|date('m-d') <= dateN|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }}</td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+
+
+            <!--Декабрь-->
+            <div class="col-xs-4">
+                <!--Переменная для записи в поле "ИТОГО" (сумма по количеству, собранной продукции за определенный месяц)-->
+                {% set sumPr = 0 %}
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Вид продукта</th>
+                            <th scope="col">Количество / норма</th>
+                            <th scope="col">Дата поступления</th>
+                            <th scope="col">Ед. изм.</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for val in product %}
+                            {% if val.DateProduct|date('m-d') >= dateDec|date('m-d') and val.DateProduct|date('m-d') <= dateD|date('m-d') %}
+                                <!--Переменная для записи в поле "Наименование"-->
+                                {% set nameProduct = "" %}
+                                <!--Переменная для записи нормы необходимой в месяц-->
+                                {% set normProduct = 0 %}
+                                <!--Работаем с полем животное-->
+                                {% if val.id_Zver is not empty %}
+                                    {% for key in zver %}
+                                        {% if val.id_Zver == key.id_Zver %}
+                                            {% set nameProduct = key.NameZver %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% elseif val.id_ProductName is not empty %}
+                                    <!--Работаем с полем продукт-->
+                                    {% for key in product %}
+                                        {% if val.id_Product == key.id_Product %}
+                                            {% for prod in productname %}
+                                                {% if prod.id_ProductName == key.id_ProductName %}
+                                                    {% set nameProduct = prod.PriductName %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                                <!--Вычисляем норму необходимую на месяц, исходя из средне годового коэффициента -->
+                                {% for count, allprod in allProdYear %}
+                                    {% if val.id_ProductName == count + 1 %}
+                                        {% set normProduct = allprod %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tr {% if val.KolvoProduct < normProduct %} class="qtred" {% endif %}>
+                                    <td>{{ nameProduct }}</td>
+                                    <td>{{ val.KolvoProduct }} / {{ normProduct }}</td>
+                                    <td>{{ val.DateProduct|date('d.m.Y', false) }}</td>
+                                    <td>{{ val.EdIzmProduct }}</td>
+                                </tr>
+                                {% set sumPr = sumPr + val.KolvoProduct %}
+                            {% endif %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <ul style="text-align: justify; font-weight: 700; padding-left: 7px">ИТОГО: {{ sumPr }}</ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

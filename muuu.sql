@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Мар 22 2018 г., 13:51
+-- Время создания: Мар 26 2018 г., 15:37
 -- Версия сервера: 10.1.30-MariaDB
 -- Версия PHP: 7.2.1
 
@@ -114,9 +114,21 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id_Product`, `id_Zver`, `id_ProductName`, `KolvoProduct`, `DateProduct`, `EdIzmProduct`) VALUES
-(1, NULL, 2, 200, '2018-03-04', 'л'),
-(2, NULL, 6, 300, '2018-03-01', 'л'),
-(3, NULL, 4, 55, '2018-03-13', 'кг');
+(1, NULL, 2, 200, '2018-02-04', 'л'),
+(2, NULL, 6, 300, '2018-01-15', 'л'),
+(3, NULL, 3, 55, '2018-03-13', 'л'),
+(4, NULL, 3, 12, '2018-01-11', 'л'),
+(5, NULL, 2, 130, '2018-03-25', 'л'),
+(6, NULL, 3, 36, '2018-02-15', 'л'),
+(7, NULL, 1, 70, '2018-04-02', 'шт'),
+(8, NULL, 2, 40, '2018-05-09', 'л'),
+(9, NULL, 3, 100, '2018-06-06', 'л'),
+(10, NULL, 4, 120, '2018-07-16', 'л'),
+(11, NULL, 6, 190, '2018-08-08', 'кг'),
+(12, NULL, 1, 290, '2018-09-01', 'шт'),
+(13, NULL, 1, 40, '2018-10-01', 'шт'),
+(14, NULL, 2, 16, '2018-11-21', 'л'),
+(15, NULL, 3, 70, '2018-12-09', 'л');
 
 -- --------------------------------------------------------
 
@@ -188,12 +200,12 @@ CREATE TABLE `rastenie` (
 --
 
 INSERT INTO `rastenie` (`id_Rastenie`, `id_SortRastenie`, `PhotoRastenie`, `DateVisadkaRastenie`, `ColorRastenie`, `KolvoRastenie`, `EffectiveProcentRastenie`, `CommentRastenie`, `CenaRastenie`) VALUES
-(1, 4, 'plants8.jpg', '2018-01-02', 'Желто-зеленные ', 250, 50, 'Отличная всхожесть!!', 7000),
 (2, 2, 'plants1.jpg', '2017-12-07', 'Красный', 120, 78, 'Очень вкусный!!', 7340),
 (6, 3, 'plants5.jpg', '2017-10-19', 'Аллый', 140, 25, 'Отличный сорт!!', 2340),
 (10, 1, 'plants6.jpg', '2017-07-19', 'Темно-синяя', 560, 87, 'Очень сладкая и полезная!!', 3500),
 (14, 5, 'plants9.jpg', '2017-09-25', 'Бежевые', 190, 30, 'Сладкая-сладкая!! Хлеб получится - самый вкусный!!', 2380),
-(16, 4, 'plants7.jpg', '2018-03-31', 'Цвет бычьей крови ', 100, 100, 'Божественно!', 4370);
+(16, 4, 'plants7.jpg', '2018-03-31', 'Цвет бычьей крови ', 100, 100, 'Божественно!', 4370),
+(17, 6, 'plants4.jpg', '2018-03-15', 'Красный', 150, 85, 'Сладкая и сочная!!', 5900);
 
 -- --------------------------------------------------------
 
@@ -218,12 +230,11 @@ CREATE TABLE `realization` (
 
 INSERT INTO `realization` (`id_Realization`, `id_Zver`, `id_Rastenie`, `id_Product`, `KolvoRealization`, `DateRealization`, `CenaRealization`, `EdIzmRealization`) VALUES
 (2, NULL, NULL, 1, 150, '2018-07-24', 3000, 'л'),
-(3, NULL, 2, NULL, 10, '2018-02-26', 7000, 'шт'),
+(3, NULL, 2, NULL, 240, '2018-02-26', 7000, 'шт'),
 (4, 3, NULL, NULL, 1, '2018-03-21', 35000, 'шт'),
-(47, NULL, 1, NULL, 50, '2018-03-13', 3000, 'кг'),
 (49, 4, NULL, NULL, 1, '2018-02-26', 45000, 'шт'),
 (54, 6, NULL, NULL, 1, '2018-03-28', 70000, 'шт'),
-(55, NULL, NULL, 2, 55, '2018-03-14', 15000, 'кг');
+(55, NULL, NULL, 2, 355, '2018-03-14', 15000, 'кг');
 
 -- --------------------------------------------------------
 
@@ -248,7 +259,7 @@ INSERT INTO `resurs` (`id_Resurs`, `id_PorodaZver`, `id_SortRastenie`, `NameResu
 (2, 3, NULL, 'Корм', 150, 'кг'),
 (4, NULL, 3, 'Удобрение', 140, 'кг'),
 (5, 4, NULL, 'Силос', 120, 'кг'),
-(14, 2, 1, 'Комбткорм', 233, 'кг');
+(14, 2, NULL, 'Комбткорм', 233, 'кг');
 
 -- --------------------------------------------------------
 
@@ -271,7 +282,8 @@ INSERT INTO `sortrastenie` (`id_SortRastenie`, `id_TypeRastenie`, `SortRastenieN
 (2, 2, 'Помидоры бычье сердце'),
 (3, 3, 'Вишня обыкновенная'),
 (4, 1, 'Яблоня макинтош'),
-(5, 5, 'Пшеница дурум');
+(5, 5, 'Пшеница дурум'),
+(6, 6, 'Клубника Королева Елизавета II');
 
 -- --------------------------------------------------------
 
@@ -293,7 +305,8 @@ INSERT INTO `typerastenie` (`id_TypeRastenie`, `TypeRastenieName`) VALUES
 (2, 'Помидор'),
 (3, 'Вишня'),
 (4, 'Черника'),
-(5, 'Пшеница');
+(5, 'Пшеница'),
+(6, 'Клубника');
 
 -- --------------------------------------------------------
 
@@ -505,7 +518,7 @@ ALTER TABLE `prihodresurs`
 -- AUTO_INCREMENT для таблицы `product`
 --
 ALTER TABLE `product`
-  MODIFY `id_Product` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_Product` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `productname`
@@ -523,7 +536,7 @@ ALTER TABLE `rashodresurs`
 -- AUTO_INCREMENT для таблицы `rastenie`
 --
 ALTER TABLE `rastenie`
-  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_Rastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `realization`
@@ -541,13 +554,13 @@ ALTER TABLE `resurs`
 -- AUTO_INCREMENT для таблицы `sortrastenie`
 --
 ALTER TABLE `sortrastenie`
-  MODIFY `id_SortRastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_SortRastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `typerastenie`
 --
 ALTER TABLE `typerastenie`
-  MODIFY `id_TypeRastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_TypeRastenie` int(12) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `typezver`

@@ -1,0 +1,70 @@
+<!-- ***************** -->
+<!-- ОТЧЕТ ПО ОБОРОТУ ПОГОЛОВЬЯ  -->
+<!-- ***************** -->
+
+{% extends "base.twig" %}
+
+{% block rows %}
+
+    <div class="row">
+
+    <div class="col-sm-12 text-left" style="text-align: center">
+        <h1>ОБОРОТ ПОГОЛОВЬЯ</h1>
+    </div>
+
+    <div class="col-sm-12 text-left">
+        {% for key, czver in zver %}
+            {% for val in porodazver %}
+                {% if val.id_PorodaZver == czver.id_PorodaZver %}
+                    <h4>{{ czver.NameZver }}</h4>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ czver.EffectiveProcentZver }}%" aria-valuenow="{{ czver.EffectiveProcentZver }}" aria-valuemin="0"
+                             aria-valuemax="100">
+                            Эффективность: {{ czver.EffectiveProcentZver }}%
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+
+    </div>
+
+    <div class="col-sm-12 text-left">
+
+        <!-- Информационная таблица о животных-->
+        <div class="row recipes-container">
+
+            <div class="col-xs-12">
+                <div class="thumbnail">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Имя животного</th>
+                            <th scope="col">Порода</th>
+                            <th scope="col">Эффективность (%)</th>
+                            <th scope="col">Цена (руб.)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for key, czver in zver %}
+                            {% for val in porodazver %}
+                                {% if val.id_PorodaZver == czver.id_PorodaZver %}
+                                    <tr {% if czver.EffectiveProcentZver < 70 %} class="qtred" {% endif %}>
+                                        <td>{{ czver.NameZver }}</td>
+                                        <td> {{ val.PorodaZverName }} </td>
+                                        <td>{{ czver.EffectiveProcentZver }}</td>
+                                        <td>{{ czver.CenaZver|number_format(2, '.', ',') }}</td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
